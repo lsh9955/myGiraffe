@@ -4,12 +4,9 @@
 
 ``` text
 backend
-├─ WAS1 
-│  ├─ src
-│  └─ ...
-├─ WAS2
-│
-├─ WAS3
+├─ auth 
+├─ user
+├─ book
 ...
 
 ```
