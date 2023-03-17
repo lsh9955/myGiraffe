@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gesture Recognition</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Gesture Recognition</h1>
+    <img id="gesture-image" src="" alt="Gesture image" style="width: 640px; height: 480px;">
+    <script>
+    const socket = io.connect('http://' + document.domain + ':' + location.port);
+
+    socket.on('gesture_image_result', (img) => {
+        document.getElementById('gesture-image').src = 'data:image/jpeg;base64,' + btoa(new Uint8Array(img).reduce((data, byte) => data + String.fromCharCode(byte), ''));
+    });
+
+    // Replace this with the actual image capturing and sending code.
+    setInterval(() => {
+        socket.emit('get_gesture_image', 'dummy image');
+    }, 1000);
+</script>
+
+</body>
+</html>
