@@ -1,5 +1,5 @@
 import React from "react";
-/**로그인 컴포넌트 */
+/**바닥글 컴포넌트 */
 const Footer = () => {
   return <div>Footer</div>;
 };
