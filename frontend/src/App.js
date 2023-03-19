@@ -1,8 +1,11 @@
 import React from "react";
+import CanvasTool from "./utils/canvas/CanvasTool";
+import FingerPose from "./utils/fingerPose/FingerPose";
 function App() {
   return (
     <div className="App">
-      <header className="App-header">FE</header>
+      <FingerPose />
+      <CanvasTool />
     </div>
   );
 }
