@@ -3,16 +3,23 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100vw;
-  height: 15vh;
+  height: 10vh;
   background: #8bd0fc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
-  // 네브바에 들어갈 이미지 파일
-  & div {
-    width: 10vw;
-    height: 12vh;
-  }
+export const Logo = styled.img`
+  width: auto;
+  height: 10vh;
+`;
 
-  // 네브바에 들어갈 서비스명
-  & p {
-  }
+export const ServiceName = styled.p`
+  margin-left: 1vw;
+  width: auto;
+  font-size: 8vh;
+  height: 8vh;
+  font-weight: bold;
+  color: #fce76c;
 `;
