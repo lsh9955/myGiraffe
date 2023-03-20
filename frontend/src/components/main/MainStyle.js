@@ -32,7 +32,7 @@ export const DiaryContent = styled.div`
 export const SketchContent = styled.div`
   width: 20vw;
   height: 45vh;
-  background: #fce76c;
+  background: #b6f960;
   margin-top: 35vh;
   margin-left: 1vw;
   margin-right: 1vw;
@@ -50,6 +50,6 @@ export const ContentName = styled.p`
 
 export const ImageContainer = styled.img`
   position: absolute; /* ImageContainer 컴포넌트에 상대 위치 설정 */
-  top: 18vh; /* 컨테이너의 중앙에 위치시키기 위해 top과 left 속성을 조정합니다. */
+  top: 16vh; /* 컨테이너의 중앙에 위치시키기 위해 top과 left 속성을 조정합니다. */
   width: 20vw;
 `;
