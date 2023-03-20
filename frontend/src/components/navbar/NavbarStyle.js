@@ -20,6 +20,5 @@ export const ServiceName = styled.p`
   width: auto;
   font-size: 8vh;
   height: 8vh;
-  font-weight: bold;
   color: #fce76c;
 `;
