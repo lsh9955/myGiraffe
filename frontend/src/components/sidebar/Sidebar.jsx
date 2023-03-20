@@ -11,6 +11,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import LogoutIcon from "@mui/icons-material/Logout";
+import VpnKeyIcon from "@mui/icons-material/VpnKey";
 /**사이드바 컴포넌트 */
 const Sidebar = () => {
   const [state, setState] = useState({
@@ -38,19 +39,39 @@ const Sidebar = () => {
       <div>이미지</div>
       <div>기린</div>
       <div>열쇠 개수</div>
-      <Divider />
+
       <List>
+        <Divider sx={{ bgcolor: "#8BD0FC", height: 2 }} />
         {["내 책장", "충전하기", "로그아웃"].map((text, index) => (
-          <Link to="/abcde">
-            <ListItem key={text} alignItems={"center"}>
-              <ListItemButton>
-                {text === "내 책장" && <AutoStoriesIcon />}
-                {text === "충전하기" && "열쇠"}
-                {text === "로그아웃" && <LogoutIcon />}
-                {/* <ListItemText sx={{ ml: 2, maxWidth: 50 }} primary={text} /> */}
-              </ListItemButton>
-            </ListItem>
-          </Link>
+          <>
+            <Link to="/abcde">
+              <ListItem key={text}>
+                <ListItemButton fontSize={66}>
+                  {text === "내 책장" && (
+                    <AutoStoriesIcon
+                      sx={{ width: 80, height: 30, color: "#FF8F5C" }}
+                    />
+                  )}
+                  {text === "충전하기" && (
+                    <VpnKeyIcon
+                      sx={{ width: 80, height: 30, color: "#FF8F5C" }}
+                    />
+                  )}
+                  {text === "로그아웃" && (
+                    <LogoutIcon
+                      sx={{ width: 80, height: 30, color: "#FF8F5C" }}
+                    />
+                  )}
+                  <ListItemText
+                    disableTypography={true}
+                    sx={{ maxWidth: 70, fontSize: 20 }}
+                    primary={text}
+                  />
+                </ListItemButton>
+              </ListItem>
+            </Link>
+            <Divider sx={{ bgcolor: "#8BD0FC", height: 2 }} />
+          </>
         ))}
       </List>
     </Box>
