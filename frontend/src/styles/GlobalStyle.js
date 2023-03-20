@@ -18,23 +18,23 @@ const GlobalStyles = createGlobalStyle`
         border: 0;
         font-size: 10px;
         vertical-align: baseline;
-        font-family: 'Pretendard Regular', 'sans-serif';
+        font-family: 'BMJUA', 'sans-serif';
     }
 
     h1 {
-        font-family: 'Pretendard Bold', 'sans-serif';
+        font-family: 'BMJUA', 'sans-serif';
         font-size: 4rem;
     }
     h2 {
-        font-family: 'Pretendard Bold', 'sans-serif';
+        font-family: 'BMJUA', 'sans-serif';
         font-size: 3.2rem;
     }
     h3 {
-        font-family: 'Pretendard Bold', 'sans-serif';
+        font-family: 'BMJUA', 'sans-serif';
         font-size: 2.4rem;
     }
     h4 {
-        font-family: 'Pretendard Bold', 'sans-serif';
+        font-family: 'BMJUA', 'sans-serif';
         font-size: 2rem;
     }
 
