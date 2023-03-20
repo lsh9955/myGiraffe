@@ -1,69 +1,72 @@
-// import React, { useState } from "react";
-// import { Route, Switch, Redirect } from "react-router-dom";
-// import { useSelector } from "react-redux";
-// //nav,footer 항목
-// import Navbar from "./components/navbar/Navbar";
-// import Footer from "./components/footer/Footer";
+import React, { useState } from "react";
+import { Route, Switch, Redirect } from "react-router-dom";
+import { useSelector } from "react-redux";
+//nav,footer 항목(그림책 외 모두 적용)
+import Navbar from "./components/navbar/Navbar";
+import Footer from "./components/footer/Footer";
+//라우터별 페이지 항목
+import MainPage from "./pages/MainPage";
+import DiaryDrawPage from "./pages/DiaryDrawPage";
+import MydrawerPage from "./pages/MydrawerPage";
+import MystorybookDetailPage from "./pages/MystorybookDetailPage";
+import RspPage from "./pages/RspPage";
+import SketchbookDrawPage from "./pages/SketchbookDrawPage";
+import StorybookDetailPage from "./pages/StorybookDetailPage";
+import StorybookDrawPage from "./pages/StorybookDrawPage";
+import StorybookListPage from "./pages/StorybookListPage";
+import StorybookMLDrawPage from "./pages/StorybookMLDrawPage";
 
-// import RedirectPage from "./utils/RedirectPage";
+//로그인 페이지
+import LoginPage from "./pages/LoginPage";
 
-// function App() {
-//   const [isShow, setIsShow] = useState(true);
-
-//   const onChangeShow = () => {
-//     setIsShow(!isShow);
-//   };
-
-//   const userSeq = useSelector((state) => {
-//     return state.user.userSeq;
-//   });
-
-//   return (
-//     <div style={{ position: "relative" }}>
-//       {isShow && <Nav />}
-//       <Switch>
-//         <Route path="/" exact>
-//           <Redirect to="/Main" />
-//         </Route>
-//         <Route path="/Main" exact>
-//           <Main component={Main} onChangeShow={onChangeShow} isShow={isShow} />
-//         </Route>
-//         <Route path="/Room/:roomId">
-//           <Room component={Room} onChangeShow={onChangeShow} />
-//         </Route>
-//         <Route path="/SearchCookRoom" component={SearchCookRoom} />
-//         <Route path="/SearchRecipe" component={SearchRecipe} />
-//         <Route path="/RecipeRegister" component={RecipeRegister} />
-//         <Route path="/Login" exact>
-//           <Login component={Login} onChangeShow={onChangeShow} />
-//         </Route>
-//         <Route path="/Login/oauth2/code/kakao">
-//           <RedirectPage component={RedirectPage} onChangeShow={onChangeShow} />
-//         </Route>
-//         <Route path="/Profile/:userId" component={Profile} />
-//         <Route path="/MyIngredients" component={MyIngredientsManage}>
-//           {userSeq ? <MyIngredientsManage /> : <Redirect to="/Login" />}
-//         </Route>
-//         <Route path="/MakeCookRoom" component={MakeCookRoom} />
-//         <Route path="*">
-//           <NotFound onChangeShow={onChangeShow} />
-//         </Route>
-//       </Switch>
-//       {isShow && userSeq && <FloatBtn />}
-//       {isShow && <Footer />}
-//     </div>
-//   );
-// }
-
-// export default App;
-import React from "react";
-import CanvasTool from "./utils/canvas/CanvasTool";
-import FingerPose from "./utils/fingerPose/FingerPose";
 function App() {
+  const [isShow, setIsShow] = useState(true);
+  /** nav,footer 보이는지 여부 판단  */
+  const onChangeShow = () => {
+    setIsShow(!isShow);
+  };
+  /** 로그인 여부 판단 */
+  const userSeq = useSelector((state) => {
+    return state.user.userSeq;
+  });
+
   return (
-    <div className="App">
-      <FingerPose />
-      <CanvasTool />
+    <div style={{ position: "relative" }}>
+      {isShow && <Navbar />}
+      <Switch>
+        <Route path="/" exact>
+          <MainPage
+            component={MainPage}
+            onChangeShow={onChangeShow}
+            isShow={isShow}
+          />
+        </Route>
+        <Route
+          path="/diarydraw"
+          component={DiaryDrawPage}
+          onChangeShow={onChangeShow}
+          isShow={isShow}
+        />
+        <Route path="/mydrawer" component={MydrawerPage} />
+        <Route path="/mystorybookdetail/:bookId">
+          <MystorybookDetailPage
+            component={MystorybookDetailPage}
+            onChangeShow={onChangeShow}
+          />
+        </Route>
+        <Route path="/rsppage" component={RspPage} />
+        <Route path="/sketchbookdraw" component={SketchbookDrawPage} />
+        <Route path="/storybookdetail" component={StorybookDetailPage} />
+        <Route path="/storybookdraw" component={StorybookDrawPage} />
+        <Route path="/storybooklist" component={StorybookListPage} />
+        <Route path="/storybookmldraw" component={StorybookMLDrawPage} />
+        <Route path="/Login" exact>
+          <LoginPage component={LoginPage} onChangeShow={onChangeShow} />
+        </Route>
+      </Switch>
+      {isShow && <Footer />}
     </div>
   );
 }
+
+export default App;
