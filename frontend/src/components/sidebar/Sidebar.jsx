@@ -12,6 +12,10 @@ import ListItemText from "@mui/material/ListItemText";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import LogoutIcon from "@mui/icons-material/Logout";
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
+import defaultUserImg from "../../assets/icon/defaultUserImg.svg";
+import MenuSharpIcon from "@mui/icons-material/MenuSharp";
+
+import * as S from "./SidebarStyle";
 /**사이드바 컴포넌트 */
 const Sidebar = () => {
   const [state, setState] = useState({
@@ -36,12 +40,26 @@ const Sidebar = () => {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <div>이미지</div>
-      <div>기린</div>
-      <div>열쇠 개수</div>
+      <S.Container>
+        <S.UserImg
+          src={defaultUserImg}
+          alt="기본유저이미지"
+          style={{ height: "10vh", marginTop: "5vh" }}
+        />
+      </S.Container>
+
+      <S.MarginContainer></S.MarginContainer>
+      <S.UserName>유저 이름</S.UserName>
+      <S.KeyBackground>
+        <button>
+          <p>
+            5<span>열쇠</span>
+          </p>
+        </button>
+      </S.KeyBackground>
 
       <List>
-        <Divider sx={{ bgcolor: "#8BD0FC", height: 2 }} />
+        <Divider sx={{ bgcolor: "#8BD0FC", height: 2, mt: "1vh" }} />
         {["내 책장", "충전하기", "로그아웃"].map((text, index) => (
           <>
             <Link to="/abcde">
@@ -81,7 +99,12 @@ const Sidebar = () => {
     <div>
       {["left"].map((anchor) => (
         <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
+          <Button onClick={toggleDrawer(anchor, true)}>
+            <MenuSharpIcon
+              sx={{ ml: "2vw", fontSize: "6vh", color: "#FF8F5C" }}
+            />
+          </Button>
+
           <Drawer
             anchor={anchor}
             open={state[anchor]}

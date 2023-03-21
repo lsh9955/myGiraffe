@@ -1,10 +1,23 @@
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 import { CirclePicker } from "react-color";
-import CanvasDraw from "react-canvas-draw";
+import CanvasDraw from "@win11react/react-canvas-draw";
 
 const CanvasTool = () => {
   const canvasRef = useRef(null);
   const secCanvasRef = useRef(null);
+  const contextRef = useRef(null);
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    canvas.width = 500;
+    canvas.height = 500;
+
+    const context = canvas.getContext("2d");
+    context.lineCap = "round";
+    context.strokeStyle = "black";
+    context.lineWidth = 5;
+    contextRef.current = context;
+    console.log(contextRef);
+  }, []);
   const [drawing, setDrawing] = useState();
   const handleExport = () => {
     const data = canvasRef.current.getSaveData();
@@ -43,7 +56,6 @@ const CanvasTool = () => {
           "#673ab7",
           "#3f51b5",
           "#2196f3",
-
           "#00bcd4",
           "#009688",
           "#4caf50",
@@ -71,9 +83,6 @@ const CanvasTool = () => {
       <img src={drawing} alt="exported drawing" />
 
       <CanvasDraw
-        // ref={(canvasDraw) => {
-        //   changeMod(canvasDraw);
-        // }}
         ref={canvasRef}
         brushColor={canvas}
         brushRadius={brush}
