@@ -6,7 +6,7 @@ export const Container = styled.div`
   height: 10vh;
   background: #8bd0fc;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 `;
 
@@ -22,3 +22,11 @@ export const ServiceName = styled.p`
   height: 8vh;
   color: #fce76c;
 `;
+
+export const Title = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+`;
+
+export const RightMargin = styled.div``;
