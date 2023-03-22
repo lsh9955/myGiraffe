@@ -1,12 +1,11 @@
 import React from "react";
-import loginBackground from "../assets/image/loginBackground.gif";
-import loginSpeechBackground from "../assets/image/loginSpeechBackground.png";
+import Login from "../components/login/Login";
+
 /**로그인 페이지 */
 const LoginPage = () => {
   return (
     <>
-      <img src={loginSpeechBackground} style={{ position: "absolute" }} />
-      <img src={loginBackground} />
+      <Login />
     </>
   );
 };
