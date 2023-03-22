@@ -20,11 +20,6 @@ import StorybookMLDrawPage from "./pages/StorybookMLDrawPage";
 import LoginPage from "./pages/LoginPage";
 
 function App() {
-  const [isShow, setIsShow] = useState(true);
-  /** nav,footer 보이는지 여부 판단  */
-  const onChangeShow = () => {
-    setIsShow(!isShow);
-  };
   /** 로그인 여부 판단 */
   const userSeq = useSelector((state) => {
     return state.user.userSeq;
@@ -32,39 +27,34 @@ function App() {
 
   return (
     <div style={{ position: "relative" }}>
-      {isShow && <Navbar />}
       <Switch>
         <Route path="/" exact>
-          <MainPage
-            component={MainPage}
-            onChangeShow={onChangeShow}
-            isShow={isShow}
-          />
+          <Navbar />
+          <MainPage component={MainPage} />
         </Route>
-        <Route
-          path="/diarydraw"
-          component={DiaryDrawPage}
-          onChangeShow={onChangeShow}
-          isShow={isShow}
-        />
-        <Route path="/mydrawer" component={MydrawerPage} />
+        <Route path="/diarydraw" component={DiaryDrawPage} />
+        <Route path="/mydrawer">
+          <Navbar />
+          <MydrawerPage component={MydrawerPage} />
+          <Footer />
+        </Route>
         <Route path="/mystorybookdetail/:bookId">
-          <MystorybookDetailPage
-            component={MystorybookDetailPage}
-            onChangeShow={onChangeShow}
-          />
+          <Navbar />
+          <MystorybookDetailPage component={MystorybookDetailPage} />
         </Route>
         <Route path="/rsppage" component={RspPage} />
         <Route path="/sketchbookdraw" component={SketchbookDrawPage} />
         <Route path="/storybookdetail" component={StorybookDetailPage} />
         <Route path="/storybookdraw" component={StorybookDrawPage} />
-        <Route path="/storybooklist" component={StorybookListPage} />
+        <Route path="/storybooklist">
+          <Navbar />
+          <StorybookListPage component={StorybookListPage} />
+        </Route>
         <Route path="/storybookmldraw" component={StorybookMLDrawPage} />
-        <Route path="/Login" exact>
-          <LoginPage component={LoginPage} onChangeShow={onChangeShow} />
+        <Route path="/login" exact>
+          <LoginPage component={LoginPage} />
         </Route>
       </Switch>
-      {isShow && <Footer />}
     </div>
   );
 }

@@ -1,97 +1,75 @@
 import { useRef, useState, useCallback, useEffect } from "react";
-import { CirclePicker } from "react-color";
+import { CirclePicker, TwitterPicker } from "react-color";
 import CanvasDraw from "@win11react/react-canvas-draw";
+import Palette from "./Palette";
+import * as C from "./CanvasToolStyle";
 
 const CanvasTool = () => {
   const canvasRef = useRef(null);
   const secCanvasRef = useRef(null);
-  const contextRef = useRef(null);
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    canvas.width = 500;
-    canvas.height = 500;
 
-    const context = canvas.getContext("2d");
-    context.lineCap = "round";
-    context.strokeStyle = "black";
-    context.lineWidth = 5;
-    contextRef.current = context;
-    console.log(contextRef);
-  }, []);
   const [drawing, setDrawing] = useState();
+  const [canvas, setBrush] = useState("#000000");
+  const [brush, setThick] = useState(1);
+  const [modify, setModify] = useState(null);
+  const [picData, setPicData] = useState(null);
+
   const handleExport = () => {
     const data = canvasRef.current.getSaveData();
     secCanvasRef.current.loadSaveData(data);
     const base64 = canvasRef.current.canvasContainer.childNodes[1].toDataURL();
     setDrawing(base64);
   };
-  const [canvas, setBrush] = useState("#FFFFF");
-  const [brush, setThick] = useState(4);
-  const [modify, setModify] = useState(null);
-  const [picData, setPicData] = useState(null);
-  const style = {
-    width: brush + "px",
-    background: canvas,
-    marginLeft: "50%",
-  };
-
-  const changeMod = (ele) => {
-    console.log(ele);
-    canvasRef.current = ele;
-    setModify(ele);
-  };
 
   const handleChangeComplete = (color) => {
-    setBrush(color.hex);
+    setBrush(color);
+  };
+
+  const handleRevert = () => {
+    canvasRef.current.undo();
+  };
+
+  const handleThick = (event) => {
+    setThick(event);
   };
 
   return (
-    <div className="container">
-      <CirclePicker
-        onChangeComplete={handleChangeComplete}
+    <C.Container>
+      <Palette
+        handleChangeComplete={handleChangeComplete}
+        handleExport={handleExport}
+        handleRevert={handleRevert}
+        handleThick={handleThick}
+        brush={brush}
+        canvas={canvas}
         colors={[
-          "#f44336",
-          "#e91e63",
-          "#9c27b0",
-          "#673ab7",
-          "#3f51b5",
-          "#2196f3",
-          "#00bcd4",
-          "#009688",
-          "#4caf50",
-          "#8bc34a",
-          "#cddc39",
-          "#ffeb3b",
-          "#ffc107",
-          "#ff9800",
-          "#ff5722",
-          "#795548",
-          "#FFFFFF",
+          "#FCFCFC",
+          "#DDC836",
+          "#209758",
+          "#FFB402",
+          "#00A9E6",
+          "#FF5028",
+          "#3B29CB",
+          "#F52380",
+          "#903AB5",
+          "#CE023C",
           "#000000",
+          "#FFC998",
         ]}
       />
-
-      <hr />
-      <button
-        type="button"
-        style={{ backgroundColor: "#0A71F1", color: "white" }}
-        onClick={handleExport}
-      >
-        그린 그림 저장하기
-      </button>
-      <br />
-      <img src={drawing} alt="exported drawing" />
-
-      <CanvasDraw
-        ref={canvasRef}
-        brushColor={canvas}
-        brushRadius={brush}
-        canvasHeight="500px"
-        hideGrid={true}
-        lazyRadius={0}
-        canvasWidth="800px"
-      />
-      <CanvasDraw
+      <C.DrawWrap>
+        <CanvasDraw
+          catenaryColor={canvas}
+          ref={canvasRef}
+          brushColor={canvas}
+          brushRadius={brush}
+          canvasHeight="100%"
+          hideGrid={true}
+          lazyRadius={0}
+          canvasWidth="100%"
+        />
+      </C.DrawWrap>
+      {/* <CanvasDraw
         loadTimeOffset={20}
         brushRadius={1}
         hideGrid={true}
@@ -100,37 +78,16 @@ const CanvasTool = () => {
         ref={secCanvasRef}
         canvasHeight="500px"
         canvasWidth="800px"
-      />
-      <button
-        onClick={() => {
-          canvasRef.current.undo();
-          console.log(canvasRef.current);
-        }}
-      >
-        되돌리기
-      </button>
-      <button
+      /> */}
+
+      {/* <button
         onClick={() => {
           canvasRef.current.clear();
         }}
       >
         지우기
-      </button>
-      <br />
-
-      <br />
-      <label>색연필 크기</label>
-
-      <div className="thickness" style={style}></div>
-      <input
-        min="2"
-        max="50"
-        type="range"
-        onChange={(event) => {
-          setThick(event.target.value);
-        }}
-      />
-    </div>
+      </button> */}
+    </C.Container>
   );
 };
 
