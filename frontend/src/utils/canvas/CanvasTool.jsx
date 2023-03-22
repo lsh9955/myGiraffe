@@ -1,31 +1,20 @@
 import { useRef, useState, useCallback, useEffect } from "react";
-import { CirclePicker } from "react-color";
+import { CirclePicker, TwitterPicker } from "react-color";
 import CanvasDraw from "@win11react/react-canvas-draw";
 
 const CanvasTool = () => {
   const canvasRef = useRef(null);
   const secCanvasRef = useRef(null);
-  const contextRef = useRef(null);
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    canvas.width = 500;
-    canvas.height = 500;
 
-    const context = canvas.getContext("2d");
-    context.lineCap = "round";
-    context.strokeStyle = "black";
-    context.lineWidth = 5;
-    contextRef.current = context;
-    console.log(contextRef);
-  }, []);
   const [drawing, setDrawing] = useState();
+
   const handleExport = () => {
     const data = canvasRef.current.getSaveData();
     secCanvasRef.current.loadSaveData(data);
     const base64 = canvasRef.current.canvasContainer.childNodes[1].toDataURL();
     setDrawing(base64);
   };
-  const [canvas, setBrush] = useState("#FFFFF");
+  const [canvas, setBrush] = useState("#000000");
   const [brush, setThick] = useState(4);
   const [modify, setModify] = useState(null);
   const [picData, setPicData] = useState(null);
@@ -42,32 +31,44 @@ const CanvasTool = () => {
   };
 
   const handleChangeComplete = (color) => {
+    console.log(color.hex);
     setBrush(color.hex);
   };
 
   return (
     <div className="container">
+      <TwitterPicker
+        onChangeComplete={handleChangeComplete}
+        colors={[
+          "#FCFCFC",
+          "#DDC836",
+          "#209758",
+          "#FFB402",
+          "#00A9E6",
+          "#FF5028",
+          "#3B29CB",
+          "#F52380",
+          "#903AB5",
+          "#CE023C",
+          "#000000",
+          "#FFC998",
+        ]}
+      />
       <CirclePicker
         onChangeComplete={handleChangeComplete}
         colors={[
-          "#f44336",
-          "#e91e63",
-          "#9c27b0",
-          "#673ab7",
-          "#3f51b5",
-          "#2196f3",
-          "#00bcd4",
-          "#009688",
-          "#4caf50",
-          "#8bc34a",
-          "#cddc39",
-          "#ffeb3b",
-          "#ffc107",
-          "#ff9800",
-          "#ff5722",
-          "#795548",
-          "#FFFFFF",
+          "#FCFCFC",
+          "#DDC836",
+          "#209758",
+          "#FFB402",
+          "#00A9E6",
+          "#FF5028",
+          "#3B29CB",
+          "#F52380",
+          "#903AB5",
+          "#CE023C",
           "#000000",
+          "#FFC998",
         ]}
       />
 
@@ -104,7 +105,8 @@ const CanvasTool = () => {
       <button
         onClick={() => {
           canvasRef.current.undo();
-          console.log(canvasRef.current);
+          // setBrush()
+          console.log(canvasRef.current.lines);
         }}
       >
         되돌리기
