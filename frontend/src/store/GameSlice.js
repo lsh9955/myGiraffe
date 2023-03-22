@@ -10,7 +10,7 @@ export const GameSlice = createSlice({
   initialState: initialStateValue,
   reducers: {
     rsp: (state, action) => {
-      state.isLoad = action.payload.isLoad;
+      state.isLoad = action.payload;
     },
   },
 });

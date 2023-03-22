@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import * as handpose from "@tensorflow-models/handpose";
 import * as fp from "./model";
 import "./FingerPose";
@@ -7,7 +8,9 @@ import "./fingerStyle.css";
 import "@tensorflow/tfjs-backend-webgl";
 /**가위바위보 인식 모델 */
 const FingerPose = () => {
-  const [isLoad, setisLoad] = useState(false);
+  const dispatch = useDispatch();
+  const isLoad = useSelector((state) => state.game.isLoad);
+
   const config = {
     video: { width: 640, height: 480, fps: 30 },
   };
@@ -92,7 +95,7 @@ const FingerPose = () => {
 
     estimateHands();
     console.log("Starting predictions");
-    setisLoad(true);
+    dispatch(rsp(true));
   }
 
   async function initCamera(width, height, fps) {
@@ -111,6 +114,7 @@ const FingerPose = () => {
 
     // get video stream
     const stream = await navigator.mediaDevices.getUserMedia(constraints);
+
     video.current.srcObject = stream;
 
     return new Promise((resolve) => {

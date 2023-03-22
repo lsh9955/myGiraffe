@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-/**가위바위보 컴포넌트 */
+import { useSelector } from "react-redux";
 import {
   Container,
   ServiceName,
@@ -15,12 +15,15 @@ import scissors from "assets/image/scissors.png";
 import paper from "assets/image/paper.png";
 import rsp from "assets/image/rsp.gif";
 
+import RspSpinner from "components/rsp/RspSpinner";
 import FingerPose from "utils/fingerPose/FingerPose";
 
-const RspStyle = () => {
+const Rsp = () => {
+  const isLoad = useSelector((state) => state.game.isLoad);
   const [ghostHand, setGhostHand] = useState(null);
   const [isChange, setIsChange] = useState(true);
   const [timer, setTimer] = useState(3);
+  const [showSpinner, setShowSpinner] = useState(false);
 
   useEffect(() => {
     const randomNum = Math.floor(Math.random() * 3) + 1;
@@ -45,13 +48,26 @@ const RspStyle = () => {
     return () => clearInterval(interval);
   }, [timer]);
 
+  useEffect(() => {
+    if (isLoad) {
+      setShowSpinner(false);
+    } else {
+      const spinnerTimeout = setTimeout(() => {
+        setShowSpinner(true);
+      }, 500);
+      return () => clearTimeout(spinnerTimeout);
+    }
+  }, [isLoad]);
+
   return (
     <div>
       <Container>
         <ServiceName>재미있는 가위바위보 게임</ServiceName>
       </Container>
 
-      <GameContainer>
+      <RspSpinner showSpinner={showSpinner} />
+
+      <GameContainer showSpinner={showSpinner}>
         <GameScreen>
           {timer === 0 ? (
             <RspImg src={ghostHand} alt="유령의손" />
@@ -72,4 +88,4 @@ const RspStyle = () => {
   );
 };
 
-export default RspStyle;
+export default Rsp;
