@@ -10,6 +10,7 @@ import {
 } from "components/main/MainStyle";
 
 import FairyImage from "assets/image/fairytale.png";
+import DrawDiary from "assets/image/drawdiary.png";
 
 /**메인화면 컴포넌트 */
 const Main = () => {
@@ -21,6 +22,7 @@ const Main = () => {
       </FairyContent>
 
       <DiaryContent>
+        <ImageContainer src={DrawDiary} alt="그림일기" />
         <ContentName>그림일기</ContentName>
       </DiaryContent>
 
