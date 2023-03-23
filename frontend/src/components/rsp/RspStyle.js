@@ -24,7 +24,7 @@ export const ServiceName = styled.p`
 export const GameContainer = styled.div`
   width: 100vw;
   height: 90vh;
-  display: flex;
+  display: ${(props) => (props.showSpinner ? "none" : "flex")};
   justify-content: space-around;
   align-items: center;
 `;
