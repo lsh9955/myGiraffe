@@ -20,11 +20,9 @@ const Login = () => {
 
   return (
     <L.LoginBackBackground>
-      <L.LoginBackground height={height} width={width}>
-        <L.LoginSpeechBackground>
-          <L.LoginTxt>어서와요!</L.LoginTxt>
-        </L.LoginSpeechBackground>
-      </L.LoginBackground>
+      <L.LoginSpeechBackground>
+        <L.LoginTxt>어서와요!</L.LoginTxt>
+      </L.LoginSpeechBackground>
     </L.LoginBackBackground>
   );
 };
