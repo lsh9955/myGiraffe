@@ -1,0 +1,47 @@
+package com.example.books.api.exception.handler;
+
+import com.example.books.api.exception.BaseRuntimeException;
+import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ProblemDetail;
+import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
+import org.springframework.validation.FieldError;
+import org.springframework.web.ErrorResponse;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.ServletWebRequest;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import org.springframework.web.util.WebUtils;
+
+@ControllerAdvice
+public class GlobalExceptionHandler /*extends ResponseEntityExceptionHandler*/ {
+
+  /**
+   * 서비스 로직에서 발생하는 Global 에러 형식에 대해 Http status 코드를 직접 정의하기 위해
+   * RuntimeException 을 BaseRuntimeException 이라는 커스텀 예외 클래스로 정의했습니다.
+   *
+   * 이 메소드는 BaseRuntimeException 을 처리하는 핸들러 입니다. RFC 7087 형식의 body 를 반환합니다.
+   *
+   * 서비스 로직에 대한 예외 처리를 할 때 BaseRuntimeException 으로 throw 하면서
+   * 상태 코드와 메시지를 정의해 주시면 됩니다.
+   *
+   * @param ex RuntimeException
+   * @return ProblemDetail (RFC 7807 양식의 ResponseBody)
+   */
+  @ExceptionHandler(BaseRuntimeException.class)
+  public ProblemDetail handleBaseRuntimeExceptions(BaseRuntimeException ex) {
+
+    return ProblemDetail
+        .forStatusAndDetail(
+            ex.getHttpStatus(),
+            ex.getException().getMessage());
+  }
+}
