@@ -23,6 +23,9 @@ vision_api_key = json.loads(vision_api_key)
 # 서비스 계정 키 파일 경로 지정
 credentials = service_account.Credentials.from_service_account_info(vision_api_key)
 
+digit_dict = {'o': '0', 'O': 'ㅇ', 'p': '9', 'q': '9', }
+
+
 @numbers_blueprint.route('/api/numbers', methods=['POST', 'GET'])
 def numbers():
     if request.method == 'GET':
@@ -42,12 +45,28 @@ def numbers():
 
     response = client.document_text_detection(image=image, image_context=image_context)
     print("=====response Done=====")
-    print(response)
-    print(response.full_text_annotation.text)
-    origin_count = len(response.full_text_annotation.text)
-    digit = ''.join(re.findall(r'\d', response.full_text_annotation.text))
+    # print(response)
+
+    origin_text = str(response.full_text_annotation.text).replace('\n', '')
+    origin_count = len(origin_text)
+    print(origin_text, ": length = ", origin_count)
+
+    calcul_flag = False
+    digit = ''
+    for checking in range(len(origin_text)):
+        if origin_text[checking].isnumeric():
+            digit += origin_text[checking]
+        else:
+            if origin_text[checking] in ["+", "-", "*", "/"]:
+                digit += origin_text[checking]
+                calcul_flag = True
+            elif origin_text[checking] in digit_dict.keys():
+                digit += digit_dict[origin_text[checking]]
+
+    if calcul_flag:
+        digit = str(eval(digit))
+
+    # digit = ''.join(re.findall(r'\d', response.full_text_annotation.text))
     if digit == "":
         digit = "죄송하지만 제대로 인식하지 못했어요... 다시 입력해주세요."
-    elif len(digit) != origin_count:
-        return (f'일부만 인식했습니다. 인식한 숫자는 [ ' + digit + ' ] 입니다.')
     return digit

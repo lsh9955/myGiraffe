@@ -40,44 +40,45 @@ def classifier():
     image = ImageOps.fit(image, size, Image.Resampling.LANCZOS)
 
     # turn the image into a numpy array
-    image_array = np.asarray(image)
+    # image_array = np.asarray(image)
 
     # Normalize the image
-    normalized_image_array = (image_array.astype(np.float32) / 127.5) - 1
+    # normalized_image_array = (image_array.astype(np.float32) / 127.5) - 1
 
     # Load the image into the array
-    data[0] = normalized_image_array
+    # data[0] = normalized_image_array
+    data[0] = np.asarray(image)
 
     # Predicts the model
     prediction = model.predict(data)
     index = np.argmax(prediction)
     class_name = class_names[index]
-    confidence_score = prediction[0][index]
+    # confidence_score = prediction[0][index]
 
     # Print prediction and confidence score
-    print("Class:", class_name[2:], end="")
-    print("Confidence Score:", confidence_score)
-    if class_name:
-        response_data = {
-            "Class:": class_name[2:],
-            "Confidence Score:": confidence_score,
-        }
-        response = {
-            "status": "success",
-            "data": response_data,
-            "message": f'{round(confidence_score,2)*100} 확률로 {class_name[2:]} 인것 같아요.'
-        }
-    else:
-        response_data = {
-            "Class:": "측정 불가",
-            "Confidence Score:": "null",
-        }
-        response = {
-            "status": "failed",
-            "data": response_data,
-            "message": "구분을 제대로 하지 못했어요..."
-        }
-    print(response)
-    answer = f'{round(confidence_score*100)}% 확률로 {str(class_name[2:])} 입니당!'
-    return answer
+    # print("Class:", class_name[2:], end="")
+    # print("Confidence Score:", confidence_score)
+    # if class_name:
+    #     response_data = {
+    #         "Class:": class_name[2:],
+    #         "Confidence Score:": confidence_score,
+    #     }
+    #     response = {
+    #         "status": "success",
+    #         "data": response_data,
+    #         "message": f'{round(confidence_score,2)*100} 확률로 {class_name[2:]} 인것 같아요.'
+    #     }
+    # else:
+    #     response_data = {
+    #         "Class:": "측정 불가",
+    #         "Confidence Score:": "null",
+    #     }
+    #     response = {
+    #         "status": "failed",
+    #         "data": response_data,
+    #         "message": "구분을 제대로 하지 못했어요..."
+    #     }
+    # print(response)
+    # answer = f'{round(confidence_score*100)}% 확률로 {str(class_name[2:])}입니당!'
+    return class_name[2:]
     # return request.json(response)

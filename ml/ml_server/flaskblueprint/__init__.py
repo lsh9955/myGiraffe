@@ -1,7 +1,7 @@
 # flaskblueprints/__init__.py
 # Flask에 사용되는 Blue prints 들을 모아서 패키징 해줄 init.py 입니다.
 
-from flask import Blueprint
+# from flask import Blueprint
 
 from .aivoice_blueprint import aivoice_blueprint
 from .classifier_blueprint import classifier_blueprint
