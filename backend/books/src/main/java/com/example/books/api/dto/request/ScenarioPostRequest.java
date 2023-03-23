@@ -1,24 +1,24 @@
 package com.example.books.api.dto.request;
 
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Positive;
+import java.util.List;
 import lombok.Data;
-import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class ScenarioPostRequest {
-  @NotNull(message = "제목은 필수 입력 항목입니다.")
+  @NotEmpty(message = "필수 입력 항목입니다.")
   private String title;
 
-  @NotNull(message = "가격의 값이 올바르지 않습니다.")
+  @Positive(message = "양수인 숫자값이어야 합니다.")
   private Integer price;
 
   private String introScript;
 
-  private MultipartFile introImgUrl;
+  // 파일 객체는 따로 보내므로 DTO field 에서 제거 예정
+//  private MultipartFile introImgUrl;
+//
+//  private MultipartFile thumbnailImgUrl;
 
-  private MultipartFile thumbnailImgUrl;
-
-  private String interContents;
+  private List<String> interContents;
 }

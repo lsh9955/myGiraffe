@@ -1,11 +1,10 @@
 package com.example.books.api.service.impl;
 
 import com.example.books.api.dto.request.ScenarioPostRequest;
-import com.example.books.api.service.ScenarioService;
 import com.example.books.api.exception.BaseRuntimeException;
+import com.example.books.api.service.ScenarioService;
 import com.example.books.db.entity.Scenario;
 import com.example.books.db.repository.ScenarioRepository;
-import jakarta.validation.constraints.NotNull;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,13 +32,14 @@ public class ScenarioServiceImpl implements ScenarioService {
   @Override
   public Scenario findScenarioById(Integer id) {
     return scenarioRepository.findById(id)
-        .orElseThrow(() -> new BaseRuntimeException(HttpStatus.BAD_REQUEST, "존재하지 않는 시나리오입니다."));
+        .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 시나리오 ID 입니다."));
   }
 
   @Override
   public Integer saveScenario(ScenarioPostRequest request) {
     log.debug("Scenario received: {}", request.toString());
 
+    // 파일 저장 로직 구성 후 적용 예정
     var introImgUrl = "";
     var thumbnailImgUrl = "";
 
@@ -49,7 +49,7 @@ public class ScenarioServiceImpl implements ScenarioService {
         .introScript(request.getIntroScript())
         .introImgUrl(introImgUrl)
         .thumbnailImgUrl(thumbnailImgUrl)
-        .interContents(request.getInterContents())
+        .interContents(null/*Arrays.toString(request.getInterContents().toArray())*/) // JSON 변환 로직 학습 후 적용 예정
         .build();
 
     var createdId = scenarioRepository.save(scenario).getScenarioId();
