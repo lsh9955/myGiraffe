@@ -10,6 +10,7 @@ import {
   RspImg,
 } from "components/rsp/RspStyle";
 
+import RspStart from "components/modal/rspstart/RspStart";
 import rock from "assets/image/rock.png";
 import scissors from "assets/image/scissors.png";
 import paper from "assets/image/paper.png";
@@ -64,6 +65,7 @@ const Rsp = () => {
 
   return (
     <div>
+      <RspStart></RspStart>
       <Container>
         <button
           onClick={() => {
