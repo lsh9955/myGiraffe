@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class MyBook extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long bookId;
+    private Integer bookId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

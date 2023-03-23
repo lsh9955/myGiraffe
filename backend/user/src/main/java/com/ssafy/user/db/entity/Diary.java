@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class Diary extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long diaryId;
+    private Integer diaryId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

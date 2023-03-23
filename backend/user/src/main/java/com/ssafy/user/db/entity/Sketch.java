@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class Sketch extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long sketchId;
+    private Integer sketchId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

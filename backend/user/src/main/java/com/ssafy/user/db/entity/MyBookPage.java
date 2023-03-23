@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 public class MyBookPage {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long pageId;
+    private Integer pageId;
 
     @ManyToOne
     @JoinColumn(name = "my_book")

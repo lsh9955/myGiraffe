@@ -17,11 +17,8 @@ import java.util.List;
 // 속성 access : 기본 생성자, 정의한 생성자 를 제외한 임의의 객체생성 형태 불가
 public class UserInfo extends BaseTimeEntity {
 
-  /**
-   * 📌Data Type
-   */
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long userId;
+  private Integer userId;
 
   @Column(nullable = false)
   private String userName;
