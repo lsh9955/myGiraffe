@@ -15,6 +15,6 @@ export const GameSlice = createSlice({
   },
 });
 
-export const rsp = GameSlice.actions;
+export const { rsp } = GameSlice.actions;
 
 export default GameSlice.reducer;
