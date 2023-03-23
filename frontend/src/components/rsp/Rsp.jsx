@@ -22,24 +22,34 @@ import FingerPose from "utils/fingerPose/FingerPose";
 const Rsp = () => {
   const isLoad = useSelector((state) => state.game.isLoad);
   const [ghostHand, setGhostHand] = useState(null);
+  const [ghostHandFi, setGhostHandFi] = useState(null);
   const [isChange, setIsChange] = useState(true);
+  const [randomNum, setRandomNum] = useState(null);
   const [timer, setTimer] = useState(3);
   const [showSpinner, setShowSpinner] = useState(false);
   const [start, setStart] = useState(false);
+  const [userHand, setUserHand] = useState(null);
   const startHandler = () => {
     setStart(true);
   };
-
+  const userHandHandler = (handInput) => {
+    setUserHand(handInput);
+  };
   useEffect(() => {
+    setRandomNum(Math.floor(Math.random() * 3) + 1);
+  }, []);
+  useEffect(() => {
+    console.log("EFEFEFE" + randomNum);
     if (start) {
-      const randomNum = Math.floor(Math.random() * 3) + 1;
-
       if (randomNum === 1) {
         setGhostHand(rock);
+        setGhostHandFi("rock");
       } else if (randomNum === 2) {
         setGhostHand(scissors);
+        setGhostHandFi("scissors");
       } else if (randomNum === 3) {
         setGhostHand(paper);
+        setGhostHandFi("paper");
       }
 
       const interval = setInterval(() => {
@@ -49,6 +59,26 @@ const Rsp = () => {
       if (timer === 0) {
         clearInterval(interval);
         setIsChange(false);
+        console.log(ghostHandFi);
+        if (ghostHandFi === "rock" && userHand === "rock") {
+          console.log("비겼습니다!");
+        } else if (ghostHandFi === "scissors" && userHand === "scissors") {
+          console.log("비겼습니다!");
+        } else if (ghostHandFi === "paper" && userHand === "paper") {
+          console.log("비겼습니다!");
+        } else if (ghostHandFi === "rock" && userHand === "scissors") {
+          console.log("졌습니다!");
+        } else if (ghostHandFi === "scissors" && userHand === "paper") {
+          console.log("졌습니다!");
+        } else if (ghostHandFi === "paper" && userHand === "rock") {
+          console.log("졌습니다!");
+        } else if (ghostHandFi === "rock" && userHand === "paper") {
+          console.log("이겼습니다!");
+        } else if (ghostHandFi === "scissors" && userHand === "rock") {
+          console.log("이겼습니다!");
+        } else if (ghostHandFi === "paper" && userHand === "scissors") {
+          console.log("이겼습니다!");
+        }
       }
 
       return () => clearInterval(interval);
@@ -65,15 +95,8 @@ const Rsp = () => {
 
   return (
     <div>
-      <RspStart></RspStart>
+      <RspStart startHandler={startHandler}></RspStart>
       <Container>
-        <button
-          onClick={() => {
-            startHandler();
-          }}
-        >
-          버튼
-        </button>
         <ServiceName>재미있는 가위바위보 게임</ServiceName>
       </Container>
 
@@ -93,7 +116,7 @@ const Rsp = () => {
         </TimerScreen>
 
         <GameScreen>
-          <FingerPose />
+          <FingerPose userHandHandler={userHandHandler} />
         </GameScreen>
       </GameContainer>
     </div>

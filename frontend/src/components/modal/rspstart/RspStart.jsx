@@ -11,12 +11,16 @@ const style = {
   bgcolor: "background.paper",
   border: "3px solid #ff8f5c",
   boxShadow: 24,
+  outline: "none",
   p: 4,
 };
 
-const RspStart = () => {
+const RspStart = ({ startHandler }) => {
   const [open, setOpen] = useState(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    startHandler();
+  };
   return (
     <div>
       <Modal
@@ -32,8 +36,8 @@ const RspStart = () => {
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             카메라를 정면으로 바라보고 손을 들어 가위, 바위, 보 동작을 취한다.
           </Typography>
+          <ButtonOne onClick={handleClose}>확인</ButtonOne>
         </Box>
-        <ButtonOne onClick={handleClose}>확인</ButtonOne>
       </Modal>
     </div>
   );

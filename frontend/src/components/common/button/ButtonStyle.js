@@ -1,7 +1,7 @@
 /**기본 버튼 컴포넌트 style */
 import styled from "styled-components";
 
-export const ButtonOne = styled.div`
+export const ButtonOne = styled.button`
   border: none;
   border-radius: 10px;
   padding: 15px;

@@ -8,7 +8,7 @@ import "./FingerPose";
 import "./fingerStyle.css";
 import "@tensorflow/tfjs-backend-webgl";
 /**가위바위보 인식 모델 */
-const FingerPose = () => {
+const FingerPose = ({ userHandHandler }) => {
   const dispatch = useDispatch();
   const isLoad = useSelector((state) => state.game.isLoad);
 
@@ -82,6 +82,7 @@ const FingerPose = () => {
           });
 
           resultLayer.current.innerText = gestureStrings[result.name];
+          userHandHandler(result.name);
         }
 
         // update debug info
@@ -172,7 +173,7 @@ const FingerPose = () => {
         </div>
       </div>
 
-      <div className="debug">
+      <div className="debug" style={{ display: "none" }}>
         <table className="summary">
           <thead>
             <tr>
