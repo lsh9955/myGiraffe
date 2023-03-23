@@ -1,17 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { rsp } from "store/GameSlice";
 import * as handpose from "@tensorflow-models/handpose";
 import * as fp from "./model";
 import "./FingerPose";
 //테스트를 위해 임의로 css생성. 이후 제거할 것
 import "./fingerStyle.css";
 import "@tensorflow/tfjs-backend-webgl";
+import { isNonNullChain } from "typescript";
 /**가위바위보 인식 모델 */
-const FingerPose = ({ userHandHandler }) => {
-  const dispatch = useDispatch();
-  const isLoad = useSelector((state) => state.game.isLoad);
-
+const FingerPose = ({ userHandHandler, isLoadHandler }) => {
   const config = {
     video: { width: 640, height: 480, fps: 30 },
   };
@@ -55,7 +51,7 @@ const FingerPose = ({ userHandHandler }) => {
       // clear canvas overlay
 
       ctx.clearRect(0, 0, config.video.width, config.video.height);
-      resultLayer.current.innerText = "";
+      // resultLayer.current.innerText = "";
 
       // get hand landmarks from video
       // Note: Handpose currently only detects one hand at a time
@@ -97,7 +93,8 @@ const FingerPose = ({ userHandHandler }) => {
 
     estimateHands();
     console.log("Starting predictions");
-    dispatch(rsp({ isLoad: true }));
+
+    isLoadHandler(true);
   }
 
   async function initCamera(width, height, fps) {
