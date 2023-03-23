@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { rsp } from "store/GameSlice";
 import * as handpose from "@tensorflow-models/handpose";
 import * as fp from "./model";
 import "./FingerPose";
@@ -95,7 +96,7 @@ const FingerPose = () => {
 
     estimateHands();
     console.log("Starting predictions");
-    dispatch(rsp(true));
+    dispatch(rsp({ isLoad: true }));
   }
 
   async function initCamera(width, height, fps) {
