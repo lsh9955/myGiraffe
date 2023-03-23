@@ -24,44 +24,54 @@ const Rsp = () => {
   const [isChange, setIsChange] = useState(true);
   const [timer, setTimer] = useState(3);
   const [showSpinner, setShowSpinner] = useState(false);
+  const [start, setStart] = useState(false);
+  const startHandler = () => {
+    setStart(true);
+  };
 
   useEffect(() => {
-    const randomNum = Math.floor(Math.random() * 3) + 1;
+    if (start) {
+      const randomNum = Math.floor(Math.random() * 3) + 1;
 
-    if (randomNum === 1) {
-      setGhostHand(rock);
-    } else if (randomNum === 2) {
-      setGhostHand(scissors);
-    } else if (randomNum === 3) {
-      setGhostHand(paper);
+      if (randomNum === 1) {
+        setGhostHand(rock);
+      } else if (randomNum === 2) {
+        setGhostHand(scissors);
+      } else if (randomNum === 3) {
+        setGhostHand(paper);
+      }
+
+      const interval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+
+      if (timer === 0) {
+        clearInterval(interval);
+        setIsChange(false);
+      }
+
+      return () => clearInterval(interval);
     }
-
-    const interval = setInterval(() => {
-      setTimer((prevTimer) => prevTimer - 1);
-    }, 1000);
-
-    if (timer === 0) {
-      clearInterval(interval);
-      setIsChange(false);
-    }
-
-    return () => clearInterval(interval);
-  }, [timer]);
+  }, [timer, start]);
 
   useEffect(() => {
     if (isLoad) {
       setShowSpinner(false);
     } else {
-      const spinnerTimeout = setTimeout(() => {
-        setShowSpinner(true);
-      }, 500);
-      return () => clearTimeout(spinnerTimeout);
+      setShowSpinner(true);
     }
   }, [isLoad]);
 
   return (
     <div>
       <Container>
+        <button
+          onClick={() => {
+            startHandler();
+          }}
+        >
+          버튼
+        </button>
         <ServiceName>재미있는 가위바위보 게임</ServiceName>
       </Container>
 
