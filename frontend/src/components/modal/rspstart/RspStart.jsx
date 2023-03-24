@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Typography, Modal } from "@mui/material/";
 import { ButtonOne } from "components/common/button/ButtonStyle";
 
@@ -15,12 +15,17 @@ const style = {
   p: 4,
 };
 
-const RspStart = ({ startHandler }) => {
-  const [open, setOpen] = useState(true);
+const RspStart = ({ startHandler, isLoad }) => {
+  const [open, setOpen] = useState(false);
   const handleClose = () => {
     setOpen(false);
     startHandler();
   };
+  useEffect(() => {
+    if (isLoad) {
+      setOpen(true);
+    }
+  }, [isLoad]);
   return (
     <div>
       <Modal
