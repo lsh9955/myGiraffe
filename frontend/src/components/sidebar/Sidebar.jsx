@@ -1,19 +1,21 @@
 import React, { useState } from "react";
-import { Routes, Route, Link } from "react-router-dom";
-import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import Button from "@mui/material/Button";
-import List from "@mui/material/List";
-import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
+import { Link } from "react-router-dom";
+import {
+  Box,
+  Drawer,
+  Button,
+  List,
+  Divider,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+} from "@mui/material/";
+
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import LogoutIcon from "@mui/icons-material/Logout";
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
-import defaultUserImg from "../../assets/icon/defaultUserImg.svg";
 import MenuSharpIcon from "@mui/icons-material/MenuSharp";
+import defaultUserImg from "../../assets/icon/defaultUserImg.svg";
 
 import * as S from "./SidebarStyle";
 /**사이드바 컴포넌트 */
@@ -60,22 +62,26 @@ const Sidebar = () => {
 
       <List>
         <Divider sx={{ bgcolor: "#8BD0FC", height: 2, mt: "1vh" }} />
-        {["내 책장", "충전하기", "로그아웃"].map((text, index) => (
+        {[
+          ["내 책장", "/mydrawer"],
+          ["충전하기", "/abcd"],
+          ["로그아웃", "/abcd"],
+        ].map((text, index) => (
           <>
-            <Link to="/abcde">
+            <Link to={text[1]}>
               <ListItem key={text}>
                 <ListItemButton fontSize={66}>
-                  {text === "내 책장" && (
+                  {text[0] === "내 책장" && (
                     <AutoStoriesIcon
                       sx={{ width: 80, height: 30, color: "#FF8F5C" }}
                     />
                   )}
-                  {text === "충전하기" && (
+                  {text[0] === "충전하기" && (
                     <VpnKeyIcon
                       sx={{ width: 80, height: 30, color: "#FF8F5C" }}
                     />
                   )}
-                  {text === "로그아웃" && (
+                  {text[0] === "로그아웃" && (
                     <LogoutIcon
                       sx={{ width: 80, height: 30, color: "#FF8F5C" }}
                     />
@@ -83,7 +89,7 @@ const Sidebar = () => {
                   <ListItemText
                     disableTypography={true}
                     sx={{ maxWidth: 70, fontSize: 20 }}
-                    primary={text}
+                    primary={text[0]}
                   />
                 </ListItemButton>
               </ListItem>
