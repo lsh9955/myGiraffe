@@ -4,7 +4,7 @@ import CanvasDraw from "@win11react/react-canvas-draw";
 import Palette from "./Palette";
 import * as C from "./CanvasToolStyle";
 
-const CanvasTool = () => {
+const CanvasTool = ({ bgImg }) => {
   const canvasRef = useRef(null);
   const secCanvasRef = useRef(null);
 
@@ -16,9 +16,10 @@ const CanvasTool = () => {
 
   const handleExport = () => {
     const data = canvasRef.current.getSaveData();
-    secCanvasRef.current.loadSaveData(data);
+    // secCanvasRef.current.loadSaveData(data);
     const base64 = canvasRef.current.canvasContainer.childNodes[1].toDataURL();
     setDrawing(base64);
+    console.log(base64);
   };
 
   const handleChangeComplete = (color) => {
@@ -67,26 +68,9 @@ const CanvasTool = () => {
           hideGrid={true}
           lazyRadius={0}
           canvasWidth="100%"
+          imgSrc={bgImg}
         />
       </C.DrawWrap>
-      {/* <CanvasDraw
-        loadTimeOffset={20}
-        brushRadius={1}
-        hideGrid={true}
-        disabled={true}
-        style={{ borderRadius: 1, border: "1px solid  black", margin: "auto" }}
-        ref={secCanvasRef}
-        canvasHeight="500px"
-        canvasWidth="800px"
-      /> */}
-
-      {/* <button
-        onClick={() => {
-          canvasRef.current.clear();
-        }}
-      >
-        지우기
-      </button> */}
     </C.Container>
   );
 };

@@ -4,7 +4,6 @@ import styled from "styled-components";
 export const Container = styled.div`
   width: 100%;
   height: 80vh;
-
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -13,7 +12,7 @@ export const Container = styled.div`
 
 export const DrawWrap = styled.div`
   width: 70%;
-  height: 90%;
+  height: 100%;
   border-radius: 20px;
   border: 2px solid #fce76c;
   & > div {
