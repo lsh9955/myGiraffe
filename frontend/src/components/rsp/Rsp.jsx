@@ -10,7 +10,7 @@ import {
   RspImg,
 } from "components/rsp/RspStyle";
 
-import RspStart from "components/modal/rspstart/RspStart";
+import RspStart from "components/modal/rspstart_modal/RspStart";
 import rock from "assets/image/rock.png";
 import scissors from "assets/image/scissors.png";
 import paper from "assets/image/paper.png";
