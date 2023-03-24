@@ -3,13 +3,16 @@ package com.example.books.api.controller;
 import com.example.books.api.dto.request.ScenarioPostRequest;
 import com.example.books.api.dto.response.BaseResponseBody;
 import com.example.books.api.service.ScenarioService;
+import com.example.books.db.entity.Scenario;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import jakarta.validation.executable.ValidateOnExecution;
 import java.net.URI;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
+@Validated
 @ValidateOnExecution
 @RequiredArgsConstructor
 @RestController
@@ -29,21 +33,25 @@ public class ScenarioController {
 
   @GetMapping
   public ResponseEntity<? extends BaseResponseBody> getAllScenarios() {
+
+    var scenarios = scenarioService.findAllScenarios();
+
     return ResponseEntity
         .ok()
-        .body(new BaseResponseBody(200, "OK", scenarioService.findAllScenarios()));
+        .body(new BaseResponseBody<>(200, "OK", scenarios));
   }
 
   @GetMapping("/{scenarioId}")
   public ResponseEntity<? extends BaseResponseBody> getScenario(
-      @PathVariable
-      @Valid
-      @NotNull(message = "ID는 빈 값일 수 없습니다.")
+      @PathVariable("scenarioId")
+      @Positive(message = "필수 입력값입니다(양수).")
       Integer scenarioId) {
+
+    var scenario = scenarioService.findScenarioById(scenarioId);
 
     return ResponseEntity
         .ok()
-        .body(new BaseResponseBody(200, "OK", scenarioService.findScenarioById(scenarioId)));
+        .body(new BaseResponseBody<>(200, "OK", scenario));
   }
 
   @PostMapping
@@ -53,11 +61,13 @@ public class ScenarioController {
       ScenarioPostRequest scenario) {
 
     var id = scenarioService.saveScenario(scenario);
+
     var location = URI.create("api/books/scenarios/" + id);
+    var successMessage = "시나리오 생성 성공: (ID=" + id + ")";
 
     return ResponseEntity
         .created(location)
-        .body(new BaseResponseBody(201,"Created", "시나리오 생성 성공: (ID=" + id + ")"));
+        .body(new BaseResponseBody<>(201,"Created", successMessage));
   }
 
 //  @PutMapping("/{scenarioId}")
@@ -75,15 +85,16 @@ public class ScenarioController {
   @DeleteMapping("/{scenarioId}")
   public ResponseEntity<? extends BaseResponseBody> deleteScenario(
       @PathVariable
-      @Valid
-      @NotNull
+      @Positive(message = "필수 입력값입니다(양수).")
       Integer scenarioId) {
 
     scenarioService.deleteScenario(scenarioId);
 
+    var successMessage = "시나리오가 성공적으로 삭제되었습니다: (ID=" + scenarioId + ")";
+
     return ResponseEntity
         .ok()
-        .body(new BaseResponseBody(200, "OK", "시나리오가 성공적으로 삭제되었습니다: (ID=" + scenarioId + ")"));
+        .body(new BaseResponseBody<>(200, "OK", successMessage));
   }
 
 }
