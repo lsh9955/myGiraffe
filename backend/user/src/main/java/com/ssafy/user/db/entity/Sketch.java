@@ -10,16 +10,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Sketch extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "sketch_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer sketchId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserInfo userInfo;
 
-    @Column(nullable = false)
+    @Column(name = "sketch_img_url", nullable = false)
     private String sketchImgUrl;
 
-    @Column(nullable = false)
+    @Column(name = "sketch_name", nullable = false)
     private String sketchName;
 }

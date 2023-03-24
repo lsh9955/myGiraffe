@@ -10,17 +10,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Diary extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "diary_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer diaryId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserInfo userInfo;
 
-    @Column(nullable = false)
+    @Column(name = "diary_img_url", nullable = false)
     private String diaryImgUrl;
 
-    @Column(nullable = false)
+    @Column(name = "diary_name", nullable = false)
     private String diaryName;
 
 }

@@ -17,16 +17,18 @@ import java.util.List;
 // 속성 access : 기본 생성자, 정의한 생성자 를 제외한 임의의 객체생성 형태 불가
 public class UserInfo extends BaseTimeEntity {
 
-  @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Id
+  @Column(name = "user_id")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer userId;
 
-  @Column(nullable = false)
+  @Column(name = "user_name", nullable = false)
   private String userName;
 
-  @Column(nullable = false)
-  private String profileImage;
+  @Column(name = "profile_img", nullable = false)
+  private String profileImg;
 
-  @Column(nullable = false)
+  @Column(name = "coin_amount", nullable = false)
   @ColumnDefault("0")
   private int coinAMount;
 

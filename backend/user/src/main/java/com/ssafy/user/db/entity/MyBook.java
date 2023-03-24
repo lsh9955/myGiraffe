@@ -10,17 +10,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MyBook extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "book_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer bookId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserInfo userinfo;
 
-    @Column(nullable = false)
+    @Column(name = "book_name", nullable = false)
     private String bookName;
 
-    @Column(nullable = false)
+    @Column(name = "scenario_id", nullable = false)
     private Long scenarioId;
 
 }
