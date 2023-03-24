@@ -4,14 +4,16 @@ import jakarta.persistence.*;
 
 public class UserScenarioList extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @Column(name = "scenario_list_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer scenarioListId;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserInfo userInfo;
 
-    @Column(nullable = false)
+    @Column(name = "scenario_id", nullable = false)
     private Integer scenarioId;
 
 }
