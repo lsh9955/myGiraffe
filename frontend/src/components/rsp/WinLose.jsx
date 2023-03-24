@@ -33,7 +33,7 @@ const WinLose = ({
     } else {
       endGameHandler();
       //임시로 메인으로 돌아가게 함. 책 만든 이후엔 다음 페이지로 이동할 수 있도록 조정
-      history.push("/");
+      // history.push("/");
     }
   };
   useEffect(() => {
