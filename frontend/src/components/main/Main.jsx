@@ -11,6 +11,7 @@ import {
 
 import FairyImage from "assets/image/fairytale.png";
 import DrawDiary from "assets/image/drawdiary.png";
+import SketchBookImage from "assets/image/sketchbook.png";
 
 /**메인화면 컴포넌트 */
 const Main = () => {
@@ -27,6 +28,7 @@ const Main = () => {
       </DiaryContent>
 
       <SketchContent>
+        <ImageContainer src={SketchBookImage} alt="스케치북" />
         <ContentName>스케치북</ContentName>
       </SketchContent>
     </MainContainer>

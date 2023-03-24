@@ -1,16 +1,27 @@
 import React, { useState, useRef, useEffect } from "react";
 import * as handpose from "@tensorflow-models/handpose";
+import { useHistory } from "react-router";
+
 import * as fp from "./model";
 import "./FingerPose";
 //테스트를 위해 임의로 css생성. 이후 제거할 것
 import "./fingerStyle.css";
 import "@tensorflow/tfjs-backend-webgl";
 /**가위바위보 인식 모델 */
-const FingerPose = () => {
-  const [isLoad, setisLoad] = useState(false);
+const FingerPose = ({ userHandHandler, isLoadHandler, isGameEnd }) => {
   const config = {
     video: { width: 640, height: 480, fps: 30 },
   };
+  const history = useHistory();
+  useEffect(() => {
+    if (isGameEnd) {
+      video.current.srcObject.getTracks().forEach(function (track) {
+        track.stop();
+      });
+      //추후 다른 페이지로 이동하게 변경할 것
+      history.push("/");
+    }
+  }, [isGameEnd]);
 
   const landmarkColors = {
     thumb: "red",
@@ -29,70 +40,78 @@ const FingerPose = () => {
   const video = useRef(null);
   const canvas = useRef(null);
   const resultLayer = useRef(null);
-
+  const knownGestures = [
+    fp.Gestures.PaperGesture,
+    fp.Gestures.ScissorsGesture,
+    fp.Gestures.RockGesture,
+  ];
   async function main() {
-    const ctx = canvas.current.getContext("2d");
+    if (!isGameEnd) {
+      const ctx = canvas.current.getContext("2d");
 
-    // configure gesture estimator
-    // add "✌🏻" and "👍" as sample gestures
-    const knownGestures = [
-      fp.Gestures.PaperGesture,
-      fp.Gestures.ScissorsGesture,
-      fp.Gestures.RockGesture,
-    ];
-    const GE = new fp.GestureEstimator(knownGestures);
+      // configure gesture estimator
+      // add "✌🏻" and "👍" as sample gestures
 
-    // load handpose model
-    const model = await handpose.load();
-    console.log("Handpose model loaded");
+      const GE = new fp.GestureEstimator(knownGestures);
 
-    // main estimation loop
-    const estimateHands = async () => {
-      // clear canvas overlay
+      // load handpose model
+      const model = await handpose.load();
+      console.log("Handpose model loaded");
 
-      ctx.clearRect(0, 0, config.video.width, config.video.height);
-      resultLayer.current.innerText = "";
+      // main estimation loop
+      const estimateHands = async (isGameEnd) => {
+        // clear canvas overlay
 
-      // get hand landmarks from video
-      // Note: Handpose currently only detects one hand at a time
-      // Therefore the maximum number of predictions is 1
-      const predictions = await model.estimateHands(video.current, true);
+        ctx.clearRect(0, 0, config.video.width, config.video.height);
+        // resultLayer.current.innerText = "";
 
-      for (let i = 0; i < predictions.length; i++) {
-        // draw colored dots at each predicted joint position
-        for (let part in predictions[i].annotations) {
-          for (let point of predictions[i].annotations[part]) {
-            drawPoint(ctx, point[0], point[1], 3, landmarkColors[part]);
+        // get hand landmarks from video
+        // Note: Handpose currently only detects one hand at a time
+        // Therefore the maximum number of predictions is 1
+        const predictions = await model.estimateHands(video.current, true);
+
+        for (let i = 0; i < predictions.length; i++) {
+          // draw colored dots at each predicted joint position
+          for (let part in predictions[i].annotations) {
+            for (let point of predictions[i].annotations[part]) {
+              drawPoint(ctx, point[0], point[1], 3, landmarkColors[part]);
+            }
           }
+
+          // estimate gestures based on landmarks
+          // using a minimum score of 9 (out of 10)
+          // gesture candidates with lower score will not be returned
+          const est = GE.estimate(predictions[i].landmarks, 9);
+
+          if (est.gestures.length > 0) {
+            // find gesture with highest match score
+            let result = est.gestures.reduce((p, c) => {
+              return p.score > c.score ? p : c;
+            });
+
+            resultLayer.current.innerText = gestureStrings[result.name];
+            userHandHandler(result.name);
+          }
+
+          // update debug info
+          updateDebugInfo(est.poseData);
         }
 
-        // estimate gestures based on landmarks
-        // using a minimum score of 9 (out of 10)
-        // gesture candidates with lower score will not be returned
-        const est = GE.estimate(predictions[i].landmarks, 9);
+        // ...and so on
 
-        if (est.gestures.length > 0) {
-          // find gesture with highest match score
-          let result = est.gestures.reduce((p, c) => {
-            return p.score > c.score ? p : c;
-          });
+        setTimeout(() => {
+          if (!isGameEnd) {
+            estimateHands(isGameEnd);
+          }
+        }, 1000 / config.video.fps);
+      };
+      //게임이 끝나면 웹캠 및 손 인식 중단
 
-          resultLayer.current.innerText = gestureStrings[result.name];
-        }
+      estimateHands(isGameEnd);
+      console.log("Starting predictions");
 
-        // update debug info
-        updateDebugInfo(est.poseData);
-      }
-
-      // ...and so on
-      setTimeout(() => {
-        estimateHands();
-      }, 1000 / config.video.fps);
-    };
-
-    estimateHands();
-    console.log("Starting predictions");
-    setisLoad(true);
+      isLoadHandler(true);
+    }
   }
 
   async function initCamera(width, height, fps) {
@@ -111,6 +130,7 @@ const FingerPose = () => {
 
     // get video stream
     const stream = await navigator.mediaDevices.getUserMedia(constraints);
+
     video.current.srcObject = stream;
 
     return new Promise((resolve) => {
@@ -167,7 +187,7 @@ const FingerPose = () => {
         </div>
       </div>
 
-      <div className="debug">
+      <div className="debug" style={{ display: "none" }}>
         <table className="summary">
           <thead>
             <tr>
