@@ -17,7 +17,7 @@ public class Sketch extends BaseTimeEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private UserInfo userInfo;
+    private UserInfo userId;
 
     @Column(name = "sketch_img_url", nullable = false)
     private String sketchImgUrl;
