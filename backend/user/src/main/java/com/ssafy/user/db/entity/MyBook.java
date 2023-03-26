@@ -17,7 +17,7 @@ public class MyBook extends BaseTimeEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private UserInfo userinfo;
+    private UserInfo userId;
 
     @Column(name = "book_name", nullable = false)
     private String bookName;

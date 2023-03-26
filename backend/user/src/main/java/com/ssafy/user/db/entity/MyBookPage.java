@@ -17,7 +17,7 @@ public class MyBookPage {
 
     @ManyToOne
     @JoinColumn(name = "book_id")
-    private MyBook myBook;
+    private MyBook bookId;
 
     @Column(name = "page_no", nullable = false)
     private String pageNo;
