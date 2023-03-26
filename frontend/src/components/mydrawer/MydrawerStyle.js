@@ -23,7 +23,7 @@ export const MydrawerListContainer = styled.div`
 export const MydraweritemContainer = styled.div`
   width: 200px;
   height: 292px;
-  margin: 10px;
+  /* margin: 10px; */
 `;
 
 export const Mydraweritemimage = styled.img`
