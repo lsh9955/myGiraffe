@@ -4,6 +4,8 @@ import styled from "styled-components";
 export const MainContainer = styled.div`
   display: flex;
   justify-content: center;
+  width: 100vw;
+  height: 90vh;
 `;
 
 // 동화나라
@@ -50,6 +52,6 @@ export const ContentName = styled.p`
 
 export const ImageContainer = styled.img`
   position: absolute; /* ImageContainer 컴포넌트에 상대 위치 설정 */
-  top: 16vh; /* 컨테이너의 중앙에 위치시키기 위해 top과 left 속성을 조정합니다. */
-  width: 20vw;
+  bottom: 25%; /* 컨테이너의 중앙에 위치시키기 위해 top과 left 속성을 조정합니다. */
+  width: 20%;
 `;

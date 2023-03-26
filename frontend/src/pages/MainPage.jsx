@@ -8,7 +8,7 @@ const MainPage = () => {
   return (
     <>
       <Main />
-      <Link to="/rsppage">가위바위보 게임</Link>
+      {/* <Link to="/rsppage">가위바위보 게임</Link> */}
     </>
   );
 };
