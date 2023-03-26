@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MyBookPageRepository extends JpaRepository<MyBookPage, Integer> {
-    Optional<MyBookPage> findByMyBookIdAndPageNo(Integer bookId, String pageNo);
+    Optional<MyBookPage> findByBookIdAndPageNo(Integer bookId, String pageNo);
 
-    List<MyBookPage> findAllByMyBookId(Integer bookId);
+    List<MyBookPage> findAllByBookId(Integer bookId);
 }

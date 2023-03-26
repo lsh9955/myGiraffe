@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface UserScenarioListRepository extends JpaRepository<UserScenarioList, Integer> {
 
-    List<Integer> findAllByUserId(String userId);
+    List<UserScenarioList> findAllByUserId(String userId);
 
 }
