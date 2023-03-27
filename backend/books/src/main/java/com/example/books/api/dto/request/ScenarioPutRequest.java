@@ -8,7 +8,11 @@ import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 @Data
-public class ScenarioPostRequest {
+public class ScenarioPutRequest {
+
+  @Positive(message = "필수 입력 항목입니다.")
+  private Integer scenarioId;
+
   @NotEmpty(message = "필수 입력 항목입니다.")
   private String title;
 
