@@ -41,7 +41,7 @@ export const Fin = styled.div`
   border-radius: 3px;
   align-items: center;
   justify-content: space-evenly;
-
+  font-size: 200%;
   background-color: #fce76c;
 `;
 
