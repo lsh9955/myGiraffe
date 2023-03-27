@@ -21,12 +21,37 @@ export const MydrawerListContainer = styled.div`
 `;
 
 export const MydraweritemContainer = styled.div`
-  width: 200px;
-  height: 292px;
-  margin: 10px;
+  position: relative;
+  text-align: center;
+`;
+
+export const TextOverlay = styled.div`
+  position: absolute;
+  top: 35%;
+  left: 40%;
+  transform: translate(-35%, -40%);
+  color: white;
+  text-shadow: 1px 1px 2px black;
 `;
 
 export const Mydraweritemimage = styled.img`
   width: 200px;
   height: 292px;
+`;
+
+export const MySketchbookimage = styled.img`
+  width: 400px;
+  height: 274px;
+`;
+
+export const Container = styled.div`
+  width: 70%;
+  margin: 0 auto;
+  margin-top: 50px;
+`;
+
+export const TitleContainer = styled.p`
+  font-size: 3rem;
+  margin-top: 10px;
+  margin-bottom: 20px;
 `;
