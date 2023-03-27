@@ -1,14 +1,15 @@
 import React from "react";
 /**책장 메인화면 컴포넌트 */
-
-import { MydrawerContainer } from "components/mydrawer/MydrawerStyle";
-import MydrawerListContainer from "components/mydrawer/mystorybook/MyStorybookList";
+import MyStorybookList from "components/mydrawer/mystorybook/MyStorybookList";
+import MySketchbookList from "components/mydrawer/mysketchbook/MySketchbookList";
+import MyDiaryList from "components/mydrawer/mydiary/MyDiaryList";
 
 const Mydrawer = () => {
   return (
     <div>
-      Mydrawer
-      <MydrawerListContainer></MydrawerListContainer>
+      <MyStorybookList></MyStorybookList>
+      <MyDiaryList></MyDiaryList>
+      <MySketchbookList></MySketchbookList>
     </div>
   );
 };

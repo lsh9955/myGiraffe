@@ -3,8 +3,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Slider from "react-slick";
 import {
-  MydrawerListContainer,
+  MydraweritemContainer,
   Mydraweritemimage,
+  Container,
+  TextOverlay,
+  TitleContainer,
 } from "components/mydrawer/MydrawerStyle";
 
 // Slick Carousel 스타일을 가져옵니다.
@@ -12,6 +15,14 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import bookimage1 from "assets/bookimage/1.png";
+import bookimage2 from "assets/bookimage/2.png";
+import bookimage3 from "assets/bookimage/3.png";
+import bookimage4 from "assets/bookimage/4.png";
+import bookimage5 from "assets/bookimage/5.png";
+import bookimage6 from "assets/bookimage/6.png";
+import bookimage7 from "assets/bookimage/7.png";
+import bookimage8 from "assets/bookimage/8.png";
+import bookimage9 from "assets/bookimage/9.png";
 
 const MyStorybookList = () => {
   // axios로 내 동화책 데이터 불러오기
@@ -35,6 +46,30 @@ const MyStorybookList = () => {
   // 내 동화책 item 컴포넌트로 내려줄 데이터
   const [datas, setDatas] = useState([]);
 
+  // 이전 버튼 스타일
+  const SamplePrevArrow = (props) => {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{ ...style, display: "block", background: "grey" }}
+        onClick={onClick}
+      />
+    );
+  };
+
+  // 다음 버튼 스타일
+  const SampleNextArrow = (props) => {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{ ...style, display: "block", background: "grey" }}
+        onClick={onClick}
+      />
+    );
+  };
+
   // Slick Carousel 설정을 정의
   const settings = {
     dots: true,
@@ -43,20 +78,25 @@ const MyStorybookList = () => {
     slidesToShow: 5,
     slidesToScroll: 5,
     arrows: true,
+    prevArrow: <SamplePrevArrow />,
+    nextArrow: <SampleNextArrow />,
   };
 
   return (
-    <div>
+    <Container>
+      <TitleContainer>내 동화책</TitleContainer>
       <Slider {...settings}>
         {datas.map((data) => (
-          <div key={data.id}>
-            <img src={bookimage1} alt="bookimage1" />
-            <h3>{data.title}</h3>
-            <p>{data.date}</p>
-          </div>
+          <MydraweritemContainer>
+            <Mydraweritemimage src={bookimage8} />
+            <TextOverlay>
+              <h3>{data.title}</h3>
+              <p>{data.date}</p>
+            </TextOverlay>
+          </MydraweritemContainer>
         ))}
       </Slider>
-    </div>
+    </Container>
   );
 };
 
