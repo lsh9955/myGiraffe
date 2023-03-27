@@ -17,6 +17,9 @@ export const FairyContent = styled.div`
   margin-left: 1vw;
   margin-right: 1vw;
   border-radius: 10%;
+  :hover {
+    box-shadow: 5px 5px 5px gray;
+  }
 `;
 
 // 그림일기
@@ -28,6 +31,9 @@ export const DiaryContent = styled.div`
   margin-left: 1vw;
   margin-right: 1vw;
   border-radius: 10%;
+  :hover {
+    box-shadow: 5px 5px 5px gray;
+  }
 `;
 
 // 스케치북
@@ -39,6 +45,9 @@ export const SketchContent = styled.div`
   margin-left: 1vw;
   margin-right: 1vw;
   border-radius: 10%;
+  :hover {
+    box-shadow: 5px 5px 5px gray;
+  }
 `;
 
 export const ContentName = styled.p`

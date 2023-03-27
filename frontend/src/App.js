@@ -38,19 +38,19 @@ function App() {
           <MydrawerPage component={MydrawerPage} />
           <Footer />
         </Route>
-        <Route path="/mystorybookdetail/:bookId">
+        <Route path="/mybookdetail/:mybookId">
           <Navbar />
           <MystorybookDetailPage component={MystorybookDetailPage} />
         </Route>
         <Route path="/rsppage" component={RspPage} />
-        <Route path="/sketchbookdraw" component={SketchbookDrawPage} />
-        <Route path="/storybookdetail" component={StorybookDetailPage} />
-        <Route path="/storybookdraw" component={StorybookDrawPage} />
-        <Route path="/storybooklist">
+        <Route path="/sketchdraw" component={SketchbookDrawPage} />
+        <Route path="/bookdetail/:bookId" component={StorybookDetailPage} />
+        <Route path="/bookdraw" component={StorybookDrawPage} />
+        <Route path="/booklist">
           <Navbar />
           <StorybookListPage component={StorybookListPage} />
         </Route>
-        <Route path="/storybookmldraw" component={StorybookMLDrawPage} />
+        <Route path="/bookmldraw" component={StorybookMLDrawPage} />
         <Route path="/login" exact>
           <LoginPage component={LoginPage} />
         </Route>

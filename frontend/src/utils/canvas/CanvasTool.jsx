@@ -58,7 +58,7 @@ const CanvasTool = ({ bgImg }) => {
           "#FFC998",
         ]}
       />
-      <C.DrawWrap>
+      <C.DrawWrap bgImg={bgImg}>
         <CanvasDraw
           catenaryColor={canvas}
           ref={canvasRef}

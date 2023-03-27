@@ -12,13 +12,14 @@ export const Container = styled.div`
 
 export const DrawWrap = styled.div`
   width: 70%;
-  height: 100%;
-  border-radius: 20px;
-  border: 2px solid #fce76c;
+  height: auto;
+  aspect-ratio: 1.89 / 1;
+  border-radius: ${(props) => (props.bgImg ? "0px" : "20px")};
+  border: ${(props) => (props.bgImg ? "" : "2px solid #fce76c")};
   & > div {
-    border-radius: 20px;
+    border-radius: ${(props) => (props.bgImg ? "0px" : "20px")};
     & > canvas {
-      border-radius: 20px;
+      border-radius: ${(props) => (props.bgImg ? "0px" : "20px")};
     }
   }
 `;

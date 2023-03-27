@@ -12,24 +12,31 @@ import {
 import FairyImage from "assets/image/fairytale.png";
 import DrawDiary from "assets/image/drawdiary.png";
 import SketchBookImage from "assets/image/sketchbook.png";
+import { Link } from "react-router-dom";
 
 /**메인화면 컴포넌트 */
 const Main = () => {
   return (
     <MainContainer>
       <FairyContent>
-        <ImageContainer src={FairyImage} alt="동화나라" />
-        <ContentName>동화나라</ContentName>
+        <Link to="/booklist">
+          <ImageContainer src={FairyImage} alt="동화나라" />
+          <ContentName>동화나라</ContentName>
+        </Link>
       </FairyContent>
 
       <DiaryContent>
-        <ImageContainer src={DrawDiary} alt="그림일기" />
-        <ContentName>그림일기</ContentName>
+        <Link to="/diarydraw">
+          <ImageContainer src={DrawDiary} alt="그림일기" />
+          <ContentName>그림일기</ContentName>
+        </Link>
       </DiaryContent>
 
       <SketchContent>
-        <ImageContainer src={SketchBookImage} alt="스케치북" />
-        <ContentName>스케치북</ContentName>
+        <Link to="/sketchdraw">
+          <ImageContainer src={SketchBookImage} alt="스케치북" />
+          <ContentName>스케치북</ContentName>
+        </Link>
       </SketchContent>
     </MainContainer>
   );
