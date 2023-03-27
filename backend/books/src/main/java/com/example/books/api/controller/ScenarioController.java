@@ -1,23 +1,25 @@
 package com.example.books.api.controller;
 
 import com.example.books.api.dto.request.ScenarioPostRequest;
+import com.example.books.api.dto.request.ScenarioPutRequest;
 import com.example.books.api.dto.response.BaseResponseBody;
 import com.example.books.api.service.ScenarioService;
-import com.example.books.db.entity.Scenario;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.executable.ValidateOnExecution;
+import java.io.IOException;
 import java.net.URI;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -54,15 +56,16 @@ public class ScenarioController {
         .body(new BaseResponseBody<>(200, "OK", scenario));
   }
 
-  @PostMapping
+  @PostMapping/*(consumes = {"multipart/form-data"})*/
   public ResponseEntity<? extends BaseResponseBody> createScenario(
-      @RequestBody
+      @ModelAttribute
       @Valid
-      ScenarioPostRequest scenario) {
+      ScenarioPostRequest scenario,
+      HttpServletRequest request) throws IOException {
 
     var id = scenarioService.saveScenario(scenario);
 
-    var location = URI.create("api/books/scenarios/" + id);
+    var location = URI.create(request.getRequestURI() + "/" + id);
     var successMessage = "시나리오 생성 성공: (ID=" + id + ")";
 
     return ResponseEntity
@@ -70,17 +73,18 @@ public class ScenarioController {
         .body(new BaseResponseBody<>(201,"Created", successMessage));
   }
 
-//  @PutMapping("/{scenarioId}")
-//  public ResponseEntity<? extends BaseResponseBody> updateScenario(
-//      @PathVariable("scenario-id") Integer scenarioId,
-//      @RequestBody  request) {
-//    var id = scenarioService.updateScenario(scenarioId, request)
-//
-//    return ResponseEntity
-//        .ok()
-//        .body();
-//  }
-  // 수정할 내용만 받을지? 전체를 받을지?
+  @PutMapping
+  public ResponseEntity<? extends BaseResponseBody> updateScenario(
+      @ModelAttribute
+      @Valid
+      ScenarioPutRequest request) throws IOException {
+
+    Integer id = scenarioService.updateScenario(request);
+    var updateMessage = "시나리오 수정 성공: (ID=" + id + ")";
+    return ResponseEntity
+        .ok()
+        .body(new BaseResponseBody<>(200, "OK", updateMessage));
+  }
 
   @DeleteMapping("/{scenarioId}")
   public ResponseEntity<? extends BaseResponseBody> deleteScenario(

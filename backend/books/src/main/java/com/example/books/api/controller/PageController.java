@@ -1,14 +1,16 @@
 package com.example.books.api.controller;
 
 import com.example.books.api.dto.request.PagePostRequest;
+import com.example.books.api.dto.request.PagePutRequest;
 import com.example.books.api.dto.response.BaseResponseBody;
 import com.example.books.api.service.PageService;
 import com.example.books.db.repository.ScenarioRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
+import java.io.IOException;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,9 +18,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -65,17 +68,32 @@ public class PageController {
 
   @PostMapping
   public ResponseEntity<? extends BaseResponseBody> createPage(
+      @ModelAttribute
       @Valid
-      @RequestBody PagePostRequest page) {
+      PagePostRequest page,
+      HttpServletRequest request) throws IOException {
 
     var id = pageService.savePage(page);
 
-    var location = URI.create("api/books/pages/" + id);
-    var successMeassage = "페이지 생성 성공: (ID=" + id + ")";
+    var location = URI.create(request.getRequestURI() + "/" + id);
+    var successMessage = "페이지 생성 성공: (ID=" + id + ")";
 
     return ResponseEntity
         .created(location)
-        .body(new BaseResponseBody<>(201, "Created", successMeassage));
+        .body(new BaseResponseBody<>(201, "Created", successMessage));
+  }
+
+  @PutMapping
+  public ResponseEntity<? extends BaseResponseBody> updatePage(
+      @ModelAttribute
+      @Valid
+      PagePutRequest request) throws IOException {
+
+    Integer id = pageService.updatePage(request);
+    var updateMessage = "페이지 수정 성공: (ID=" + id + ")";
+    return ResponseEntity
+        .ok()
+        .body(new BaseResponseBody<>(200, "OK", updateMessage));
   }
 
   @DeleteMapping("/{pageId}")
@@ -91,5 +109,4 @@ public class PageController {
         .ok()
         .body(new BaseResponseBody<>(200, "OK", successMessage));
   }
-
 }

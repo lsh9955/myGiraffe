@@ -1,16 +1,12 @@
 package com.example.books.db.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import com.example.books.api.dto.request.ScenarioPutRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @ToString
-@Builder
+@Builder(toBuilder = true)
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -49,4 +45,6 @@ public class Scenario {
   @Column(name = "inter_contents")
   private String interContents;
 
+  public void update(ScenarioPutRequest request) {
+  }
 }
