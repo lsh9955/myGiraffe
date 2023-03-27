@@ -3,20 +3,17 @@ import { CirclePicker, TwitterPicker } from "react-color";
 import CanvasDraw from "@win11react/react-canvas-draw";
 import Palette from "./Palette";
 import * as C from "./CanvasToolStyle";
-
+//그림 그리는 캔버스
 const CanvasTool = ({ bgImg }) => {
   const canvasRef = useRef(null);
-  const secCanvasRef = useRef(null);
 
   const [drawing, setDrawing] = useState();
   const [canvas, setBrush] = useState("#000000");
   const [brush, setThick] = useState(1);
-  const [modify, setModify] = useState(null);
-  const [picData, setPicData] = useState(null);
 
   const handleExport = () => {
     const data = canvasRef.current.getSaveData();
-    // secCanvasRef.current.loadSaveData(data);
+    console.log(data);
     const base64 = canvasRef.current.canvasContainer.childNodes[1].toDataURL();
     setDrawing(base64);
     console.log(base64);
@@ -64,10 +61,10 @@ const CanvasTool = ({ bgImg }) => {
           ref={canvasRef}
           brushColor={canvas}
           brushRadius={brush}
-          canvasHeight="100%"
+          canvasHeight="476px"
           hideGrid={true}
           lazyRadius={0}
-          canvasWidth="100%"
+          canvasWidth="899px"
           imgSrc={bgImg}
         />
       </C.DrawWrap>
