@@ -26,8 +26,9 @@ def main():
     # 여기에 로직이 들어갑니다만, main은 예시 파일이므로 텍스트만 출력해줍니다.
     tmp_text = 'Hello, World! Here is Flask main page.' \
                '<br> Please input right endpoint at the end of the URL address.' \
-               '<br> This is ML start page. 내가 기린 그림 화이팅!'\
-               '<br> [만약 다른곳으로 가고 싶으면](apiservice) '
+               '<br> This is ML start page. 내가 기린 그림 화이팅!' \
+               '<br> 만약 다른곳으로 가고 싶으면? ' \
+               '<a href="https://www.notion.so/API-07f34d5001a2472c85d6e2d21cc13bc8?pvs=4#88a2c7663ffc4a70a060b0b57c206a69">api 문서</a>'
     return tmp_text
 
 
@@ -43,7 +44,8 @@ def apiservice():
                '<br> 주소창 뒤에 numbers를 붙이면 숫자 필기 인식기로 갑니당' \
                '<br> 주소창 뒤에 visionapi를 붙이면 그림 속성 인식기로 갑니당' \
                '<br> 주소창 뒤에 webdetecion을 붙이면 그림 속성 인식기로 갑니당' \
-               '<br>This is ML start page. 내가 기린 그림 화이팅!'
+               '<br>This is ML start page. 내가 기린 그림 화이팅! ' \
+               '<a href="https://www.notion.so/API-07f34d5001a2472c85d6e2d21cc13bc8?pvs=4#88a2c7663ffc4a70a060b0b57c206a69">api 문서</a>'
     return tmp_text
 
 
