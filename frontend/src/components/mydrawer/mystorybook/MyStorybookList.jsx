@@ -8,8 +8,12 @@ import {
   Container,
   TextOverlay,
   TitleContainer,
+  BeforeBtn,
+  AfterBtn,
 } from "components/mydrawer/MydrawerStyle";
-
+//mui아이콘 중 방향 버튼 아이콘을 가져
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 // Slick Carousel 스타일을 가져옵니다.
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -26,6 +30,18 @@ import bookimage9 from "assets/bookimage/9.png";
 
 const MyStorybookList = () => {
   // axios로 내 동화책 데이터 불러오기
+  const bgImg = [
+    bookimage1,
+    bookimage2,
+    bookimage3,
+    bookimage4,
+    bookimage5,
+    bookimage6,
+    bookimage7,
+    bookimage8,
+    bookimage9,
+  ];
+  console.log(bookimage5);
   useEffect(() => {
     const fetchBooks = async () => {
       await axios
@@ -49,12 +65,19 @@ const MyStorybookList = () => {
   // 이전 버튼 스타일
   const SamplePrevArrow = (props) => {
     const { className, style, onClick } = props;
+    console.log(style);
     return (
-      <div
-        className={className}
-        style={{ ...style, display: "block", background: "grey" }}
-        onClick={onClick}
-      />
+      <BeforeBtn className={className} onClick={onClick}>
+        <KeyboardArrowLeftIcon
+          sx={{
+            color: "black",
+            position: "absolute",
+            top: "-100%",
+            left: "-150%",
+            fontSize: "200%",
+          }}
+        />
+      </BeforeBtn>
     );
   };
 
@@ -62,11 +85,17 @@ const MyStorybookList = () => {
   const SampleNextArrow = (props) => {
     const { className, style, onClick } = props;
     return (
-      <div
-        className={className}
-        style={{ ...style, display: "block", background: "grey" }}
-        onClick={onClick}
-      />
+      <AfterBtn className={className} onClick={onClick}>
+        <KeyboardArrowRightIcon
+          sx={{
+            color: "black",
+            position: "absolute",
+            top: "-100%",
+            right: "-50%",
+            fontSize: "200%",
+          }}
+        />
+      </AfterBtn>
     );
   };
 
@@ -83,20 +112,22 @@ const MyStorybookList = () => {
   };
 
   return (
-    <Container>
-      <TitleContainer>내 동화책</TitleContainer>
-      <Slider {...settings}>
-        {datas.map((data) => (
-          <MydraweritemContainer>
-            <Mydraweritemimage src={bookimage8} />
-            <TextOverlay>
-              <h3>{data.title}</h3>
-              <p>{data.date}</p>
-            </TextOverlay>
-          </MydraweritemContainer>
-        ))}
-      </Slider>
-    </Container>
+    <>
+      <Container>
+        <TitleContainer>내 동화책</TitleContainer>
+        <Slider {...settings}>
+          {datas.map((data, idx) => (
+            <MydraweritemContainer>
+              <Mydraweritemimage src={bgImg[idx % 9]} />
+              <TextOverlay>
+                <div>{data.title}</div>
+                <p>{data.date}</p>
+              </TextOverlay>
+            </MydraweritemContainer>
+          ))}
+        </Slider>
+      </Container>
+    </>
   );
 };
 

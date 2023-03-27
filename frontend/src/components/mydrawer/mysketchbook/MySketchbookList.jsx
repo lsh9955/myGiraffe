@@ -7,8 +7,14 @@ import {
   MySketchbookimage,
   Container,
   TitleContainer,
+  BeforeBtn,
+  AfterBtn,
+  ImgTitle,
+  ImgP,
 } from "components/mydrawer/MydrawerStyle";
-
+//mui아이콘 중 방향 버튼 아이콘을 가져
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 const MySketchbookList = () => {
   // axios로 내 스케치북 데이터 불러오기
   useEffect(() => {
@@ -32,11 +38,17 @@ const MySketchbookList = () => {
   const SamplePrevArrow = (props) => {
     const { className, style, onClick } = props;
     return (
-      <div
-        className={className}
-        style={{ ...style, display: "block", background: "grey" }}
-        onClick={onClick}
-      />
+      <BeforeBtn className={className} onClick={onClick}>
+        <KeyboardArrowLeftIcon
+          sx={{
+            color: "black",
+            position: "absolute",
+            top: "-100%",
+            left: "-150%",
+            fontSize: "200%",
+          }}
+        />
+      </BeforeBtn>
     );
   };
 
@@ -44,11 +56,17 @@ const MySketchbookList = () => {
   const SampleNextArrow = (props) => {
     const { className, style, onClick } = props;
     return (
-      <div
-        className={className}
-        style={{ ...style, display: "block", background: "grey" }}
-        onClick={onClick}
-      />
+      <AfterBtn className={className} onClick={onClick}>
+        <KeyboardArrowRightIcon
+          sx={{
+            color: "black",
+            position: "absolute",
+            top: "-100%",
+            right: "-50%",
+            fontSize: "200%",
+          }}
+        />
+      </AfterBtn>
     );
   };
 
@@ -74,8 +92,8 @@ const MySketchbookList = () => {
         {datas.map((data) => (
           <MydraweritemContainer>
             <MySketchbookimage src={data.img} />
-            <h3>{data.title}</h3>
-            <p>{data.date}</p>
+            <ImgTitle>{data.title}</ImgTitle>
+            <ImgP>{data.date}</ImgP>
           </MydraweritemContainer>
         ))}
       </Slider>
