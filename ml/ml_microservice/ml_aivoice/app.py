@@ -1,15 +1,15 @@
-# 필요한 모듈을 import 합니다.
-from flask import Blueprint, Response, request
+# app.py
+from flask import Flask, Response, request
 import io
 from google.cloud import texttospeech
 from google.oauth2 import service_account
 import os
 import json
 from dotenv import load_dotenv
-import requests
 
-# Blueprint 객체를 생성합니다.
-aivoice_blueprint = Blueprint('aivoice_blueprint', __name__)
+
+# Flask app 임을 선언 합니다.
+app = Flask(__name__)
 
 # 환경 변수 로드
 load_dotenv()
@@ -23,7 +23,7 @@ vision_api_key = json.loads(vision_api_key)
 credentials = service_account.Credentials.from_service_account_info(vision_api_key)
 
 
-@aivoice_blueprint.route('/api/aivoice', methods=['POST', 'GET'])
+@app.route('/api/aivoice', methods=['POST', 'GET'])
 def aivoice():
     # POST로 전달된 텍스트를 가져옵니다.
     if request.method == 'POST':
@@ -57,3 +57,6 @@ def aivoice():
     mp3_data.seek(0)
 
     return Response(mp3_data, mimetype='audio/mpeg')
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True)
