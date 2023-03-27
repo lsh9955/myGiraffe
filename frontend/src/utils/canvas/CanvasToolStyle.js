@@ -11,14 +11,14 @@ export const Container = styled.div`
 `;
 
 export const DrawWrap = styled.div`
-  width: 70%;
-  height: 100%;
-  border-radius: 20px;
-  border: 2px solid #fce76c;
+  width: 899px;
+  height: 476px;
+  border-radius: ${(props) => (props.bgImg ? "0px" : "20px")};
+  border: ${(props) => (props.bgImg ? "" : "2px solid #fce76c")};
   & > div {
-    border-radius: 20px;
+    border-radius: ${(props) => (props.bgImg ? "0px" : "20px")};
     & > canvas {
-      border-radius: 20px;
+      border-radius: ${(props) => (props.bgImg ? "0px" : "20px")};
     }
   }
 `;
