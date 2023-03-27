@@ -29,4 +29,6 @@ export const Title = styled.div`
   flex-direction: row;
 `;
 
-export const RightMargin = styled.div``;
+export const RightMargin = styled.div`
+  width: 64px;
+`;
