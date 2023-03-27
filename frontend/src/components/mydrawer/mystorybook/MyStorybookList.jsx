@@ -1,34 +1,102 @@
 import React, { useEffect, useState } from "react";
 /**내 동화책 리스트 컴포넌트 */
 import axios from "axios";
-import MyStorybookItem from "./MyStorybookItem";
-import { MydrawerListContainer } from "components/mydrawer/MydrawerStyle";
+import Slider from "react-slick";
+import {
+  MydraweritemContainer,
+  Mydraweritemimage,
+  Container,
+  TextOverlay,
+  TitleContainer,
+} from "components/mydrawer/MydrawerStyle";
+
+// Slick Carousel 스타일을 가져옵니다.
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+import bookimage1 from "assets/bookimage/1.png";
+import bookimage2 from "assets/bookimage/2.png";
+import bookimage3 from "assets/bookimage/3.png";
+import bookimage4 from "assets/bookimage/4.png";
+import bookimage5 from "assets/bookimage/5.png";
+import bookimage6 from "assets/bookimage/6.png";
+import bookimage7 from "assets/bookimage/7.png";
+import bookimage8 from "assets/bookimage/8.png";
+import bookimage9 from "assets/bookimage/9.png";
 
 const MyStorybookList = () => {
   // axios로 내 동화책 데이터 불러오기
   useEffect(() => {
-    axios
-      .get(
-        "https://port-0-nodebook-1b5xkk2fldhlzqkd.gksl2.cloudtype.app/mybook"
-      )
-      .then((response) => {
-        console.log(response.data);
-        setData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const fetchBooks = async () => {
+      await axios
+        .get(
+          "https://port-0-nodebook-1b5xkk2fldhlzqkd.gksl2.cloudtype.app/mybook"
+        )
+        .then((response) => {
+          console.log(response.data);
+          setDatas(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    fetchBooks();
   }, []);
 
   // 내 동화책 item 컴포넌트로 내려줄 데이터
-  const [data, setData] = useState([]);
+  const [datas, setDatas] = useState([]);
+
+  // 이전 버튼 스타일
+  const SamplePrevArrow = (props) => {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{ ...style, display: "block", background: "grey" }}
+        onClick={onClick}
+      />
+    );
+  };
+
+  // 다음 버튼 스타일
+  const SampleNextArrow = (props) => {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{ ...style, display: "block", background: "grey" }}
+        onClick={onClick}
+      />
+    );
+  };
+
+  // Slick Carousel 설정을 정의
+  const settings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 5,
+    slidesToScroll: 5,
+    arrows: true,
+    prevArrow: <SamplePrevArrow />,
+    nextArrow: <SampleNextArrow />,
+  };
 
   return (
-    <MydrawerListContainer>
-      {data.map((item) => (
-        <MyStorybookItem key={item.id} data={item} />
-      ))}
-    </MydrawerListContainer>
+    <Container>
+      <TitleContainer>내 동화책</TitleContainer>
+      <Slider {...settings}>
+        {datas.map((data) => (
+          <MydraweritemContainer>
+            <Mydraweritemimage src={bookimage8} />
+            <TextOverlay>
+              <h3>{data.title}</h3>
+              <p>{data.date}</p>
+            </TextOverlay>
+          </MydraweritemContainer>
+        ))}
+      </Slider>
+    </Container>
   );
 };
 
