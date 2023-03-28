@@ -62,41 +62,49 @@ const Sidebar = () => {
 
       <List>
         <Divider sx={{ bgcolor: "#8BD0FC", height: 2, mt: "1vh" }} />
-        {[
-          ["내 책장", "/mydrawer"],
-          ["충전하기", "/abcd"],
-          ["로그아웃", "/abcd"],
-        ].map((text, index) => (
-          <>
-            <Link to={text[1]}>
-              <ListItem key={text}>
-                <ListItemButton fontSize={66}>
-                  {text[0] === "내 책장" && (
-                    <AutoStoriesIcon
-                      sx={{ width: 80, height: 30, color: "#FF8F5C" }}
-                    />
-                  )}
-                  {text[0] === "충전하기" && (
-                    <VpnKeyIcon
-                      sx={{ width: 80, height: 30, color: "#FF8F5C" }}
-                    />
-                  )}
-                  {text[0] === "로그아웃" && (
-                    <LogoutIcon
-                      sx={{ width: 80, height: 30, color: "#FF8F5C" }}
-                    />
-                  )}
-                  <ListItemText
-                    disableTypography={true}
-                    sx={{ maxWidth: 70, fontSize: 20 }}
-                    primary={text[0]}
-                  />
-                </ListItemButton>
-              </ListItem>
-            </Link>
-            <Divider sx={{ bgcolor: "#8BD0FC", height: 2 }} />
-          </>
-        ))}
+
+        <Link to="/mydrawer">
+          <ListItem>
+            <ListItemButton fontSize={66}>
+              <AutoStoriesIcon
+                sx={{ width: 80, height: 30, color: "#FF8F5C" }}
+              />
+              <ListItemText
+                disableTypography={true}
+                sx={{ maxWidth: 70, fontSize: 20 }}
+                primary="내 책장"
+              />
+            </ListItemButton>
+          </ListItem>
+        </Link>
+
+        <Divider sx={{ bgcolor: "#8BD0FC", height: 2 }} />
+
+        <ListItem>
+          <ListItemButton fontSize={66}>
+            <VpnKeyIcon sx={{ width: 80, height: 30, color: "#FF8F5C" }} />
+            <ListItemText
+              disableTypography={true}
+              sx={{ maxWidth: 70, fontSize: 20 }}
+              primary="충전하기"
+            />
+          </ListItemButton>
+        </ListItem>
+
+        <Divider sx={{ bgcolor: "#8BD0FC", height: 2 }} />
+
+        <ListItem>
+          <ListItemButton fontSize={66}>
+            <LogoutIcon sx={{ width: 80, height: 30, color: "#FF8F5C" }} />
+            <ListItemText
+              disableTypography={true}
+              sx={{ maxWidth: 70, fontSize: 20 }}
+              primary="로그아웃"
+            />
+          </ListItemButton>
+        </ListItem>
+
+        <Divider sx={{ bgcolor: "#8BD0FC", height: 2 }} />
       </List>
     </Box>
   );
