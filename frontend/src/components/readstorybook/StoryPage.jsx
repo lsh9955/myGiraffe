@@ -31,7 +31,7 @@ const StoryPage = ({ nowPage, pageChangeHandler }) => {
     if (firPageflip || secPageflip) {
       setTimeout(() => {
         pageChangeHandler(nowPage + 1);
-      }, 700);
+      }, 500);
     }
   }, [firPageflip, secPageflip]);
 
