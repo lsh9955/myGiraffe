@@ -9,6 +9,8 @@ import {
   ListItem,
   ListItemButton,
   ListItemText,
+  Typography,
+  Modal,
 } from "@mui/material/";
 
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
@@ -16,10 +18,60 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
 import MenuSharpIcon from "@mui/icons-material/MenuSharp";
 import defaultUserImg from "../../assets/icon/defaultUserImg.svg";
+import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
+import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 
 import * as S from "./SidebarStyle";
 /**사이드바 컴포넌트 */
+
+// 결제 모달 스타일
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "3px solid #ff8f5c",
+  boxShadow: 24,
+  outline: "none",
+  p: 4,
+  borderRadius: 10,
+};
+
 const Sidebar = () => {
+  // 모달창 오픈할 때 필요한 변수
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => {
+    setOpen(false);
+    setKeyCount(0);
+    setTotalPayment(0);
+  };
+  // 열쇠 개수
+  const [keyCount, setKeyCount] = useState(0);
+  // 총 결제 금액
+  const [totalPayment, setTotalPayment] = useState(0);
+
+  // 열쇠 증가 함수
+  const keyUp = () => {
+    setKeyCount(keyCount + 1);
+    setTotalPayment((keyCount + 1) * 1000);
+  };
+
+  // 열쇠 감소 함수
+  const keyDown = () => {
+    setKeyCount(keyCount - 1);
+    if (keyCount <= 0) {
+      setKeyCount(0);
+    }
+    setTotalPayment((keyCount - 1) * 1000);
+    if (totalPayment <= 0) {
+      setTotalPayment(0);
+    }
+  };
+
+  // 사이드바 관련 변수
   const [state, setState] = useState({
     left: false,
   });
@@ -80,7 +132,7 @@ const Sidebar = () => {
 
         <Divider sx={{ bgcolor: "#8BD0FC", height: 2 }} />
 
-        <ListItem>
+        <ListItem onClick={handleOpen}>
           <ListItemButton fontSize={66}>
             <VpnKeyIcon sx={{ width: 80, height: 30, color: "#FF8F5C" }} />
             <ListItemText
@@ -128,6 +180,93 @@ const Sidebar = () => {
           </Drawer>
         </React.Fragment>
       ))}
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography
+            sx={{
+              fontSize: 30,
+              color: "#FF8F5C",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+          >
+            열쇠 충전하기
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              mt: 2,
+              mb: 2,
+            }}
+          >
+            <VpnKeyIcon sx={{ fontSize: 60, color: "#FF8F5C", mr: 2, ml: 2 }} />
+            <Typography sx={{ mr: 2, ml: 2, fontSize: 30 }}>
+              {keyCount} 개
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                mr: 2,
+                ml: 2,
+              }}
+            >
+              <KeyboardDoubleArrowUpIcon
+                onClick={keyUp}
+                sx={{
+                  fontSize: 40,
+                  color: "#FCE76C",
+                  "&:hover": { color: "#FFC700", cursor: "pointer" },
+                }}
+              />
+              <KeyboardDoubleArrowDownIcon
+                onClick={keyDown}
+                sx={{
+                  fontSize: 40,
+                  color: "#8BD0FC",
+                  "&:hover": { color: "#009CFF", cursor: "pointer" },
+                }}
+              />
+            </Box>
+          </Box>
+          <Divider sx={{ height: "1px", backgroundColor: "#FF8F5C" }} />
+          <Typography
+            sx={{
+              m: 2,
+              fontSize: 20,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            id="modal-modal-description"
+          >
+            열쇠 1개당 1,000원으로 결제됩니다.
+          </Typography>
+          <Divider sx={{ height: "1px", backgroundColor: "#FF8F5C" }} />
+          <Typography
+            sx={{
+              m: 2,
+              fontSize: 20,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            결제 금액 {totalPayment} 원
+          </Typography>
+        </Box>
+      </Modal>
     </div>
   );
 };
