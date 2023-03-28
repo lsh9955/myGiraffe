@@ -7,7 +7,6 @@ import com.example.books.api.service.ScenarioService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
-import jakarta.validation.executable.ValidateOnExecution;
 import java.io.IOException;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
@@ -16,16 +15,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @Validated
-@ValidateOnExecution
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/books/scenarios")
@@ -56,14 +55,30 @@ public class ScenarioController {
         .body(new BaseResponseBody<>(200, "OK", scenario));
   }
 
-  @PostMapping/*(consumes = {"multipart/form-data"})*/
+//  @PostMapping/*(consumes = {"multipart/form-data"})*/
+//  public ResponseEntity<? extends BaseResponseBody> createScenario(
+//      @Valid
+//      @ModelAttribute
+//      ScenarioPostRequest scenario,
+//      HttpServletRequest request) throws IOException {
+//
+//    var id = scenarioService.saveScenario(scenario);
+//
+//    var location = URI.create(request.getRequestURI() + "/" + id);
+//    var successMessage = "시나리오 생성 성공: (ID=" + id + ")";
+//
+//    return ResponseEntity
+//        .created(location)
+//        .body(new BaseResponseBody<>(201,"Created", successMessage));
+//  }
+  @PostMapping(consumes = {"multipart/form-data"})
   public ResponseEntity<? extends BaseResponseBody> createScenario(
-      @ModelAttribute
-      @Valid
-      ScenarioPostRequest scenario,
+      @RequestPart @Valid ScenarioPostRequest scenarioInfo,
+      @RequestPart(required = false) MultipartFile introImg,
+      @RequestPart(required = false) MultipartFile thumbnailImg,
       HttpServletRequest request) throws IOException {
 
-    var id = scenarioService.saveScenario(scenario);
+    Integer id = scenarioService.saveScenario(scenarioInfo, introImg, thumbnailImg);
 
     var location = URI.create(request.getRequestURI() + "/" + id);
     var successMessage = "시나리오 생성 성공: (ID=" + id + ")";
@@ -75,12 +90,14 @@ public class ScenarioController {
 
   @PutMapping
   public ResponseEntity<? extends BaseResponseBody> updateScenario(
-      @ModelAttribute
-      @Valid
-      ScenarioPutRequest request) throws IOException {
+      @RequestPart @Valid ScenarioPutRequest scenarioInfo,
+      @RequestPart(required = false) MultipartFile introImg,
+      @RequestPart(required = false) MultipartFile thumbnailImg
+  ) throws IOException {
 
-    Integer id = scenarioService.updateScenario(request);
+    var id = scenarioService.updateScenario(scenarioInfo, introImg, thumbnailImg);
     var updateMessage = "시나리오 수정 성공: (ID=" + id + ")";
+
     return ResponseEntity
         .ok()
         .body(new BaseResponseBody<>(200, "OK", updateMessage));
