@@ -18,12 +18,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @Validated
@@ -68,12 +69,12 @@ public class PageController {
 
   @PostMapping
   public ResponseEntity<? extends BaseResponseBody> createPage(
-      @ModelAttribute
-      @Valid
-      PagePostRequest page,
-      HttpServletRequest request) throws IOException {
+      @RequestPart @Valid PagePostRequest pageInfo,
+      @RequestPart(required = false) MultipartFile bgImg,
+      HttpServletRequest request
+  ) throws IOException {
 
-    var id = pageService.savePage(page);
+    var id = pageService.savePage(pageInfo, bgImg);
 
     var location = URI.create(request.getRequestURI() + "/" + id);
     var successMessage = "페이지 생성 성공: (ID=" + id + ")";
@@ -85,12 +86,14 @@ public class PageController {
 
   @PutMapping
   public ResponseEntity<? extends BaseResponseBody> updatePage(
-      @ModelAttribute
-      @Valid
-      PagePutRequest request) throws IOException {
+      @RequestPart @Valid PagePutRequest pageInfo,
+      @RequestPart(required = false) MultipartFile bgImg
+  ) throws IOException {
 
-    Integer id = pageService.updatePage(request);
+    Integer id = pageService.updatePage(pageInfo, bgImg);
+
     var updateMessage = "페이지 수정 성공: (ID=" + id + ")";
+
     return ResponseEntity
         .ok()
         .body(new BaseResponseBody<>(200, "OK", updateMessage));

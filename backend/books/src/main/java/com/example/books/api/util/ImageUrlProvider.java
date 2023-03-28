@@ -1,9 +1,12 @@
 package com.example.books.api.util;
 
 import com.example.books.api.dto.response.BaseResponseBody;
+import com.example.books.api.dto.response.PageGetResponse;
+import com.example.books.exception.BaseRuntimeException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +14,7 @@ import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 @Component
 public class ImageUrlProvider {
-  private final String REQUEST_URL = "http://127.0.0.1:9021/api/resources/images/upload";
+  private final String REQUEST_URL = "http://127.0.0.1:9031/api/resources/images/upload";
   private final OkHttpClient okHttpClient = new OkHttpClient()
       .newBuilder()
       .connectTimeout(60, TimeUnit.SECONDS)
@@ -34,16 +38,20 @@ public class ImageUrlProvider {
    * @throws IOException
    */
   public String getImageUrl(MultipartFile image) throws IOException {
-    var responseJson = sendMultiPartFileHttpRequest(image);
 
-    var javaType = objectMapper.getTypeFactory().constructParametricType(BaseResponseBody.class, String.class);
+    if(image == null) return null;
 
-    BaseResponseBody<String> url = objectMapper.readValue(responseJson, javaType);
+    var jsonStr = sendMultiPartFileHttpRequest(image);
 
-    return url.getContent();
+    var type = objectMapper.getTypeFactory().constructParametricType(BaseResponseBody.class, String.class);
+
+    BaseResponseBody<String> responseBody = objectMapper.readValue(jsonStr, type);
+
+    return responseBody.getContent();
   }
 
   private String sendMultiPartFileHttpRequest(MultipartFile imageFile) throws IOException {
+
     if(imageFile == null) return null;
 
     var fileBody = RequestBody.create(
@@ -61,10 +69,19 @@ public class ImageUrlProvider {
         .post(multipartBody)
         .build();
 
-    var responseBody = Objects.requireNonNull(
-        okHttpClient.newCall(request).execute().body()).string();
-
-    log.info(responseBody);
-    return responseBody;
+    // Http 통신을 진행해 응답으로 돌아온 body String 을 반환
+    try (var response = okHttpClient.newCall(request).execute()) {
+      return Optional.ofNullable(response.body()) // response.body 는 한번 호출하면 다음부터는 null 을 반환함 (consume only once).
+          .map((body) -> {
+            try {
+              return body.string();
+            } catch (IOException e) {
+              return null;
+            }
+          })
+          .orElseThrow(() -> new BaseRuntimeException(HttpStatus.NOT_FOUND, "파일을 읽어오는데 실패했습니다."));
+    } catch (IOException ex) {
+      return null;
+    }
   }
 }

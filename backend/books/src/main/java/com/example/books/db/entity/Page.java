@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "page", indexes = @Index(name="idx_page", columnList = "scenario_id, page_no"))
+@Table(name = "page", indexes = @Index(name="idx_page", columnList = "scenario, page_no"))
 @Entity
 public class Page {
 
@@ -29,8 +29,8 @@ public class Page {
   private Integer pageId;
 
   @ManyToOne(cascade = CascadeType.REMOVE)
-  @JoinColumn(name = "scenario_id")
-  private Scenario scenarioId;
+  @JoinColumn(name = "scenario")
+  private Scenario scenario;
 
   @Column(name = "page_no", nullable = false)
   private String pageNo;

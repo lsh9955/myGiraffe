@@ -8,13 +8,15 @@ import com.example.books.api.util.ImageUrlProvider;
 import com.example.books.db.entity.Scenario;
 import com.example.books.db.repository.ScenarioRepository;
 import com.example.books.exception.BaseRuntimeException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -23,6 +25,7 @@ public class ScenarioServiceImpl implements ScenarioService {
 
   private final ScenarioRepository scenarioRepository;
   private final ImageUrlProvider imageUrlProvider;
+  private final ObjectMapper objectMapper;
 
   @Override
   public List<ScenarioGetResponse> findAllScenarios() {
@@ -57,14 +60,15 @@ public class ScenarioServiceImpl implements ScenarioService {
   }
 
   @Override
-  public Integer saveScenario(ScenarioPostRequest request) throws IOException {
+  public Integer saveScenario(ScenarioPostRequest request, MultipartFile introImg,
+      MultipartFile thumbnailImg) throws IOException {
 
     // MultiPartFile -> URL
-    var introImgUrl = imageUrlProvider.getImageUrl(request.getIntroImg());
+    var introImgUrl = imageUrlProvider.getImageUrl(introImg);
     // MultiPartFile -> URL
-    var thumbnailImgUrl = imageUrlProvider.getImageUrl(request.getThumbnailImg());
+    var thumbnailImgUrl = imageUrlProvider.getImageUrl(thumbnailImg);
     // List<String> -> String
-    var interContents = (request.getInterContents() != null) ? Arrays.toString(request.getInterContents().toArray()) : null;
+    var interContents = objectMapper.writeValueAsString(request.getInterContents());
 
     // ScenarioPostRequest 를 Scenario 로 빌드
     var scenario = Scenario.builder()
@@ -80,28 +84,35 @@ public class ScenarioServiceImpl implements ScenarioService {
     return scenarioRepository.save(scenario).getScenarioId();
   }
 
-  public Integer updateScenario(ScenarioPutRequest request) throws IOException {
+  public Integer updateScenario(
+      ScenarioPutRequest request, MultipartFile introImg, MultipartFile thumbnailImg) throws IOException {
 
     // 시나리오 존재 여부 확인
     var scenario = scenarioRepository.findById(request.getScenarioId())
         .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 시나리오 ID 입니다."));
 
     // MultipartFile -> URL
-    var introImgUrl = imageUrlProvider.getImageUrl(request.getIntroImg());
+    var introImgUrl = imageUrlProvider.getImageUrl(introImg);
     // MultipartFile -> URL
-    var thumbnailImgUrl = imageUrlProvider.getImageUrl(request.getThumbnailImg());
+    var thumbnailImgUrl = imageUrlProvider.getImageUrl(thumbnailImg);
     // List -> String
-    var interContents = (request.getInterContents() != null) ? Arrays.toString(request.getInterContents().toArray()) : null;
+    var interContents = objectMapper.writeValueAsString(request.getInterContents());
 
     // 각 필드에 대해 null 이 아닌 경우 변경, null 이면 변경 X
     // toBuilder()와 리플렉션을 사용해 null 이 아닌 값만 빌드하는 방식도 생각해보기
     var updated = scenario.toBuilder()
-        .title(request.getTitle() != null ? request.getTitle() : scenario.getTitle())
-        .price(request.getPrice() != null ? request.getPrice() : scenario.getPrice())
-        .introScript(request.getIntroScript() != null ? request.getIntroScript() : scenario.getIntroScript())
-        .introImgUrl(introImgUrl != null ? introImgUrl : scenario.getIntroImgUrl())
-        .thumbnailImgUrl(thumbnailImgUrl != null ? thumbnailImgUrl : scenario.getThumbnailImgUrl())
-        .interContents(interContents != null ? interContents : scenario.getInterContents())
+        .title(Optional.ofNullable(request.getTitle())
+            .orElse(scenario.getTitle()))
+        .price(Optional.ofNullable(request.getPrice())
+            .orElse(scenario.getPrice()))
+        .introScript(Optional.ofNullable(request.getIntroScript())
+            .orElse(scenario.getIntroScript()))
+        .introImgUrl(Optional.ofNullable(introImgUrl)
+            .orElse(scenario.getIntroImgUrl()))
+        .thumbnailImgUrl(Optional.ofNullable(thumbnailImgUrl)
+            .orElse(scenario.getThumbnailImgUrl()))
+        .interContents(Optional.ofNullable(interContents)
+            .orElse(scenario.getInterContents()))
         .build();
 
     // DB 에 저장하고 ID 값을 반환

@@ -5,6 +5,7 @@ import com.example.books.api.dto.request.ScenarioPutRequest;
 import com.example.books.api.dto.response.ScenarioGetResponse;
 import java.io.IOException;
 import java.util.List;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface ScenarioService {
 
@@ -25,23 +26,29 @@ public interface ScenarioService {
 
   /**
    * 시나리오를 저장합니다.
-   * @param request
-   * @return
+   * @param scenarioInfo 시나리오 정보
+   * @param introImg 소개 모달에서 보여줄 이미지파일
+   * @param thumbnailImg 동화책 시나리오 썸네일 이미지
+   * @return 저장한 시나리오의 ID값
    * @throws IOException
    */
-  Integer saveScenario(ScenarioPostRequest request)
+  Integer saveScenario(ScenarioPostRequest scenarioInfo, MultipartFile introImg, MultipartFile thumbnailImg)
       throws IOException;
 
   /**
    * 시나리오를 수정합니다.
-   * @param request
-   * @return
+   * @param scenarioInfo 시나리오 정보
+   * @param introImg 소개 모달에서 보여줄 이미지파일
+   * @param thumbnailImg 동화책 시나리오 썸네일 이미지
+   * @return 수정한 시나리오의 ID값
+   * @throws IOException
    */
-  Integer updateScenario(ScenarioPutRequest request) throws IOException;
+  Integer updateScenario(ScenarioPutRequest scenarioInfo, MultipartFile introImg, MultipartFile thumbnailImg)  throws IOException;
 
   /**
    * 시나리오를 삭제합니다.
    * @param scenarioId
    */
   void deleteScenario(Integer scenarioId);
+
 }
