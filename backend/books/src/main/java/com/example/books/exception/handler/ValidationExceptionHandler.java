@@ -88,12 +88,11 @@ public class ValidationExceptionHandler extends ResponseEntityExceptionHandler {
         .toList();
 
     var problemDetail = ProblemDetail
-        .forStatusAndDetail(
-            ex.getStatusCode(), new StringBuilder()
-                .append("요청의 입력값이 올바르지 않습니다. (개수 ")
-                .append(violations.size())
-                .append("개)")
-                .toString());
+        .forStatusAndDetail(ex.getStatusCode(), new StringBuilder()
+            .append("요청의 입력값이 올바르지 않습니다. (개수 ")
+            .append(violations.size())
+            .append("개)")
+            .toString());
 
     problemDetail.setTitle("Arguments Not Valid");
     problemDetail.setProperty("errors", violations);
@@ -105,7 +104,6 @@ public class ValidationExceptionHandler extends ResponseEntityExceptionHandler {
    * 클라이언트가 보낸 JSON 형태의 요청 내용을 Parsing 할 수 없을 때 발생하는 오류에 대해 클라이언트에게 알리기 위해
    * ResponseEntityExceptionHandler.handleHttpMessageNotReadable 메소드를 재정의했습니다.
    *
-   *
    * @param ex      핸들링하려는 예외인 HttpMessageNotReadableException
    * @param headers 응답에 사용될 헤더
    * @param status  상태 코드
@@ -114,7 +112,8 @@ public class ValidationExceptionHandler extends ResponseEntityExceptionHandler {
    */
   @Override
   protected ResponseEntity<Object> handleHttpMessageNotReadable(
-      HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
+      HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status,
+      WebRequest request) {
 
     var problemDetail = ProblemDetail
         .forStatusAndDetail(HttpStatus.BAD_REQUEST, "클라이언트의 요청을 읽는데 실패했습니다.");
