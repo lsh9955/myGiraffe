@@ -22,6 +22,7 @@ import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 
 import * as S from "./SidebarStyle";
+import { Buttontwo } from "components/common/button/ButtonStyle";
 /**사이드바 컴포넌트 */
 
 // 결제 모달 스타일
@@ -68,6 +69,32 @@ const Sidebar = () => {
     setTotalPayment((keyCount - 1) * 1000);
     if (totalPayment <= 0) {
       setTotalPayment(0);
+    }
+  };
+
+  // 결제 모듈
+  const onClickPayment = () => {
+    const { IMP } = window;
+    IMP.init("imp26454654"); // 결제 데이터 정의(환석님 고유 번호라서 axios로 받아와야함)
+    const data = {
+      pg: "kakaopay.{TC0ONETIME}", // PG사 (필수항목)
+      pay_method: "card",
+      merchant_uid: `mid_${new Date().getTime()}`, // 주문번호(고유항목)
+      name: "내가 기린 그림 열쇠 구매", // 주문명 (필수항목)
+      amount: totalPayment, // 금액 (필수항목)
+      buyer_postcode: "123-456",
+      m_redirect_url: "{모바일에서 결제 완료 후 리디렉션 될 URL}",
+    };
+    IMP.request_pay(data, callback);
+  };
+
+  const callback = (response) => {
+    const { success, error_msg } = response;
+    if (success) {
+      alert("결제해주셔서 감사합니다!");
+      handleClose();
+    } else {
+      alert(`${error_msg}`);
     }
   };
 
@@ -244,7 +271,7 @@ const Sidebar = () => {
           <Typography
             sx={{
               m: 2,
-              fontSize: 20,
+              fontSize: 15,
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -265,6 +292,15 @@ const Sidebar = () => {
           >
             결제 금액 {totalPayment} 원
           </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Buttontwo onClick={onClickPayment}>결제하기</Buttontwo>
+          </Box>
         </Box>
       </Modal>
     </div>
