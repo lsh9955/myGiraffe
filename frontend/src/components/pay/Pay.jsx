@@ -1,7 +1,8 @@
-import React from "react";
 /**결제 관련 컴포넌트 */
+import React from "react";
+
 const Pay = () => {
-  return <div>Pay</div>;
+  return <div></div>;
 };
 
 export default Pay;
