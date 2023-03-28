@@ -14,8 +14,9 @@ export const DrawWrap = styled.div`
   width: 899px;
   height: 476px;
   border-radius: ${(props) => (props.bgImg ? "0px" : "20px")};
-  border: ${(props) => (props.bgImg ? "" : "2px solid #fce76c")};
   & > div {
+    border: ${(props) =>
+      props.bgImg ? "2px solid #ffffff" : "2px solid #fce76c"};
     border-radius: ${(props) => (props.bgImg ? "0px" : "20px")};
     & > canvas {
       border-radius: ${(props) => (props.bgImg ? "0px" : "20px")};

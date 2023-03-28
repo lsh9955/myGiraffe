@@ -7,10 +7,10 @@ export const DiaryWriteContainer = styled.div`
 `;
 export const DiaryTitle = styled.div`
   width: 100%;
-  height: 12vh;
+  height: 15vh;
   text-align: center;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
   font-size: 400%;
 `;
