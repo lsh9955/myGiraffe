@@ -44,7 +44,7 @@ public class StorageController {
   public ResponseEntity<Object> createImageFile(@RequestParam MultipartFile imageFile, HttpServletRequest request) throws IOException {
 
     var imageId = storageService.saveImageFile(imageFile);
-    var url = new URL("http", request.getServerName(), request.getServerPort(), "/api/resources/images/" + imageId);
+    var url = new URL("https://j8b201.p.ssafy.io/api/resources/images/" + imageId);
 
     return ResponseEntity
         .ofNullable(new BaseResponseBody<>(200, "OK", url));

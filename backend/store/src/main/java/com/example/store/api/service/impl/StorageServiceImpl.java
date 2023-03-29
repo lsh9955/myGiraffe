@@ -24,8 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class StorageServiceImpl implements StorageService {
 
   private final MongoTemplate mongoTemplate;
-  private final String DEFAULT_DIRECTORY_PATH = "C:/Users/SSAFY/Desktop/temp-images/";
-      /*"/src/img/profile/"*/;
+  private final String DEFAULT_DIRECTORY_PATH = "/src/img/";
 
   @Override
   public ImageContentResponse findImageFileByImageId(String imageId) throws IOException {
