@@ -1,6 +1,6 @@
 /**가위바위보 컴포넌트 style*/
 import styled from "styled-components";
-
+import ghostNormal from "assets/icon/ghostNormal.gif";
 // 가위바위보 상단
 export const Container = styled.div`
   width: 100vw;
@@ -29,11 +29,22 @@ export const GameContainer = styled.div`
   align-items: center;
 `;
 
-// 게임 컨테이너에 들어가는 스크린
+// 사용자 게임 컨테이너에 들어가는 스크린
 export const GameScreen = styled.div`
   width: 45%;
   height: 90%;
   border: 3px solid #ff8f5c;
+`;
+
+// 컴퓨터 게임 컨테이너에 들어가는 스크린
+export const GhostGameScreen = styled.div`
+  width: 45%;
+  height: 90%;
+  border: 3px solid #ff8f5c;
+  background-size: 90%;
+
+  background-repeat: no-repeat;
+  background-image: url(${ghostNormal});
 `;
 
 // 타이머
