@@ -2,38 +2,18 @@ server:
   port: 8090
 
 spring:
-  # MariaDB
-  datasource:
-    url: jdbc:mariadb://j8b201.p.ssafy.io:3310/girin_auth
-    username: 'developer'
-    password: 'j8b201'
-    driver-class-name: org.mariadb.jdbc.Driver
-  # JPA Properties
-  jpa:
-    hibernate:
-      ddl-auto: create
-      naming:
-        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-  # swagger
-  mvc:
-    pathmatch:
-      matching-strategy: ANT_PATH_MATCHER
-
-  redis:
-    host: localhost
-    port: 6399
-
-  # API id for MSA
   application:
-    name: auth-service
+    name: auth-server
+
+  # Redis config
+  redis:
+    hostName: localhost:6379
 
   # application-oauth
   profiles:
-    include: oauth
+    include:
+    - oauth
+    - db
 
 # log level setting
 logging:
@@ -41,14 +21,6 @@ logging:
     root: info
     com:
       ssafy: debug
-
-## eureka setting
-#eureka:
-#  client:
-#    service-url:
-#      defaultZone: http://localhost:8761/eureka/
-#  instance:
-#    prefer-ip-address: true
 
 feign:
   hystrix:

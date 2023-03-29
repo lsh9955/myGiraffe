@@ -36,5 +36,6 @@ out/
 ### VS Code ###
 .vscode/
 
-### security ###
+### secure ###
 application-oauth.yml
+application-db.yml
