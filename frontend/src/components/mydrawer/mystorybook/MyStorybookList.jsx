@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+
 /**내 동화책 리스트 컴포넌트 */
 import axios from "axios";
 import Slider from "react-slick";
@@ -41,7 +43,7 @@ const MyStorybookList = () => {
     bookimage8,
     bookimage9,
   ];
-  console.log(bookimage5);
+
   useEffect(() => {
     const fetchBooks = async () => {
       await axios
@@ -118,11 +120,13 @@ const MyStorybookList = () => {
         <Slider {...settings}>
           {datas.map((data, idx) => (
             <MydraweritemContainer>
-              <Mydraweritemimage src={bgImg[idx % 9]} />
-              <TextOverlay>
-                <div>{data.title}</div>
-                <p>{data.date}</p>
-              </TextOverlay>
+              <Link to={`/mybookdetail/${data.id}`}>
+                <Mydraweritemimage src={bgImg[idx % 9]} />
+                <TextOverlay>
+                  <div>{data.title}</div>
+                  <p>{data.date}</p>
+                </TextOverlay>
+              </Link>
             </MydraweritemContainer>
           ))}
         </Slider>
