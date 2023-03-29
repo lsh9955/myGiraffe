@@ -4,7 +4,7 @@ import CanvasDraw from "@win11react/react-canvas-draw";
 import Palette from "./Palette";
 import * as C from "./CanvasToolStyle";
 //그림 그리는 캔버스
-const CanvasTool = ({ bgImg }) => {
+const CanvasTool = ({ bgImg, getImgHandler }) => {
   const canvasRef = useRef(null);
 
   const [drawing, setDrawing] = useState();
@@ -16,6 +16,8 @@ const CanvasTool = ({ bgImg }) => {
     console.log(data);
     const base64 = canvasRef.current.canvasContainer.childNodes[1].toDataURL();
     setDrawing(base64);
+    // NumberMl
+    getImgHandler(base64);
     console.log(base64);
   };
 
