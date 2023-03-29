@@ -43,6 +43,10 @@ export const Fin = styled.div`
   justify-content: space-evenly;
   font-size: 200%;
   background-color: #fce76c;
+  &:hover {
+    background-color: #ffc700;
+    cursor: pointer;
+  }
 `;
 
 export const EditBox = styled.div`
