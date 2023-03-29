@@ -1,10 +1,11 @@
 from flask import Flask
 from flask import Blueprint
 from flaskblueprint import app_blueprint
-
+from flask_cors import CORS
 
 # Flask app 임을 선언 합니다.
 app = Flask(__name__)
+CORS(app)
 
 # Blueprint 모듈을 등록합니다.
 for blueprint in app_blueprint:

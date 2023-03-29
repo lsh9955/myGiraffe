@@ -6,9 +6,11 @@ from dotenv import load_dotenv
 import base64
 from google.cloud import vision
 from google.oauth2 import service_account
+from flask_cors import CORS
 
 # Flask app 임을 선언 합니다.
 app = Flask(__name__)
+CORS(app)
 
 # 환경 변수 로드
 load_dotenv()

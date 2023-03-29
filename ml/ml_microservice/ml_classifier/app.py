@@ -5,9 +5,11 @@ import numpy as np
 import io
 from flask import Flask, request, jsonify
 import base64
+from flask_cors import CORS
 
 # Flask app 임을 선언 합니다.
 app = Flask(__name__)
+CORS(app)
 
 # Disable scientific notation for clarity
 np.set_printoptions(suppress=True)
