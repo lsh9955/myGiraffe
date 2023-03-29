@@ -1,6 +1,14 @@
 /**가위바위보 게임 스타트 모달창 컴포넌트 style */
 import styled from "styled-components";
 
+export const ModalRspTutorial = styled.img`
+  width: 200px;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const ModalContainer = styled.div`
   position: absolute;
   transform: translate(-50%, -50%);

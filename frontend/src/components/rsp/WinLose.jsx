@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { Box, Typography, Modal } from "@mui/material/";
-import { ButtonOne } from "components/common/button/ButtonStyle";
+import { Buttontwo } from "components/common/button/ButtonStyle";
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: 500,
   bgcolor: "background.paper",
   border: "3px solid #ff8f5c",
   boxShadow: 24,
   outline: "none",
   p: 4,
+  borderRadius: 10,
 };
 /**타이머 후 가위바위보 결과 판단 함수 */
 const WinLose = ({
@@ -70,18 +71,38 @@ const WinLose = ({
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+          <Typography
+            sx={{
+              m: 2,
+              fontSize: 30,
+              color: "#FF8F5C",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+          >
             {winLose}
           </Typography>
-          {winLose === "비겼습니다!" && (
-            <ButtonOne onClick={handleClose}>다시하기</ButtonOne>
-          )}
-          {winLose === "이겼습니다!" && (
-            <ButtonOne onClick={handleClose}>확인</ButtonOne>
-          )}
-          {winLose === "졌습니다!" && (
-            <ButtonOne onClick={handleClose}>확인</ButtonOne>
-          )}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {winLose === "비겼습니다!" && (
+              <Buttontwo onClick={handleClose}>다시하기</Buttontwo>
+            )}
+            {winLose === "이겼습니다!" && (
+              <Buttontwo onClick={handleClose}>확인</Buttontwo>
+            )}
+            {winLose === "졌습니다!" && (
+              <Buttontwo onClick={handleClose}>확인</Buttontwo>
+            )}
+          </Box>
         </Box>
       </Modal>
     </div>
