@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 @Component
 public class ImageUrlProvider {
-  private final String REQUEST_URL = "http://j8b201.p.ssafy.io:9031/api/resources/images/upload";
+  private final String REQUEST_URL = "http://j8b201.p.ssafy.io/api/resources/images/upload";
   private final OkHttpClient okHttpClient = new OkHttpClient()
       .newBuilder()
       .connectTimeout(60, TimeUnit.SECONDS)
