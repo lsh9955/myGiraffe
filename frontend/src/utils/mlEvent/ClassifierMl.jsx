@@ -6,7 +6,7 @@ import {
   SketchTitle,
 } from "components/common/sketchbook/SketchBookStyle";
 
-const NumberMl = () => {
+const ClassifierMl = () => {
   const [getImg, setGetImg] = useState(null);
   const getImgHandler = (e) => {
     setGetImg(e.split(",")[1]);
@@ -15,8 +15,8 @@ const NumberMl = () => {
     const NumMl = async () => {
       await axios
         .post(
-          "https://j8b201.p.ssafy.io/api/numbers",
-          // "http://192.168.31.87:5000/api/numbers",
+          // "https://j8b201.p.ssafy.io/api/classifier",
+          "http://192.168.31.87:5000/api/classifier",
           {
             base64_drawing: String(getImg),
           }
@@ -30,13 +30,15 @@ const NumberMl = () => {
     };
     NumMl();
   }, [getImg]);
-
   return (
     <SketchWriteContainer>
-      <SketchTitle>재미있는 숫자 퀴즈! 3*5-6 = ?</SketchTitle>
+      <SketchTitle>
+        소중한 물건을 그려주세요. (축구공, 닌텐도 스위치, 로봇 장난감, 인형,
+        일기장, 스마트폰 중 1개만 선택해서 그려주세요.)
+      </SketchTitle>
       <CanvasTool getImgHandler={getImgHandler} />
     </SketchWriteContainer>
   );
 };
 
-export default NumberMl;
+export default ClassifierMl;
