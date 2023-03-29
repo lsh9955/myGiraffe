@@ -9,14 +9,18 @@ import {
 const NumberMl = () => {
   const [getImg, setGetImg] = useState(null);
   const getImgHandler = (e) => {
-    setGetImg(e);
+    setGetImg(e.split(",")[1]);
   };
   useEffect(() => {
     const NumMl = async () => {
       await axios
-        .post("https://j8b201.p.ssafy.io/api/numbers", {
-          base64_drawing: getImg,
-        })
+        .post(
+          // "https://j8b201.p.ssafy.io/api/numbers",
+          "http://192.168.31.87:5000/api/numbers",
+          {
+            base64_drawing: String(getImg),
+          }
+        )
         .then((response) => {
           console.log(response);
         })
@@ -25,7 +29,6 @@ const NumberMl = () => {
         });
     };
     NumMl();
-    console.log(NumMl());
   }, [getImg]);
 
   return (
