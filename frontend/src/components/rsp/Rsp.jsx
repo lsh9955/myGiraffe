@@ -8,6 +8,7 @@ import {
   TimerScreen,
   TimerTime,
   RspImg,
+  GhostGameScreen,
 } from "components/rsp/RspStyle";
 
 import RspStart from "components/modal/rspstart_modal/RspStart";
@@ -19,6 +20,8 @@ import rsp from "assets/image/rsp.gif";
 import RspSpinner from "components/rsp/RspSpinner";
 import FingerPose from "utils/fingerPose/FingerPose";
 import WinLose from "./WinLose";
+
+import ghostNormal from "assets/icon/ghostNormal.gif";
 
 const Rsp = () => {
   const [isLoad, setIsLoad] = useState(false);
@@ -111,13 +114,13 @@ const Rsp = () => {
         <RspSpinner showSpinner={showSpinner} />
 
         <GameContainer showSpinner={showSpinner}>
-          <GameScreen>
+          <GhostGameScreen>
             {timer === 0 ? (
               <RspImg src={ghostHand} alt="유령의손" />
             ) : (
               <RspImg src={rsp} alt="유령가위바위보" />
             )}
-          </GameScreen>
+          </GhostGameScreen>
 
           <TimerScreen>
             <TimerTime>{timer}</TimerTime>
