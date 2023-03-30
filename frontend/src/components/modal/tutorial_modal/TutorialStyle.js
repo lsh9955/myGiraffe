@@ -2,7 +2,7 @@
 import styled from "styled-components";
 
 export const TutorialNumberGif = styled.img`
-  width: 200px;
+  width: 250px;
   height: auto;
   display: flex;
   justify-content: center;
