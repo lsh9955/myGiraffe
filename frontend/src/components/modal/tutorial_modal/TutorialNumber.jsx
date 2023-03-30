@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import CanvasTool from "utils/canvas/CanvasTool";
-import {
-  SketchWriteContainer,
-  SketchTitle,
-} from "components/common/sketchbook/SketchBookStyle";
-// 모달에 필요한 컴포넌트 import
 import { Box, Typography, Modal } from "@mui/material/";
 import { Buttontwo } from "components/common/button/ButtonStyle";
 import { TutorialNumberGif } from "components/modal/tutorial_modal/TutorialStyle";
 import GifNumber from "assets/image/tutorialnumber.gif";
 
-// 모달 mui 스타일
+/**튜토리얼 컴포넌트 */
+
 const style = {
   position: "absolute",
   top: "50%",
@@ -26,37 +20,20 @@ const style = {
   borderRadius: 10,
 };
 
-const NumberMl = () => {
+const TutorialNumber = () => {
   const [open, setOpen] = useState(true);
   const handleClose = () => {
     setOpen(false);
-  };
-  const [getImg, setGetImg] = useState(null);
-  const getImgHandler = (e) => {
-    setGetImg(e.split(",")[1]);
+    startHandler();
   };
   useEffect(() => {
-    const NumMl = async () => {
-      await axios
-        .post(
-          // "https://j8b201.p.ssafy.io/api/numbers",
-          "http://192.168.31.87:5000/api/numbers",
-          {
-            base64_drawing: String(getImg),
-          }
-        )
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
-    NumMl();
-  }, [getImg]);
+    if (isLoad) {
+      setOpen(true);
+    }
+  }, [isLoad]);
 
   return (
-    <>
+    <div>
       <Modal
         open={open}
         onClose={handleClose}
@@ -99,7 +76,7 @@ const NumberMl = () => {
               alignItems: "center",
             }}
           >
-            유령이 낸 문제를 보고
+            유령이 낸 문제를 보고 답을
           </Typography>
           <Typography
             sx={{
@@ -111,7 +88,7 @@ const NumberMl = () => {
               alignItems: "center",
             }}
           >
-            정답을 펜으로 적어보세요.
+            펜으로 적어보세요.
           </Typography>
           <Typography
             sx={{
@@ -123,7 +100,7 @@ const NumberMl = () => {
               alignItems: "center",
             }}
           >
-            답을 적었다면, 완료 버튼을 눌러주세요.
+            답을 적고, 완료 버튼을 눌러주세요.
           </Typography>
           <Box
             sx={{
@@ -136,12 +113,8 @@ const NumberMl = () => {
           </Box>
         </Box>
       </Modal>
-      <SketchWriteContainer>
-        <SketchTitle>재미있는 숫자 퀴즈! 3*5-6 = ?</SketchTitle>
-        <CanvasTool getImgHandler={getImgHandler} />
-      </SketchWriteContainer>
-    </>
+    </div>
   );
 };
 
-export default NumberMl;
+export default TutorialNumber;

@@ -5,7 +5,6 @@ import NumberMl from "utils/mlEvent/NumberMl";
 const StorybookMLDrawPage = () => {
   return (
     <div>
-      StorybookMLDrawPage
       <NumberMl />
       {/* <ClassifierMl /> */}
     </div>
