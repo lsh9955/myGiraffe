@@ -1,13 +1,10 @@
-server:
-  port: 9031
 
 spring:
   application:
-    name: books-service
+    name: store-service
 
-  data:
-    mongodb:
-      uri: mongodb://j8b201.p.ssafy.io:34567/girin
+  profiles:
+    include: db
 
   servlet:
     multipart:
