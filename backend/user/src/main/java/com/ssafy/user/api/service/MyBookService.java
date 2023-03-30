@@ -19,7 +19,7 @@ public interface MyBookService {
     /**
      * 사용자가 소유한 동화책 하나를 조회합니다.
      * @param bookId
-     * @return 해당 ID의 유저가 보유한 동화책
+     * @return 해당 ID의 보유한 동화책
      */
     MyBook findMyBookById(Integer bookId);
 
@@ -34,6 +34,7 @@ public interface MyBookService {
 
     /**
      * 사용자가 저장한 동화책 하나를 삭제합니다.
+     *
      * @param bookId
      */
     void deleteMyBook(Integer bookId);
