@@ -3,21 +3,30 @@ import StoryPage from "./StoryPage";
 import axios from "axios";
 /**읽고 있는 동화책 컴포넌트 */
 const Readstorybook = () => {
-  const [pageInfo, SetPageInfo] = useState([1]);
+  const [pageInfo, setPageInfo] = useState([1]);
   const [nowPage, setNowPage] = useState(1);
+  const [allContent, setAllContent] = useState([]);
   const pageChangeHandler = (e) => {
     setNowPage(e);
+    //이야기를 진행하는 경우(순방향)
     if (pageInfo.indexOf(e) === -1) {
-      SetPageInfo([...pageInfo, e]);
+      setPageInfo([...pageInfo, e]);
+      //이야기를 되돌아가는 경우(역방향)
+    } else {
+      let beforepageInfo = pageInfo.slice(0, pageInfo.length - 1);
+      setPageInfo(beforepageInfo);
+      setNowPage(beforepageInfo[beforepageInfo.length - 1]);
     }
   };
 
   useEffect(() => {
     const res = async () => {
-      const books = await axios.get(
-        "https://port-0-nodebook-1b5xkk2fldhlzqkd.gksl2.cloudtype.app/diary"
+      const book = await axios.get(
+        "https://j8b201.p.ssafy.io/api/books/pages/1"
       );
-      console.log(books);
+      const bookContent = book;
+      console.log(bookContent.data.content);
+      setAllContent(bookContent.data.content);
     };
     res();
   }, []);
@@ -30,6 +39,8 @@ const Readstorybook = () => {
               <StoryPage
                 nowPage={nowPage}
                 pageChangeHandler={pageChangeHandler}
+                allContent={allContent}
+                alreadyReadPage={pageInfo}
               />
             )}
           </>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Slider from "react-slick";
 import {
   MydraweritemContainer,
@@ -17,8 +17,10 @@ import {
 import lock from "assets/icon/lock.png";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import BookInfo from "components/modal/bookInfo_modal/BookInfo";
 /**동화책 선택 컴포넌트 */
 const Storybookmain = ({ bookData }) => {
+  const [isOpen, setIsOpen] = useState(false);
   // 이전 버튼 스타일
   const SamplePrevArrow = (props) => {
     const { className, style, onClick } = props;
@@ -67,19 +69,47 @@ const Storybookmain = ({ bookData }) => {
     nextArrow: <SampleNextArrow />,
   };
 
+  //클릭시 책 소개 페이지 나타남
+  const bookInfoShowHandler = (data) => {
+    //책 소개 모달창 나타낼것
+    setIsOpen(true);
+  };
+  //모달 창 열렸는지 확인
+  const openCheck = (e) => {
+    if (e != isOpen) {
+      setIsOpen(e);
+    }
+  };
+
   return (
     <Container>
+      <BookInfo isOpen={isOpen} openCheck={openCheck} />
       <TitleContainer>읽고 싶은 동화를 선택해주세요!</TitleContainer>
       <Slider {...settings}>
         {bookData?.map((data, idx) => (
-          <MydraweritemContainer>
+          <MydraweritemContainer
+            onClick={() => {
+              bookInfoShowHandler(data);
+            }}
+          >
             {idx === 2 ? (
-              <MySketchbookLockContainer>
+              // 아직 구입하지 않은 책
+              <MySketchbookLockContainer
+                onClick={() => {
+                  bookInfoShowHandler(data);
+                }}
+              >
                 <MySketchbookLockimage bgImg={data.img} />
                 <Lock src={lock} />
               </MySketchbookLockContainer>
             ) : (
-              <MySketchbookimage src={data.img} />
+              // 구입한 책
+              <MySketchbookimage
+                src={data.img}
+                onClick={() => {
+                  bookInfoShowHandler(idx);
+                }}
+              />
             )}
             <ImgTitle>{data.title}</ImgTitle>
           </MydraweritemContainer>

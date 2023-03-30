@@ -6,11 +6,19 @@ import one from "./1.jpg";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
-/**읽고 있는 동화책 컴포넌트 */
-const StoryPage = ({ nowPage, pageChangeHandler }) => {
+/**읽고 있는 동화책 컴포넌트 (현재 페이지, 페이지 바뀔 때 이벤트, 모든 페이지 정보, 현재까지 읽은 페이지 정보)*/
+const StoryPage = ({
+  nowPage,
+  pageChangeHandler,
+  allContent,
+  alreadyReadPage,
+}) => {
   const [isRendered, setIsRendered] = useState(false);
   const [firPageflip, setFirPageflip] = useState(false);
   const [secPageflip, setSecPageflip] = useState(false);
+  const [nowPageInfo, setNowPageInfo] = useState(allContent[nowPage - 1]);
+
+  //!현재 이미지가 로딩되지 않기 떄문에, 이미지를 제외하고 설정
 
   //첫 페이지 넘김 여부
   const checkRef1 = useRef(null);
@@ -25,12 +33,33 @@ const StoryPage = ({ nowPage, pageChangeHandler }) => {
   useEffect(() => {
     setIsRendered(true);
   }, []);
-  //배열에 현재 페이지 수를 적어놓고, 추가될 때 마다 전체를 다시 리랜더링하는 방식은?
+  //배열에 현재 페이지 수를 적어놓고, 추가될 때 마다 페이지 전체의 컴포넌트가 바뀜
+
+  //다음 불러올 페이지를 찾는 함수
+  const findBeforePage = (targetPage) => {
+    for (let i = 0; i < allContent.length; i++) {
+      if (allContent[i].pageNo === targetPage) {
+        return allContent[i].pageId;
+      }
+    }
+  };
 
   useEffect(() => {
-    if (firPageflip || secPageflip) {
+    if (firPageflip) {
       setTimeout(() => {
-        pageChangeHandler(nowPage + 1);
+        if (alreadyReadPage.length <= 1) {
+          alert("첫 페이지에요");
+        } else {
+          pageChangeHandler(alreadyReadPage[alreadyReadPage.length - 1]);
+        }
+      }, 500);
+    } else if (secPageflip) {
+      setTimeout(() => {
+        if (allContent[nowPage - 1].nextPage.length === 1) {
+          pageChangeHandler(
+            findBeforePage(allContent[nowPage - 1].nextPage[0])
+          );
+        }
       }, 500);
     }
   }, [firPageflip, secPageflip]);
@@ -69,19 +98,21 @@ const StoryPage = ({ nowPage, pageChangeHandler }) => {
         <R.Filp id="p1" pageIdx="1" isRendered={isRendered}>
           {/* 첫번째장 앞면 -이전 페이지와 동일*/}
           <R.Front>
+            <div></div>
             <label htmlFor="c1">
               <KeyboardArrowRightIcon />
             </label>
           </R.Front>
           {/* 첫번째장 뒷면 -현재 랜더링된 페이지와 동일*/}
+
           <R.Back>
             <img src={one} alt="Cover" />
-            <div>
-              반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다
-            </div>
-            <label htmlFor="c1">
-              <KeyboardArrowLeftIcon />
-            </label>
+            <div>{allContent[nowPage - 1]?.script}</div>
+            {allContent[nowPage - 1]?.pageId != 1 && (
+              <label htmlFor="c1">
+                <KeyboardArrowLeftIcon />
+              </label>
+            )}
           </R.Back>
         </R.Filp>
         <R.Filp id="p2" pageIdx="2" isRendered={isRendered}>
@@ -91,18 +122,19 @@ const StoryPage = ({ nowPage, pageChangeHandler }) => {
             <div>
               반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다
             </div>
+
             <label htmlFor="c2">
               <KeyboardArrowLeftIcon />
             </label>
           </R.Back>
           {/* 두번째장 앞면 -현재 랜더링된 페이지와 동일*/}
           <R.Front>
-            <div>
-              반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다
-            </div>
-            <label htmlFor="c2">
-              <KeyboardArrowRightIcon />
-            </label>
+            <div>{allContent[nowPage - 1]?.script}</div>
+            {allContent[nowPage - 1]?.nextPage.length == 1 && (
+              <label htmlFor="c2">
+                <KeyboardArrowRightIcon />
+              </label>
+            )}
           </R.Front>
         </R.Filp>
         <R.Filp id="p3" pageIdx="3" isRendered={isRendered}>
