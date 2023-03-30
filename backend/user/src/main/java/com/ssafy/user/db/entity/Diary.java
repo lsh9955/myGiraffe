@@ -1,13 +1,14 @@
 package com.ssafy.user.db.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
-@Entity
+@Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Table(name = "diary")
+@Entity
 public class Diary extends BaseTimeEntity {
 
     @Id
@@ -15,9 +16,9 @@ public class Diary extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer diaryId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "user_id")
-    private UserInfo userId;
+    private UserInfo userInfo;
 
     @Column(name = "diary_img_url", nullable = false)
     private String diaryImgUrl;

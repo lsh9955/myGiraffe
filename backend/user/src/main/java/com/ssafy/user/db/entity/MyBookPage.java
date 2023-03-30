@@ -1,13 +1,14 @@
 package com.ssafy.user.db.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
-@Entity
+@Getter
+@Builder(toBuilder = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Table(name = "my_book_page")
+@Entity
 public class MyBookPage {
 
     @Id
@@ -15,9 +16,9 @@ public class MyBookPage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer pageId;
 
-    @ManyToOne
-    @JoinColumn(name = "book_id")
-    private MyBook bookId;
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn(name = "my_book")
+    private MyBook myBook;
 
     @Column(name = "page_no", nullable = false)
     private String pageNo;
@@ -31,9 +32,12 @@ public class MyBookPage {
     @Column(name = "next_page")
     private String nextPage;
 
-    @Column(name = "obj_data")
+    @Column(name = "obj_data", columnDefinition = "MEDIUMTEXT")
     private String objData;
 
-    @Column(name = "obj_user_data")
+    @Column(name = "obj_user_data", columnDefinition = "MEDIUMTEXT")
     private String objUserData;
+
+    @Column(name = "inter_user_img_url")
+    private String interUserImgUrl;
 }

@@ -1,23 +1,24 @@
 package com.ssafy.user.db.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
-@Entity
+@Getter
+@Builder(toBuilder = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserScenarioList extends BaseTimeEntity {
+@AllArgsConstructor
+@Table(name = "user_scenario_list")
+@Entity
+public class UserScenarioList {
 
     @Id
     @Column(name = "user_scenarios_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userScenariosId;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
-    private UserInfo userId;
+    private UserInfo userInfo;
 
     @Column(name = "scenario_id", nullable = false)
     private Integer scenarioId;
