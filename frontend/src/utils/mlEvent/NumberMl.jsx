@@ -27,10 +27,12 @@ const style = {
 };
 
 const NumberMl = () => {
+  // 모달 오픈시 필요한 변수
   const [open, setOpen] = useState(true);
   const handleClose = () => {
     setOpen(false);
   };
+
   const [getImg, setGetImg] = useState(null);
   const getImgHandler = (e) => {
     setGetImg(e.split(",")[1]);
