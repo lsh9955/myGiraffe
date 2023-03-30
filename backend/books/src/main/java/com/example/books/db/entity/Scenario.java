@@ -44,7 +44,4 @@ public class Scenario {
 
   @Column(name = "inter_contents")
   private String interContents;
-
-  public void update(ScenarioPutRequest request) {
-  }
 }
