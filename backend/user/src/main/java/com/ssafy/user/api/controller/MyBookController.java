@@ -25,12 +25,12 @@ import java.net.URI;
 @ValidateOnExecution
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/members")
+@RequestMapping("api/members/books")
 public class MyBookController {
 
     private final MyBookService myBookService;
 
-    @GetMapping("/books/{userId}")
+    @GetMapping("/list/{userId}")
     public ResponseEntity<? extends BaseResponseBody> getAllMyBooks(
             @PathVariable("userId") String userId) {
 
@@ -41,7 +41,7 @@ public class MyBookController {
                 .body(new BaseResponseBody<>(200, "OK", myBooks));
     }
 
-    @GetMapping("/books/{bookId}")
+    @GetMapping("/{bookId}")
     public ResponseEntity<? extends BaseResponseBody> getMyBook(
             @PathVariable("bookId") Integer bookId) {
 
@@ -54,12 +54,12 @@ public class MyBookController {
 
     @PostMapping
     public ResponseEntity<? extends BaseResponseBody> createMyBook(
-            @ModelAttribute
+            @RequestPart
             @Valid
-            MyBookPostRequest mybook,
+            MyBookPostRequest myBook,
             HttpServletRequest request) throws IOException {
 
-        var id = myBookService.saveMyBook(mybook);
+        var id = myBookService.saveMyBook(myBook);
 
         var location = URI.create(request.getRequestURI() + "/" + id);
         var successMessage = "내 동화책 생성 성공: (ID=" + id + ")";
@@ -69,7 +69,7 @@ public class MyBookController {
                 .body(new BaseResponseBody<>(201, "Created", successMessage));
     }
 
-    @DeleteMapping("/books/{bookId}")
+    @DeleteMapping("/{bookId}")
     public ResponseEntity<? extends BaseResponseBody> deleteMyBook(
             @PathVariable
             @Positive(message = "필수 입력값 입니다(양수).")
