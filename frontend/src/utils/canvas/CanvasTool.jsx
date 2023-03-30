@@ -9,7 +9,7 @@ const CanvasTool = ({ bgImg, getImgHandler }) => {
 
   const [drawing, setDrawing] = useState();
   const [canvas, setBrush] = useState("#000000");
-  const [brush, setThick] = useState(1);
+  const [brush, setThick] = useState(10);
 
   const handleExport = () => {
     const data = canvasRef.current.getSaveData();
