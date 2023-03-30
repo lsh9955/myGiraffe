@@ -21,8 +21,6 @@ import RspSpinner from "components/rsp/RspSpinner";
 import FingerPose from "utils/fingerPose/FingerPose";
 import WinLose from "./WinLose";
 
-import ghostNormal from "assets/icon/ghostNormal.gif";
-
 const Rsp = () => {
   const [isLoad, setIsLoad] = useState(false);
   const [ghostHand, setGhostHand] = useState(null);
