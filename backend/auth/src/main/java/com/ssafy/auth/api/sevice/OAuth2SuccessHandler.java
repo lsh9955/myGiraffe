@@ -33,7 +33,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final TokenProvider tokenProvider;
     private final UserProfileClient userProfileClient;
     // private String redirectUrl = "https://j8b201.p.ssafy.io/login";
-    private String redirectUrl = "http://localhost:3000";
+    private String redirectUrl = "http://localhost:3000/login";
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
