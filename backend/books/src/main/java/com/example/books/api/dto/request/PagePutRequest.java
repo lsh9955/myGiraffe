@@ -11,7 +11,7 @@ public class PagePutRequest {
   @Positive(message = "필수 입력값입니다(양수).")
   private Integer scenarioId;
 
-  @Pattern(regexp = "^([1-9]*)-(\\d)*$", message = "'-'으로 구분되어야 합니다 (ex 3-0, 10-2).")
+  @Pattern(regexp = "^(\\d)*-(\\d)*$", message = "'-'으로 구분되어야 합니다 (ex 3-0, 10-2).")
   private String pageNo;
 
   private String script;
