@@ -11,6 +11,8 @@ import {
   ImgP,
   LockImg,
   MySketchbookLockimage,
+  Lock,
+  MySketchbookLockContainer,
 } from "./StorybookmainStyle";
 import lock from "assets/icon/lock.png";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
@@ -71,9 +73,11 @@ const Storybookmain = ({ bookData }) => {
       <Slider {...settings}>
         {bookData?.map((data, idx) => (
           <MydraweritemContainer>
-            {idx === 2 && <LockImg src={lock} />}
             {idx === 2 ? (
-              <MySketchbookLockimage src={data.img} />
+              <MySketchbookLockContainer>
+                <MySketchbookLockimage bgImg={data.img} />
+                <Lock src={lock} />
+              </MySketchbookLockContainer>
             ) : (
               <MySketchbookimage src={data.img} />
             )}
