@@ -1,13 +1,9 @@
 package com.ssafy.user.api.controller;
 
-import com.ssafy.user.api.dto.request.DiaryPostRequest;
-import com.ssafy.user.api.dto.request.SketchPostRequest;
 import com.ssafy.user.api.dto.response.BaseResponseBody;
-import com.ssafy.user.api.service.*;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Positive;
+import com.ssafy.user.api.service.UserInfoService;
+import com.ssafy.user.api.service.UserScenarioListService;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.executable.ValidateOnExecution;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.net.URI;
+import java.util.Map;
 
 @Slf4j
 @Validated
@@ -32,7 +27,7 @@ public class UserInfoController {
     @GetMapping("/{userId}")
     public ResponseEntity<? extends BaseResponseBody> getUserInfo(
             @PathVariable("userId")
-            @Positive(message = "필수 입력값입니다(양수).") // validation
+            @NotBlank(message = "필수 입력값입니다") // validation
             String userId) {
 
         //UserInfo userInfo
@@ -56,19 +51,36 @@ public class UserInfoController {
 
     @PatchMapping
     public ResponseEntity<? extends BaseResponseBody> updateUserKey(
-            @PathVariable("userId")
-            @NotEmpty(message = "필수 입력값입니다")
-            String userId,
-            @PathVariable("keyAmount")
-            @Positive(message = "필수 입력값입니다(양수).")
-            Integer keyAmount) {
+            @RequestPart Map<String, Object> param) {
+
+        String userId = (String) param.get("userId");
+        Integer keyAmount = (Integer) param.get("keyAmount");
 
         var userinfo = userInfoService.updateKeyAmount(userId, keyAmount);
 
+        var successMessage = "유저 키 수량 변경 성공: (ID=" + userinfo.getUserId()
+                + " : " + userinfo.getCoinAMount() + ")";
+
         return ResponseEntity
                 .ok()
-                .body(new BaseResponseBody<>(200, "OK", userinfo));
+                .body(new BaseResponseBody<>(200, "OK", successMessage));
 
+    }
+
+    @PostMapping
+    public ResponseEntity<? extends BaseResponseBody> insertScenario(
+            @RequestPart Map<String, Object> param) {
+
+        String userId = (String) param.get("userId");
+        Integer scenarioId = (Integer) param.get("scenarioId");
+
+        var userScenario = userScenarioListService.saveUserScenario(userId, scenarioId);
+
+        var successMessage = "시나리오 추가 성공: (ID=" + userScenario + ")";
+
+        return ResponseEntity
+                .ok()
+                .body(new BaseResponseBody<>(201, "Created", successMessage));
     }
 
 
