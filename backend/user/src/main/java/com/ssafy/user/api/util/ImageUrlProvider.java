@@ -29,7 +29,6 @@ public class ImageUrlProvider {
             .build();
     private final ObjectMapper objectMapper;
 
-
     /**
      * 이미지 파일을 store-service 에 http 요청으로 보내고, 응답으로 온 BaseResponseBody 에서
      * 이미지 url ("content")를 추출하여 반환하는 메소드입니다.
