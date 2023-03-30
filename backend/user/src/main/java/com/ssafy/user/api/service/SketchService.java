@@ -2,6 +2,7 @@ package com.ssafy.user.api.service;
 
 import com.ssafy.user.api.dto.request.SketchPostRequest;
 import com.ssafy.user.db.entity.Sketch;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,7 +30,7 @@ public interface SketchService {
      * @param SketchPostRequest request
      * @return 해당 스케치북 ID
      */
-    Integer saveSketch(SketchPostRequest request) throws IOException;
+    Integer saveSketch(SketchPostRequest request, MultipartFile sketchImg) throws IOException;
 
 
     /**
