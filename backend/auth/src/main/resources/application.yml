@@ -5,10 +5,6 @@ spring:
   application:
     name: auth-server
 
-  # Redis config
-  redis:
-    hostName: localhost:6379
-
   # application-oauth
   profiles:
     include:

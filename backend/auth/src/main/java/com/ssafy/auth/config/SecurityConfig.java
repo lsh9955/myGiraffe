@@ -21,6 +21,7 @@ public class SecurityConfig {
     private final CustomOAuth2UserService oAuth2UserService;
     private final OAuth2SuccessHandler successHandler;
     private final TokenProvider tokenProvider;
+    
     @Bean
     public WebSecurityCustomizer configure() {
         return (web) -> web.ignoring()
@@ -61,7 +62,7 @@ public class SecurityConfig {
                 .userInfoEndpoint()
                 .userService(oAuth2UserService);
 
-        http.addFilterBefore(new JwtAuthFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);
+        // http.addFilterBefore(new JwtAuthFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

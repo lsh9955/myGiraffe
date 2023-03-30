@@ -25,18 +25,18 @@ import java.util.Date;
 public class TokenProvider implements InitializingBean {
     private final String secret;
     private final long tokenValidityInMilliseconds;     // 1 hour
-    private final RedisService redisService;
+    // private final RedisService redisService;
     private Key key;
 
     @Autowired
     public TokenProvider(
         @Value("${jwt.secret}")String secret,
-        @Value("${jwt.token-validity-in-seconds}")long tokenValidityInSeconds,
-        RedisService redisService
+        @Value("${jwt.token-validity-in-seconds}")long tokenValidityInSeconds
+        // RedisService redisService
     ) {
         this.secret = secret;
         this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
-        this.redisService = redisService;
+        // this.redisService = redisService;
     }
 
     @Override
@@ -45,13 +45,13 @@ public class TokenProvider implements InitializingBean {
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String getSavedRefresh(String key) {
-        return redisService.getData(key);
-    }
+    // public String getSavedRefresh(String key) {
+    //     return redisService.getData(key);
+    // }
 
-    public void setSaveRefresh(String key, String value, Long time) {
-        redisService.setDataWithExpiration(key, value, time);
-    }
+    // public void setSaveRefresh(String key, String value, Long time) {
+    //     redisService.setDataWithExpiration(key, value, time);
+    // }
 
     public String generateAccess(String userId, String role) {
         return createToken(userId, role, TokenKey.ACCESS);

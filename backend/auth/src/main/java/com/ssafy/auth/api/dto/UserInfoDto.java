@@ -7,18 +7,18 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProfileDto {
-	private String profileId;
+public class UserInfoDto {
+	private String userId;
 	private String nickname;
 	private String image;
 
-	public ProfileDto(String profileId, String image) {
-		this.profileId = profileId;
+	public UserInfoDto(String userId, String image) {
+		this.userId = userId;
 		this.image = image;
 	}
 
 	public void updateProfileId(String profileId) {
-		this.profileId = profileId;
+		this.userId = profileId;
 	}
 	public void updateImage(String image) {this.image = image;}
 }
