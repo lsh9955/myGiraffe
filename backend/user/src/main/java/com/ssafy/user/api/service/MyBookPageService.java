@@ -1,7 +1,7 @@
 package com.ssafy.user.api.service;
 
 import com.ssafy.user.api.dto.request.MyBookPagePostRequest;
-import com.ssafy.user.db.entity.MyBookPage;
+import com.ssafy.user.api.dto.response.MyBookPageGetResponse;
 
 import java.util.List;
 
@@ -13,15 +13,16 @@ public interface MyBookPageService {
      * @param pageNo
      * @return 해당 동화책과 페이지 번호를 가진 페이지
      */
-    MyBookPage findPageByBookIdAndPageNo(Integer bookId, String pageNo);
+    MyBookPageGetResponse findPageByBookIdAndPageNo(Integer bookId, String pageNo);
 
 
     /**
      * 내 동화책 ID 를 가진 모든 페이지를 조회합니다.
+     *
      * @param bookId
      * @return 해당 내 동화책 페이지들
      */
-    List<MyBookPage> findAllPagesByBookId(Integer bookId);
+    List<MyBookPageGetResponse> findAllPagesByBookId(Integer bookId);
 
 
     /**
@@ -34,6 +35,7 @@ public interface MyBookPageService {
 
     /**
      * 해당 내 동화책 페이지 ID를 가진 페이지를 삭제합니다.
+     *
      * @param pageId
      */
     void deletePage(Integer pageId);
