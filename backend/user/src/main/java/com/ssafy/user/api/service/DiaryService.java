@@ -2,6 +2,7 @@ package com.ssafy.user.api.service;
 
 import com.ssafy.user.api.dto.request.DiaryPostRequest;
 import com.ssafy.user.db.entity.Diary;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,7 +30,7 @@ public interface DiaryService {
      * @param DiaryPostRequest request
      * @return 해당 그림일기 ID
      */
-    Integer saveDiary(DiaryPostRequest request) throws IOException;
+    Integer saveDiary(DiaryPostRequest request, MultipartFile diaryImg) throws IOException;
 
 
     /**
