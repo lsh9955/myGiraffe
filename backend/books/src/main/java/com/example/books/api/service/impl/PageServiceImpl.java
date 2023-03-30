@@ -77,7 +77,7 @@ public class PageServiceImpl implements PageService {
 
     // 페이지가 이미 존재하는 지 확인
     pageRepository.findByScenarioAndPageNo(scenario, request.getPageNo())
-        .orElseThrow(() -> new IllegalArgumentException("이미 있는 페이지입니다."));
+        .ifPresent((x) -> {throw new IllegalArgumentException("이미 있는 페이지입니다.");});
 
     // MultiPartFile -> String
     var bgImgUrl = imageUrlProvider.getImageUrl(bgImg);
