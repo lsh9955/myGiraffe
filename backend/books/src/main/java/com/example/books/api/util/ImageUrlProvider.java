@@ -14,6 +14,7 @@ import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,7 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 @Component
 public class ImageUrlProvider {
-  private final String REQUEST_URL = "http://j8b201.p.ssafy.io/api/resources/images/upload";
+  
+  @Value("${request.url}") String REQUEST_URL;
   private final OkHttpClient okHttpClient = new OkHttpClient()
       .newBuilder()
       .connectTimeout(60, TimeUnit.SECONDS)

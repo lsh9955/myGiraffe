@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-@Slf4j
+@CrossOrigin
 @Validated
 @RequiredArgsConstructor
 @RestController
@@ -44,7 +45,7 @@ public class PageController {
       Integer scenarioId,
       @PathVariable
       @NotEmpty(message = "필수 입력값입니다. (ex. 1-0, 3-2)")
-      @Pattern(regexp = "^([1-9]*)-(\\d)*$", message = "'-'으로 구분되어야 합니다 (ex 3-0, 10-2).")
+      @Pattern(regexp = "^(\\d)*-(\\d)*$", message = "'-'으로 구분되어야 합니다 (ex 3-0, 10-2).")
       String pageNo) {
 
     var page = pageService.findPageByScenarioIdAndPageNo(scenarioId, pageNo);
