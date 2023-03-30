@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.net.URI;
@@ -21,12 +22,12 @@ import java.net.URI;
 @ValidateOnExecution
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/members")
+@RequestMapping("api/members/diaries")
 public class DiaryController {
 
     private final DiaryService diaryService;
 
-    @GetMapping("/diaries/{userId}")
+    @GetMapping("/{userId}")
     public ResponseEntity<? extends BaseResponseBody> getDiaries(
             @PathVariable("userId") String userId) {
 
@@ -37,7 +38,7 @@ public class DiaryController {
                 .body(new BaseResponseBody<>(200, "OK", diaries));
     }
 
-    @GetMapping("/diaries/{diaryId}")
+    @GetMapping("/{diaryId}")
     public ResponseEntity<? extends BaseResponseBody> getDiary(
             @PathVariable("diaryId") Integer diaryId) {
 
@@ -50,12 +51,14 @@ public class DiaryController {
 
     @PostMapping
     public ResponseEntity<? extends BaseResponseBody> createDiary(
-            @ModelAttribute
+            @RequestPart
             @Valid
             DiaryPostRequest diary,
+            @RequestPart
+            MultipartFile diaryImg,
             HttpServletRequest request) throws IOException {
 
-        var id = diaryService.saveDiary(diary);
+        var id = diaryService.saveDiary(diary, diaryImg);
 
         var location = URI.create(request.getRequestURI() + "/" + id);
         var successMessage = "그림일기 생성 성공: (ID=" + id + ")";
@@ -65,7 +68,7 @@ public class DiaryController {
                 .body(new BaseResponseBody<>(201, "Created", successMessage));
     }
 
-    @DeleteMapping("/diaries/{diaryId}")
+    @DeleteMapping("/{diaryId}")
     public ResponseEntity<? extends BaseResponseBody> deleteDiary(
             @PathVariable
             @Positive(message = "필수 입력값 입니다(양수).")
