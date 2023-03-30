@@ -10,7 +10,6 @@ import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -18,18 +17,29 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-@Slf4j
 @RequiredArgsConstructor
 @Service
 public class StorageServiceImpl implements StorageService {
 
   private final MongoTemplate mongoTemplate;
-  private final String DEFAULT_DIRECTORY_PATH = "C:/Users/SSAFY/Desktop/temp-images/";
-      /*"/src/img/profile/"*/;
+  private static String DEFAULT_DIRECTORY_PATH; // 초기값은 리눅스 파일시스템 경로
+
+  static {
+    var os = System.getProperty("os.name").toLowerCase();
+
+    DEFAULT_DIRECTORY_PATH = os.contains("win") ? "C:/temp-images/" : "/src/img/";
+
+    File path = new File(DEFAULT_DIRECTORY_PATH);
+
+    if(!path.exists()) {
+      path.mkdir();
+    }
+  }
 
   @Override
   public ImageContentResponse findImageFileByImageId(String imageId) throws IOException {
     // imageId로 이미지를 조회하면서 존재 여부 확인
+    
     var imageFile = Optional
         .ofNullable(mongoTemplate.findOne(
             new Query(Criteria.where("imageId").is(imageId)),
