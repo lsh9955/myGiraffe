@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.net.URI;
@@ -21,12 +22,12 @@ import java.net.URI;
 @ValidateOnExecution
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("api/members")
+@RequestMapping("api/members/sketch")
 public class SketchController {
 
     private final SketchService sketchService;
 
-    @GetMapping("/sketch/{userId}")
+    @GetMapping("/{userId}")
     public ResponseEntity<? extends BaseResponseBody> getSketches(
             @PathVariable("userId") String userId) {
 
@@ -37,7 +38,7 @@ public class SketchController {
                 .body(new BaseResponseBody(200, "OK", sketches));
     }
 
-    @GetMapping("/sketch/{sketchId}")
+    @GetMapping("/{sketchId}")
     public ResponseEntity<? extends BaseResponseBody> getSketch(
             @PathVariable("sketchId") Integer sketchId) {
 
@@ -51,12 +52,14 @@ public class SketchController {
 
     @PostMapping
     public ResponseEntity<? extends BaseResponseBody> createSketch(
-            @ModelAttribute
+            @RequestPart
             @Valid
             SketchPostRequest sketch,
+            @RequestPart
+            MultipartFile sketchImg,
             HttpServletRequest request) throws IOException {
 
-        var id = sketchService.saveSketch(sketch);
+        var id = sketchService.saveSketch(sketch, sketchImg);
 
         var location = URI.create(request.getRequestURI() + "/" + id);
         var successMessage = "스케치북 생성 성공: (ID=" + id + ")";
@@ -66,7 +69,7 @@ public class SketchController {
                 .body(new BaseResponseBody<>(201, "Created", successMessage));
     }
 
-    @DeleteMapping("/sketch/{sketchId}")
+    @DeleteMapping("/{sketchId}")
     public ResponseEntity<? extends BaseResponseBody> deleteSketch(
             @PathVariable
             @Positive(message = "필수 입력값 입니다(양수).")
