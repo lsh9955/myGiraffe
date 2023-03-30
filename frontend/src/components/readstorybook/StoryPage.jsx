@@ -5,6 +5,7 @@ import one from "./1.jpg";
 //mui아이콘 중 방향 버튼 아이콘을 가져오기
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import CanvasTool from "./canvas/CanvasTool";
 
 /**읽고 있는 동화책 컴포넌트 (현재 페이지, 페이지 바뀔 때 이벤트, 모든 페이지 정보, 현재까지 읽은 페이지 정보)*/
 const StoryPage = ({
@@ -17,7 +18,10 @@ const StoryPage = ({
   const [firPageflip, setFirPageflip] = useState(false);
   const [secPageflip, setSecPageflip] = useState(false);
   const [nowPageInfo, setNowPageInfo] = useState(allContent[nowPage - 1]);
-
+  //그림 그리는 이벤트 페이지, 숫자 그리는 이벤트 페이지를 여는 경우 설정
+  const [eventPicPageOpen, setEventPicPageOpen] = useState(false);
+  const [eventNumPageOpen, setEventNumPageOpen] = useState(false);
+  const [eventTitle, setEventTitle] = useState(null);
   //!현재 이미지가 로딩되지 않기 떄문에, 이미지를 제외하고 설정
 
   //첫 페이지 넘김 여부
@@ -64,8 +68,14 @@ const StoryPage = ({
     }
   }, [firPageflip, secPageflip]);
 
+  //그림 페이지 열고 닫음
+  const picHandler = (titleInput) => {
+    setEventPicPageOpen(!eventPicPageOpen);
+    setEventTitle(titleInput);
+  };
   return (
     <R.Book>
+      {eventPicPageOpen && <CanvasTool title={eventTitle} />}
       <R.PageInput
         type="checkbox"
         ref={checkRef1}
@@ -107,12 +117,24 @@ const StoryPage = ({
 
           <R.Back>
             <img src={one} alt="Cover" />
-            <div>{allContent[nowPage - 1]?.script}</div>
-            {allContent[nowPage - 1]?.pageId != 1 && (
-              <label htmlFor="c1">
-                <KeyboardArrowLeftIcon />
-              </label>
+            {allContent[nowPage - 1]?.objData.isEvent && (
+              <button
+                onClick={() => {
+                  picHandler(
+                    "잃어버린 물건을 찾아주세요! \n(힌트: 축구공, 닌텐도 스위치, 로봇 장난감, 인형, 일기장, 스마트폰 중에 하나랍니다!)"
+                  );
+                }}
+              >
+                그림 그려주기
+              </button>
             )}
+            <div>{allContent[nowPage - 1]?.script}</div>
+            {allContent[nowPage - 1]?.pageId != 1 &&
+              !allContent[nowPage - 1]?.objData.isEvent && (
+                <label htmlFor="c1">
+                  <KeyboardArrowLeftIcon />
+                </label>
+              )}
           </R.Back>
         </R.Filp>
         <R.Filp id="p2" pageIdx="2" isRendered={isRendered}>
@@ -130,11 +152,12 @@ const StoryPage = ({
           {/* 두번째장 앞면 -현재 랜더링된 페이지와 동일*/}
           <R.Front>
             <div>{allContent[nowPage - 1]?.script}</div>
-            {allContent[nowPage - 1]?.nextPage.length == 1 && (
-              <label htmlFor="c2">
-                <KeyboardArrowRightIcon />
-              </label>
-            )}
+            {allContent[nowPage - 1]?.nextPage.length == 1 &&
+              !allContent[nowPage - 1]?.objData.isEvent && (
+                <label htmlFor="c2">
+                  <KeyboardArrowRightIcon />
+                </label>
+              )}
           </R.Front>
         </R.Filp>
         <R.Filp id="p3" pageIdx="3" isRendered={isRendered}>

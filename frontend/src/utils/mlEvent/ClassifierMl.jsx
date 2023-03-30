@@ -9,7 +9,7 @@ import {
 const ClassifierMl = () => {
   const [getImg, setGetImg] = useState(null);
   const getImgHandler = (e) => {
-    setGetImg(e.split(",")[1]);
+    setGetImg(e);
   };
   useEffect(() => {
     const NumMl = async () => {
