@@ -60,7 +60,7 @@ export const MySketchbookimage = styled.img`
 `;
 
 export const Container = styled.div`
-  width: 70%;
+  width: 80%;
   margin: 0 auto;
   margin-top: 50px;
 `;
