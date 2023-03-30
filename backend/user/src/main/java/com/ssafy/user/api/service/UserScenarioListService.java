@@ -14,7 +14,6 @@ public interface UserScenarioListService {
     List<UserScenarioList> findAllScenariosByUserId(String userId);
 
 
-
     /**
      * 유저가 구매한 시나리오를 목록에 추가(저장)합니다.
      * @param userId, scenarioId
