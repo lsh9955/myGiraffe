@@ -11,6 +11,8 @@ import { Buttontwo } from "components/common/button/ButtonStyle";
 import { TutorialNumberGif } from "components/modal/tutorial_modal/TutorialStyle";
 import GifNumber from "assets/image/tutorialnumber.gif";
 
+// 숫자 인식 ml
+
 // 모달 mui 스타일
 const style = {
   position: "absolute",
