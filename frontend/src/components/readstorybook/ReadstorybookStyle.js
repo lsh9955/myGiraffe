@@ -1,9 +1,16 @@
 /**읽고 있는 동화책 컴포넌트 style*/
+
 import styled from "styled-components";
+import bookBackground from "assets/image/bookBackground.png";
+import bookTextBackground from "assets/image/bookTextBackground.png";
 export const Book = styled.div`
   display: flex;
-  width: 95%;
-  height: 95%;
+  width: 100%;
+  height: 100%;
+  padding: 0% 1.5% 0.5% 1.5%;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-image: url(${bookBackground});
 `;
 
 export const PageInput = styled.input`
@@ -17,10 +24,16 @@ export const PageInput = styled.input`
 export const Cover = styled.div`
   width: 50%;
   height: 100%;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-image: url(${bookTextBackground});
+
   overflow: hidden;
   & > img {
-    width: 200%;
-    height: 60%;
+    width: 100%;
+    height: 100%;
   }
   & > div {
     padding: 5% 5%;
@@ -44,6 +57,7 @@ export const Filp = styled.div`
   transform-origin: left;
   transform-style: preserve-3d;
   transform: rotateY(0deg);
+
   transition: ${(props) => (props.isRendered === false ? "0s" : "0.5s")};
   color: #000;
   z-index: ${(props) => 2 - Number(props.pageIdx)};
@@ -55,6 +69,11 @@ export const Front = styled.div`
   height: 100%;
   top: 0;
   left: 0;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-image: url(${bookTextBackground});
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
   background-color: #fff;
   box-sizing: border-box;
   overflow: hidden;
@@ -76,17 +95,12 @@ export const Front = styled.div`
       }
     }
   }
-  & > img {
-    position: relative;
-    width: 200%;
-    height: 60%;
-    left: -100%;
-  }
+
   & div {
-    width: 200%;
-    left: -100%;
+    width: 100%;
+
     font-size: 300%;
-    padding: 5% 5%;
+    padding: 10% 10%;
     position: relative;
   }
 `;
@@ -97,6 +111,11 @@ export const Back = styled.div`
   top: 0;
   left: 0;
   z-index: 99;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-image: url(${bookTextBackground});
   overflow: hidden;
   transform: rotateY(180deg);
   backface-visibility: hidden;
@@ -121,8 +140,8 @@ export const Back = styled.div`
   }
   & > img {
     position: relative;
-    width: 200%;
-    height: 60%;
+    width: 100%;
+    height: 100%;
   }
   & div {
     width: 200%;

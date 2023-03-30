@@ -97,7 +97,6 @@ const StoryPage = ({ nowPage, pageChangeHandler }) => {
           </R.Back>
           {/* 두번째장 앞면 -현재 랜더링된 페이지와 동일*/}
           <R.Front>
-            <img src={one} alt="Cover" />
             <div>
               반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다
             </div>
@@ -105,6 +104,24 @@ const StoryPage = ({ nowPage, pageChangeHandler }) => {
               <KeyboardArrowRightIcon />
             </label>
           </R.Front>
+        </R.Filp>
+        <R.Filp id="p3" pageIdx="3" isRendered={isRendered}>
+          {/* 첫번째장 앞면 -이전 페이지와 동일*/}
+          <R.Front>
+            <label htmlFor="c3">
+              <KeyboardArrowRightIcon />
+            </label>
+          </R.Front>
+          {/* 첫번째장 뒷면 -현재 랜더링된 페이지와 동일*/}
+          <R.Back>
+            <img src={one} alt="Cover" />
+            <div>
+              반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다
+            </div>
+            <label htmlFor="c3">
+              <KeyboardArrowLeftIcon />
+            </label>
+          </R.Back>
         </R.Filp>
       </R.FlipBook>
     </R.Book>
