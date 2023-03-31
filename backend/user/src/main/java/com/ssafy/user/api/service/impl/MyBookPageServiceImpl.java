@@ -1,15 +1,19 @@
 package com.ssafy.user.api.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.user.api.dto.request.MyBookPagePostRequest;
 import com.ssafy.user.api.dto.response.MyBookPageGetResponse;
 import com.ssafy.user.api.service.MyBookPageService;
+import com.ssafy.user.api.util.ImageUrlProvider;
 import com.ssafy.user.db.entity.MyBookPage;
 import com.ssafy.user.db.repository.MyBookPageRepository;
 import com.ssafy.user.db.repository.MyBookRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -19,6 +23,8 @@ public class MyBookPageServiceImpl implements MyBookPageService {
 
     private final MyBookPageRepository myBookPageRepository;
     private final MyBookRepository myBookRepository;
+    private final ImageUrlProvider imageUrlProvider;
+    private final ObjectMapper objectMapper;
 
     @Override
     public MyBookPageGetResponse findPageByBookIdAndPageNo(Integer bookId, String pageNo) {
@@ -50,25 +56,36 @@ public class MyBookPageServiceImpl implements MyBookPageService {
     }
 
     @Override
-    public Integer savePage(MyBookPagePostRequest request) {
+    public Integer savePage(MyBookPagePostRequest request, MultipartFile bgImg, MultipartFile interUserImg) throws IOException {
 
         var myBook = myBookRepository.findById(request.getBookId())
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 동화책에 페이지를 추가할 수 없습니다. (ID="
                         + request.getBookId() + ")"));
 
         myBookPageRepository.findByMyBookAndPageNo(myBook, request.getPageNo())
-                .orElseThrow(() -> new IllegalArgumentException("이미 있는 페이지 입니다."));
+                .ifPresent((x) -> {throw new IllegalArgumentException("이미 있는 페이지입니다.");});
+
+        // MultiPartFile -> String
+        var bgImgUrl = imageUrlProvider.getImageUrl(bgImg);
+        var userImgUrl = imageUrlProvider.getImageUrl(interUserImg);
+
+        // List -> String
+        var nextPage = objectMapper.writeValueAsString(request.getNextPage());
+
+        // JsonNode -> String
+        var dataString = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(request.getObjData());
+        var userdataString = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(request.getObjUserData());
 
         // Redis 에서 가져와 넣어준다.
         var page = MyBookPage.builder()
                 .myBook(myBook)
                 .pageNo(request.getPageNo())
                 .script(request.getScript())
-                .bgImgUrl(null)
-                .nextPage(null)
-                .objData(null)
-                .objUserData(null)
-                .interUserImgUrl(null)
+                .bgImgUrl(bgImgUrl)
+                .nextPage(nextPage)
+                .objData(dataString)
+                .objUserData(userdataString)
+                .interUserImgUrl(userImgUrl)
                 .build();
 
         return myBookPageRepository.save(page).getPageId();
