@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.net.URI;
@@ -60,12 +61,16 @@ public class MyBookPageController {
 
     @PostMapping
     public ResponseEntity<? extends BaseResponseBody> createPage(
-            @ModelAttribute
+            @RequestPart
             @Valid
-            MyBookPagePostRequest page,
+            MyBookPagePostRequest myBookPage,
+            @RequestPart(required = false)
+            MultipartFile bgImg,
+            @RequestPart(required = false)
+            MultipartFile interUserImg,
             HttpServletRequest request) throws IOException {
 
-        var id = myBookPageService.savePage(page);
+        var id = myBookPageService.savePage(myBookPage, bgImg, interUserImg);
 
         var location = URI.create(request.getRequestURI() + "/" + id);
         var successMessage = "동화책 페이지 생성 성공: (ID=" + id + ")";
