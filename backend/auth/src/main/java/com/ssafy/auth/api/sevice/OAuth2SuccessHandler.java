@@ -81,7 +81,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             // );
 
             // 프로필 DB에 저장
-            // userProfileClient.insertProfile(userInfoDto);
+            userProfileClient.insertProfile(userInfoDto);
         } else {
             userInfoDto = new UserInfoDto(
                 String.valueOf(user.getUserId())
@@ -100,7 +100,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             // }
             log.info("userInfoDto ={}", userInfoDto);
 
-            // userProfileClient.updateImage(userInfoDto);
+            userProfileClient.updateImage(userInfoDto);
         }
 
         String targetUrl;
