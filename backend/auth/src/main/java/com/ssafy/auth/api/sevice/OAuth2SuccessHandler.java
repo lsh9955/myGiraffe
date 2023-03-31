@@ -81,7 +81,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             // );
 
             // 프로필 DB에 저장
-            // userProfileClient.insertProfile(profileDto);
+            // userProfileClient.insertProfile(userInfoDto);
         } else {
             userInfoDto = new UserInfoDto(
                 String.valueOf(user.getUserId())
@@ -98,9 +98,9 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             // } else {
                 tokens = tokenProvider.generateToken(userInfoDto.getUserId(), Role.USER.getKey());
             // }
-            log.info("profileDto ={}", userInfoDto);
+            log.info("userInfoDto ={}", userInfoDto);
 
-            // userProfileClient.updateImage(profileDto);
+            // userProfileClient.updateImage(userInfoDto);
         }
 
         String targetUrl;

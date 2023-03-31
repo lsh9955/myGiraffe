@@ -62,7 +62,7 @@ public class SecurityConfig {
                 .userInfoEndpoint()
                 .userService(oAuth2UserService);
 
-        // http.addFilterBefore(new JwtAuthFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JwtAuthFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
