@@ -2,6 +2,7 @@ package com.ssafy.user.api.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -13,14 +14,14 @@ import lombok.RequiredArgsConstructor;
  *
  * @param <T>
  */
-@RequiredArgsConstructor // final 필드만 파라미터로 받는 생성자
 @AllArgsConstructor      // 모든 필드값을 파라미터로 받는 생성자
+@NoArgsConstructor
 @Getter
 public class BaseResponseBody<T> {
 
-    private final Integer status;
+    private Integer status;
 
-    private final String title;
+    private String title;
 
     private T content;
 
