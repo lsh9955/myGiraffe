@@ -35,6 +35,8 @@ public class UserScenarioListServiceImpl implements UserScenarioListService {
         var userInfo = userInfoRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 유저 입니다."));
 
+        if(scenarioId < 0) throw new IllegalArgumentException("유효하지 않은 시나리오 번호 입니다.");
+
         var userScenario = UserScenarioList.builder()
                 .userInfo(userInfo)
                 .scenarioId(scenarioId)
