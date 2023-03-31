@@ -64,11 +64,15 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             // 저장된 회원 정보 불러옴 -> userId 사용
             user = userRepository.findBySocialId(userDto.getSocialId()).orElseThrow(NotFoundException::new);
 
+            log.info("userId = {}", user.getUserId());
+
             userInfoDto = new UserInfoDto(
                 String.valueOf(user.getUserId())
                 , String.valueOf(attributes.get("nickname"))
                 , String.valueOf(attributes.get("image"))
             );
+
+            log.info("userId = {}, user nickname = {}, user image = {}", userInfoDto.getUserId(), userInfoDto.getNickname(), userInfoDto.getImage());
 
             // 토큰 발행
             tokens = tokenProvider.generateToken(userInfoDto.getUserId(), Role.USER.getKey());

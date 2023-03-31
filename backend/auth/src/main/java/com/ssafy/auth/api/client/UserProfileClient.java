@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestPart;
 @FeignClient(name = "user-profile-client", url = "${request.url.user-server}")
 public interface UserProfileClient {
     @PostMapping(value = "/user",produces = "application/json")
-    ResponseEntity<? extends BaseResponseBody> insertProfile(@RequestPart UserInfoDto userInfoDto);
+    ResponseEntity<? extends BaseResponseBody> insertProfile(@RequestBody UserInfoDto userInfoDto);
 
     @PostMapping(value = "/image", produces = "application/json")
-    ResponseEntity<? extends BaseResponseBody> updateImage(@RequestPart UserInfoDto userInfoDto);
+    ResponseEntity<? extends BaseResponseBody> updateImage(@RequestBody UserInfoDto userInfoDto);
 }
