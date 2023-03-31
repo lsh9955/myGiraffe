@@ -27,7 +27,7 @@ public class SketchController {
 
     private final SketchService sketchService;
 
-    @GetMapping("/{userId}")
+    @GetMapping("/list/{userId}")
     public ResponseEntity<? extends BaseResponseBody> getSketches(
             @PathVariable("userId") String userId) {
 

@@ -27,7 +27,7 @@ public class DiaryController {
 
     private final DiaryService diaryService;
 
-    @GetMapping("/{userId}")
+    @GetMapping("/list/{userId}")
     public ResponseEntity<? extends BaseResponseBody> getDiaries(
             @PathVariable("userId") String userId) {
 
