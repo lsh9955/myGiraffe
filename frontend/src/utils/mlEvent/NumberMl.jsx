@@ -11,6 +11,8 @@ import { Buttontwo } from "components/common/button/ButtonStyle";
 import { TutorialNumberGif } from "components/modal/tutorial_modal/TutorialStyle";
 import GifNumber from "assets/image/tutorialnumber.gif";
 
+// 숫자 인식 ml
+
 // 모달 mui 스타일
 const style = {
   position: "absolute",
@@ -27,10 +29,12 @@ const style = {
 };
 
 const NumberMl = () => {
+  // 모달 오픈시 필요한 변수
   const [open, setOpen] = useState(true);
   const handleClose = () => {
     setOpen(false);
   };
+
   const [getImg, setGetImg] = useState(null);
   const getImgHandler = (e) => {
     setGetImg(e);

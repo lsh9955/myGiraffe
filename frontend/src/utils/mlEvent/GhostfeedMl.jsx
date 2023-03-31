@@ -9,9 +9,9 @@ import {
 import { Box, Typography, Modal } from "@mui/material/";
 import { Buttontwo } from "components/common/button/ButtonStyle";
 import { TutorialNumberGif } from "components/modal/tutorial_modal/TutorialStyle";
-import GifClassifier from "assets/image/tutorialclassifier.gif";
+import GifNumber from "assets/image/tutorialnumber.gif";
 
-// 소중한 물건인지 확인하는 ml
+// 과일인지, 곤충인지 확인하는 ml
 
 // 모달 mui 스타일
 const style = {
@@ -28,24 +28,27 @@ const style = {
   borderRadius: 10,
 };
 
-const ClassifierMl = () => {
+const GhostfeedMl = () => {
   // 모달 오픈시 필요한 변수
   const [open, setOpen] = useState(true);
   const handleClose = () => {
     setOpen(false);
   };
 
+  // ml서버에 넘겨줄 이미지
   const [getImg, setGetImg] = useState(null);
   const getImgHandler = (e) => {
-    setGetImg(e);
+    setGetImg(e.split(",")[1]);
   };
   useEffect(() => {
     const NumMl = async () => {
       await axios
         .post(
-          // "https://j8b201.p.ssafy.io/api/classifier",
-          "http://192.168.31.87:5000/api/classifier",
+          // "https://j8b201.p.ssafy.io/api/visionapi",
+          "http://192.168.31.87:5000/api/visionapi",
           {
+            criteria_1: String("insect"),
+            criteria_2: String("plant"),
             base64_drawing: String(getImg),
           }
         )
@@ -80,7 +83,7 @@ const ClassifierMl = () => {
             variant="h6"
             component="h2"
           >
-            소중한 물건을 그려보자
+            유령에게 먹을 것을 그려주자
           </Typography>
           <Box
             sx={{
@@ -89,12 +92,12 @@ const ClassifierMl = () => {
               alignItems: "center",
             }}
           >
-            <TutorialNumberGif src={GifClassifier} alt="GifClassifier" />
+            <TutorialNumberGif src={GifNumber} alt="GifNumber" />
           </Box>
           <Typography
             id="modal-modal-description"
             sx={{
-              mt: 3,
+              mt: 1,
               mb: 1,
               fontSize: 18,
               display: "flex",
@@ -102,19 +105,7 @@ const ClassifierMl = () => {
               alignItems: "center",
             }}
           >
-            가방 안에 들어있던 물건은 뭐였을까?
-          </Typography>
-          <Typography
-            sx={{
-              mt: 1,
-              mb: 1,
-              fontSize: 17,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            (닌텐도 스위치, 축구공, 인형, 일기장, 로봇, 스마트폰)
+            배고픈 유령에게 먹을 것을 그려주세요.
           </Typography>
           <Typography
             sx={{
@@ -126,7 +117,19 @@ const ClassifierMl = () => {
               alignItems: "center",
             }}
           >
-            중에 하나를 골라 그려주세요.
+            싫어하는 것을 주면, 어떤 일이 일어날까요?
+          </Typography>
+          <Typography
+            sx={{
+              mt: 1,
+              mb: 1,
+              fontSize: 18,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            그리기를 끝내면 완료 버튼을 눌러주세요.
           </Typography>
           <Box
             sx={{
@@ -140,14 +143,11 @@ const ClassifierMl = () => {
         </Box>
       </Modal>
       <SketchWriteContainer>
-        <SketchTitle>
-          (닌텐도 스위치, 축구공, 인형, 일기장, 로봇, 스마트폰) 중에 1개를 골라
-          그려주세요.
-        </SketchTitle>
+        <SketchTitle>배고픈 유령에게 맛있는 과일을 그려주세요.</SketchTitle>
         <CanvasTool getImgHandler={getImgHandler} />
       </SketchWriteContainer>
     </>
   );
 };
 
-export default ClassifierMl;
+export default GhostfeedMl;
