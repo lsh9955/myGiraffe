@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter;
 @Component
 public class RequestLoggingAspect {
 
-    @Around("within(com.example.books.api.controller..*)")
+    @Around("within(com.ssafy.user.api.controller..*)")
     public Object logRequest(ProceedingJoinPoint joinPoint) throws Throwable {
 
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
