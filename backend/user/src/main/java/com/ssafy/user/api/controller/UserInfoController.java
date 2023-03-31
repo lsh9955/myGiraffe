@@ -1,5 +1,6 @@
 package com.ssafy.user.api.controller;
 
+import com.ssafy.user.api.dto.request.UserInfoPostRequest;
 import com.ssafy.user.api.dto.response.BaseResponseBody;
 import com.ssafy.user.api.service.UserInfoService;
 import com.ssafy.user.api.service.UserScenarioListService;
@@ -23,6 +24,29 @@ public class UserInfoController {
 
     private final UserInfoService userInfoService;
     private final UserScenarioListService userScenarioListService;
+
+    @PostMapping(value = "/user", produces = "application/json")
+    public ResponseEntity<? extends BaseResponseBody> insertProfile(
+            @RequestPart UserInfoPostRequest request) {
+
+        // userInfo 주입
+        var userInfo = userInfoService.saveUserInfo(request);
+
+        return ResponseEntity
+                .ok()
+                .body(new BaseResponseBody<>(200, "OK", userInfo));
+    };
+
+    @PatchMapping(value = "/image", produces = "application/json")
+    public ResponseEntity<? extends BaseResponseBody> updateImage(
+            @RequestPart UserInfoPostRequest request) { // 프로필 사진 업데이트
+
+        var userInfo = userInfoService.updateUserImage(request);
+
+        return ResponseEntity
+                .ok()
+                .body(new BaseResponseBody<>(200, "OK", userInfo));
+    };
 
     @GetMapping("/{userId}")
     public ResponseEntity<? extends BaseResponseBody> getUserInfo(
