@@ -31,15 +31,15 @@ def aivoice():
         text = request.json['text']
     elif request.method == 'GET':
         # GET으로 전달된 텍스트를 가져옵니다.
-        text = "다솔님 바보바보바보"
+        text = "조원희 원희조 팀장은 언제나 바보 바보 바보"
 
     # TTS 작업 수행
     client = texttospeech.TextToSpeechClient(credentials=credentials)
     input_text = texttospeech.SynthesisInput(text=text)
     voice = texttospeech.VoiceSelectionParams(
         language_code="ko-KR",
-        name="ko-KR-Wavenet-B",
-        ssml_gender=texttospeech.SsmlVoiceGender.FEMALE,
+        name="ko-KR-Wavenet-D",
+        ssml_gender=texttospeech.SsmlVoiceGender.MALE,
     )
 
     audio_config = texttospeech.AudioConfig(

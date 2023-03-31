@@ -23,7 +23,12 @@ vision_api_key = json.loads(vision_api_key)
 # 서비스 계정 키 파일 경로 지정
 credentials = service_account.Credentials.from_service_account_info(vision_api_key)
 
-digit_dict = {'o': '0', 'O': 'ㅇ', 'p': '9', 'q': '9', }
+digit_dict = {'o': '0', "O": '0', 'ㅇ': '0',
+              '|': '1', 'l': '1', 'I': '1', 'ㅣ': '1',
+              'p': '9', 'q': '9', 'g': '9',
+              'x': '*', 'X': '*',
+              '%': '/',
+              }
 
 
 @numbers_blueprint.route('/api/numbers', methods=['POST', 'GET'])
@@ -38,7 +43,7 @@ def numbers():
 
     # POST로 받는 데이터가 이미 BASE64 로 인코딩된 이미지이므로
     # Base64로 디코딩 해줍니다.
-    image = vision.Image(content=base64.b64decode(request.json['base64_drawing']))
+    image = vision.Image(content=base64.b64decode(request.json['base64_drawing'][22:]))
 
     # 자, 그러면 이제 한국어로만 인식해보도록 하죠.
     image_context = vision.ImageContext(language_hints=["ko"])
@@ -51,7 +56,6 @@ def numbers():
     origin_count = len(origin_text)
     print(origin_text, ": length = ", origin_count)
 
-    calcul_flag = False
     digit = ''
     for checking in range(len(origin_text)):
         if origin_text[checking].isnumeric():
@@ -59,14 +63,13 @@ def numbers():
         else:
             if origin_text[checking] in ["+", "-", "*", "/"]:
                 digit += origin_text[checking]
-                calcul_flag = True
             elif origin_text[checking] in digit_dict.keys():
                 digit += digit_dict[origin_text[checking]]
 
-    if calcul_flag:
-        digit = str(eval(digit))
+    digit = str(eval(digit))
 
     # digit = ''.join(re.findall(r'\d', response.full_text_annotation.text))
     if digit == "":
         digit = "죄송하지만 제대로 인식하지 못했어요... 다시 입력해주세요."
+
     return digit
