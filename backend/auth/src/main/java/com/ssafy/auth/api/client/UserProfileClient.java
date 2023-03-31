@@ -14,6 +14,6 @@ public interface UserProfileClient {
     @PostMapping(value = "/user",produces = "application/json")
     ResponseEntity<? extends BaseResponseBody> insertProfile(@RequestPart UserInfoDto userInfoDto);
 
-    @PatchMapping(value = "/image", produces = "application/json")
+    @PostMapping(value = "/image", produces = "application/json")
     ResponseEntity<? extends BaseResponseBody> updateImage(@RequestPart UserInfoDto userInfoDto);
 }
