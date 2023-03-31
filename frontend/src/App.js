@@ -18,6 +18,8 @@ import StorybookMLDrawPage from "./pages/StorybookMLDrawPage";
 
 //로그인 페이지
 import LoginPage from "./pages/LoginPage";
+//리다이렉트 페이지
+import RedirectPage from "./pages/RedirectPage";
 
 function App() {
   /** 로그인 여부 판단 */
@@ -53,6 +55,9 @@ function App() {
         <Route path="/bookmldraw" component={StorybookMLDrawPage} />
         <Route path="/login" exact>
           <LoginPage component={LoginPage} />
+        </Route>
+        <Route path="/">
+          <RedirectPage component={RedirectPage} />
         </Route>
       </Switch>
     </div>

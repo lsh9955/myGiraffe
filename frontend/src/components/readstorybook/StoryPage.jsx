@@ -6,6 +6,7 @@ import one from "./1.jpg";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import CanvasTool from "./canvas/CanvasTool";
+import ClassifierMl from "utils/mlEvent/ClassifierMl";
 
 /**읽고 있는 동화책 컴포넌트 (현재 페이지, 페이지 바뀔 때 이벤트, 모든 페이지 정보, 현재까지 읽은 페이지 정보)*/
 const StoryPage = ({
@@ -75,7 +76,8 @@ const StoryPage = ({
   };
   return (
     <R.Book>
-      {eventPicPageOpen && <CanvasTool title={eventTitle} />}
+      {eventPicPageOpen && <ClassifierMl />}
+
       <R.PageInput
         type="checkbox"
         ref={checkRef1}
@@ -96,6 +98,7 @@ const StoryPage = ({
           setSecPageflip(!secPageflip);
         }}
       />
+
       {/* 커버 페이지 -이전 페이지와 동일*/}
       <R.Cover>
         <img src={one} alt="Cover" />
