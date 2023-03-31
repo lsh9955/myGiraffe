@@ -1,5 +1,6 @@
 package com.ssafy.user.db.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,8 +17,9 @@ public class MyBookPage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer pageId;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "my_book")
+    @JsonBackReference // 1. 연관관계의 주인 Entity 에 선언   2. 직렬화가 되지 않도록 수행
     private MyBook myBook;
 
     @Column(name = "page_no", nullable = false)

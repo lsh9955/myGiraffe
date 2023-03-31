@@ -1,7 +1,12 @@
 package com.ssafy.user.db.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Builder(toBuilder = true)
@@ -16,8 +21,9 @@ public class MyBook extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer bookId;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private UserInfo userInfo;
 
     @Column(name = "book_name", nullable = false)
@@ -25,5 +31,10 @@ public class MyBook extends BaseTimeEntity {
 
     @Column(name = "scenario_id", nullable = false)
     private Integer scenarioId;
+
+
+    @OneToMany(mappedBy = "myBook", cascade = CascadeType.ALL) // 부모에서 하위 엔티티 변경 적용
+    @JsonManagedReference // 1. 연관관계 주인 반대 Entity 에 선언   2. 정상적으로 직렬화 수행
+    private List<MyBookPage> myBookPageList = new ArrayList<>();
 
 }

@@ -1,5 +1,6 @@
 package com.ssafy.user.db.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,8 +17,9 @@ public class UserScenarioList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userScenariosId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private UserInfo userInfo;
 
     @Column(name = "scenario_id", nullable = false)

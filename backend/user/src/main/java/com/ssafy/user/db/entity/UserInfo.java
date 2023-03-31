@@ -1,5 +1,6 @@
 package com.ssafy.user.db.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -21,7 +22,6 @@ public class UserInfo extends BaseTimeEntity {
 
   @Id
   @Column(name = "user_id")
-  @GeneratedValue(strategy = GenerationType.AUTO)
   private String userId;
 
   @Column(name = "user_name", nullable = false)
@@ -34,7 +34,16 @@ public class UserInfo extends BaseTimeEntity {
   @ColumnDefault("0")
   private int coinAMount;
 
-//  @OneToMany(mappedBy = "userinfo", cascade = CascadeType.ALL)
-//  private List<MyBook> myBooks = new ArrayList<>();
+  @OneToMany(mappedBy = "userInfo", cascade = CascadeType.ALL)
+  @JsonManagedReference
+  private List<MyBook> myBooks = new ArrayList<>();
+
+  @OneToMany(mappedBy = "userInfo", cascade = CascadeType.ALL)
+  @JsonManagedReference
+  private List<Diary> diaries = new ArrayList<>();
+
+  @OneToMany(mappedBy = "userInfo", cascade = CascadeType.ALL)
+  @JsonManagedReference
+  private List<Sketch> sketches = new ArrayList<>();
 
 }
