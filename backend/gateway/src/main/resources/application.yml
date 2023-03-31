@@ -1,0 +1,36 @@
+server:
+  port: 8000
+
+spring:
+  # API id for MSA & routes
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      default-filters:
+        - AuthorizationHeaderFilter
+      routes:
+        - id: auth-server
+          uri: http://localhost:8090
+          predicates:
+            - Path=/api/auth/**
+        - id: user-server
+          uri: http://localhost:8080
+          predicates:
+            - Path=/api/members/**, /api/payments/**
+        - id: books-server
+          uri: http://localhost:5000
+          predicates:
+            - Path=/api/books/**
+#        - id: store-server
+#          uri: http://localhost:5000
+#          predicates:
+#            - Path=/api/store/**
+
+# log level setting
+logging:
+  level:
+    root: info
+    com.ssafy: debug
+    org.springframework.cloud.gateway: debug
+    reactor.netty.http.client: debug
