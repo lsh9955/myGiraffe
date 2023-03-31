@@ -37,7 +37,7 @@ public class UserInfoController {
                 .body(new BaseResponseBody<>(200, "OK", userInfo));
     };
 
-    @PatchMapping(value = "/image", produces = "application/json")
+    @PostMapping(value = "/image", produces = "application/json")
     public ResponseEntity<? extends BaseResponseBody> updateImage(
             @RequestPart UserInfoPostRequest request) { // 프로필 사진 업데이트
 
