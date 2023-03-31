@@ -1,33 +1,34 @@
 package com.ssafy.user.api.util;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.user.api.dto.response.BaseResponseBody;
 import com.ssafy.user.exception.BaseRuntimeException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @RequiredArgsConstructor
 @Component
 public class ImageUrlProvider {
-    private final String REQUEST_URL = "http://192.168.56.1:9031/api/resources/images/upload";
+    @Value("${request.url}") String REQUEST_URL;
     private final OkHttpClient okHttpClient = new OkHttpClient()
             .newBuilder()
             .connectTimeout(60, TimeUnit.SECONDS)
             .build();
     private final ObjectMapper objectMapper;
+
 
     /**
      * 이미지 파일을 store-service 에 http 요청으로 보내고, 응답으로 온 BaseResponseBody 에서
@@ -84,4 +85,3 @@ public class ImageUrlProvider {
         }
     }
 }
-
