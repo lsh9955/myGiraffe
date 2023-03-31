@@ -14,6 +14,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @RequiredArgsConstructor
 @Configuration
@@ -21,7 +23,7 @@ public class SecurityConfig {
     private final CustomOAuth2UserService oAuth2UserService;
     private final OAuth2SuccessHandler successHandler;
     private final TokenProvider tokenProvider;
-    
+
     @Bean
     public WebSecurityCustomizer configure() {
         return (web) -> web.ignoring()
@@ -55,16 +57,30 @@ public class SecurityConfig {
                 .requestMatchers("/").permitAll()
                 .anyRequest().authenticated()
             .and()
-                .logout().logoutSuccessUrl("/")
-            .and()
                 .oauth2Login()
                 .successHandler(successHandler)
                 .userInfoEndpoint()
                 .userService(oAuth2UserService);
 
-        // http.addFilterBefore(new JwtAuthFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JwtAuthFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
+    /*
+    // http.cors().configurationSource(corsConfigurationSource()) 임의 필터
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        configuration.addAllowedOrigin("*");
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+    */
 }
