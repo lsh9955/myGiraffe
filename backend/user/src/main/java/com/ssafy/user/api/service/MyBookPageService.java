@@ -2,7 +2,9 @@ package com.ssafy.user.api.service;
 
 import com.ssafy.user.api.dto.request.MyBookPagePostRequest;
 import com.ssafy.user.api.dto.response.MyBookPageGetResponse;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface MyBookPageService {
@@ -27,10 +29,13 @@ public interface MyBookPageService {
 
     /**
      * 사용자가 수행한 상호작용 정보 포함한 동화책 페이지 정보를 저장합니다.
+     *
      * @param MyBookPagePostRequest request
+     * @param bgImg
+     * @param interUserImg
      * @return 해당 내 동화책 pageId
      */
-    Integer savePage(MyBookPagePostRequest request);
+    Integer savePage(MyBookPagePostRequest request, MultipartFile bgImg, MultipartFile interUserImg) throws IOException;
 
 
     /**
