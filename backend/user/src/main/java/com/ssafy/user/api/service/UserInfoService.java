@@ -1,5 +1,6 @@
 package com.ssafy.user.api.service;
 
+import com.ssafy.user.api.dto.request.UserInfoPostRequest;
 import com.ssafy.user.api.dto.response.UserInfoGetResponse;
 import com.ssafy.user.db.entity.UserInfo;
 
@@ -20,6 +21,22 @@ public interface UserInfoService {
      * @return UserInfo
      */
     UserInfo updateKeyAmount(String userId, Integer keyAmount);
+
+
+    /**
+     * 유저정보 요청을 받아 저장 합니다.
+     * @param UserInfoPostRequest request
+     * @return userId
+     */
+    String saveUserInfo(UserInfoPostRequest request);
+
+
+    /**
+     * 유저의 프로필 사진을 업데이트 합니다.
+     * @param UserInfoPostRequest request
+     * @return userId
+     */
+    String updateUserImage(UserInfoPostRequest request);
 
 
     /**
