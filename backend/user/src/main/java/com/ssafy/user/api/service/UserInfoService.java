@@ -1,6 +1,6 @@
 package com.ssafy.user.api.service;
 
-import com.ssafy.user.api.dto.request.UserPostRequest;
+import com.ssafy.user.api.dto.request.UserInfoPostRequest;
 import com.ssafy.user.api.dto.response.UserInfoGetResponse;
 import com.ssafy.user.db.entity.UserInfo;
 
@@ -28,7 +28,7 @@ public interface UserInfoService {
      * @param UserInfoPostRequest request
      * @return userId
      */
-    String saveUserInfo(UserPostRequest request);
+    String saveUserInfo(UserInfoPostRequest request);
 
 
     /**
@@ -36,7 +36,7 @@ public interface UserInfoService {
      * @param UserInfoPostRequest request
      * @return userId
      */
-    String updateUserImage(UserPostRequest request);
+    String updateUserImage(UserInfoPostRequest request);
 
 
     /**
