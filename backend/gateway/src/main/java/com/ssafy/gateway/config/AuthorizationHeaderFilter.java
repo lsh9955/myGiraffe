@@ -62,18 +62,18 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
      public class JwtTokenExceptionHandler implements ErrorWebExceptionHandler {
          private String getErrorCode(int errorCode) {
              if (errorCode == 100)
-                return "{\n 토큰이 없습니다. \n\"errorCode\":" + errorCode + "\n}";
+                return "{\n\"HttpStatus\": " + HttpStatus.UNAUTHORIZED + "\n\"Cause\": \"토큰이 없습니다.\"\n\"Error Code\": " + errorCode + "\n}";
              else if (errorCode == 200)
-                 return "{\n 토큰이 만료되었습니다. \n\"errorCode\":" + errorCode + "\n}";
+                 return "{\n\"HttpStatus\": " + HttpStatus.FORBIDDEN + "\n\"Cause\": \"토큰이 만료되었습니다.\"\n\"Error Code\": " + errorCode + "\n}";
              else
-                 return "{\n 토큰에 관한 예외사항이 발생하였습니다. \n\"errorCode\":" + errorCode + "\n}";
+                 return "{\n\"HttpStatus\": " + HttpStatus.INTERNAL_SERVER_ERROR + "\n\"Cause\": \"토큰에 관한 예외사항이 발생하였습니다.\"\n\"Error Code\": " + errorCode + "\n}";
          }
 
          @Override
          public Mono<Void> handle(
                  ServerWebExchange exchange, Throwable ex) {
 
-             int errorCode = 500;
+             int errorCode = 300;
              if (ex.getClass() == NullPointerException.class) {
                  errorCode = 100;
              } else if (ex.getClass() == ExpiredJwtException.class) {
@@ -83,7 +83,7 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
              byte[] bytes = getErrorCode(errorCode).getBytes(StandardCharsets.UTF_8);
              DataBuffer buffer = exchange.getResponse().bufferFactory().wrap(bytes);
 
-              // 토큰 값 null 일 시에 401 or 만료 시에 403 에러 발생
+              // 토큰 값 null 일 시에 401, 만료 시에 403, 원인 모를 시 500 상태 코드 전달
               if (errorCode == 100) {
                   exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                   return exchange.getResponse().writeWith(Flux.just(buffer));
@@ -93,7 +93,7 @@ public class AuthorizationHeaderFilter extends AbstractGatewayFilterFactory<Auth
                   return exchange.getResponse().writeWith(Flux.just(buffer));
               }
               else {
-                  exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+                  exchange.getResponse().setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
                   return exchange.getResponse().writeWith(Flux.just(buffer));
               }
          }
