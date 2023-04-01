@@ -1,12 +1,9 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import * as R from "./ReadstorybookStyle";
-import one from "./1.jpg";
 
-//mui아이콘 중 방향 버튼 아이콘을 가져오기
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import CanvasTool from "./canvas/CanvasTool";
 import ClassifierMl from "utils/mlEvent/ClassifierMl";
+import Flip from "./Flip";
+import FindPasswordMl from "utils/mlEvent/FindPasswordMl";
 
 /**읽고 있는 동화책 컴포넌트 (현재 페이지, 페이지 바뀔 때 이벤트, 모든 페이지 정보, 현재까지 읽은 페이지 정보)*/
 const StoryPage = ({
@@ -74,10 +71,22 @@ const StoryPage = ({
     setEventPicPageOpen(!eventPicPageOpen);
     setEventTitle(titleInput);
   };
+
+  //경우의 수가 한 가지일떄, 다음 페이지로 넘어가기
+  const nextOnlyPage = () => {
+    setSecPageflip(true);
+  };
+  const choiceNextPage = (e) => {};
   return (
     <R.Book>
-      {eventPicPageOpen && <ClassifierMl />}
-
+      {/* 소중한 그림 그려주기 */}
+      {eventPicPageOpen && nowPage === 3 && (
+        <ClassifierMl nextOnlyPage={nextOnlyPage} />
+      )}
+      {/* 자물쇠 비밀번호 그려주기 */}
+      {eventPicPageOpen && nowPage === 9 && (
+        <FindPasswordMl choiceNextPage={choiceNextPage} />
+      )}
       <R.PageInput
         type="checkbox"
         ref={checkRef1}
@@ -98,90 +107,15 @@ const StoryPage = ({
           setSecPageflip(!secPageflip);
         }}
       />
-
-      {/* 커버 페이지 -이전 페이지와 동일*/}
-      <R.Cover>
-        <img src={one} alt="Cover" />
-        <div>
-          안녕하세안녕하세안녕하세안녕하세안녕하세안녕하세안녕하세안녕하세안녕하세안녕하세안녕하세안녕하세안녕하세안녕하세
-        </div>
-      </R.Cover>
-
-      <R.FlipBook className="flip-book">
-        <R.Filp id="p1" pageIdx="1" isRendered={isRendered}>
-          {/* 첫번째장 앞면 -이전 페이지와 동일*/}
-          <R.Front>
-            <div></div>
-            <label htmlFor="c1">
-              <KeyboardArrowRightIcon />
-            </label>
-          </R.Front>
-          {/* 첫번째장 뒷면 -현재 랜더링된 페이지와 동일*/}
-
-          <R.Back>
-            <img src={one} alt="Cover" />
-            {allContent[nowPage - 1]?.objData.isEvent && (
-              <button
-                onClick={() => {
-                  picHandler(
-                    "잃어버린 물건을 찾아주세요! \n(힌트: 축구공, 닌텐도 스위치, 로봇 장난감, 인형, 일기장, 스마트폰 중에 하나랍니다!)"
-                  );
-                }}
-              >
-                그림 그려주기
-              </button>
-            )}
-            <div>{allContent[nowPage - 1]?.script}</div>
-            {allContent[nowPage - 1]?.pageId != 1 &&
-              !allContent[nowPage - 1]?.objData.isEvent && (
-                <label htmlFor="c1">
-                  <KeyboardArrowLeftIcon />
-                </label>
-              )}
-          </R.Back>
-        </R.Filp>
-        <R.Filp id="p2" pageIdx="2" isRendered={isRendered}>
-          {/* 두번째장 뒷면 -다음 페이지와 동일*/}
-          <R.Back>
-            <img src={one} alt="Cover" />
-            <div>
-              반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다
-            </div>
-
-            <label htmlFor="c2">
-              <KeyboardArrowLeftIcon />
-            </label>
-          </R.Back>
-          {/* 두번째장 앞면 -현재 랜더링된 페이지와 동일*/}
-          <R.Front>
-            <div>{allContent[nowPage - 1]?.script}</div>
-            {allContent[nowPage - 1]?.nextPage.length == 1 &&
-              !allContent[nowPage - 1]?.objData.isEvent && (
-                <label htmlFor="c2">
-                  <KeyboardArrowRightIcon />
-                </label>
-              )}
-          </R.Front>
-        </R.Filp>
-        <R.Filp id="p3" pageIdx="3" isRendered={isRendered}>
-          {/* 첫번째장 앞면 -이전 페이지와 동일*/}
-          <R.Front>
-            <label htmlFor="c3">
-              <KeyboardArrowRightIcon />
-            </label>
-          </R.Front>
-          {/* 첫번째장 뒷면 -현재 랜더링된 페이지와 동일*/}
-          <R.Back>
-            <img src={one} alt="Cover" />
-            <div>
-              반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다
-            </div>
-            <label htmlFor="c3">
-              <KeyboardArrowLeftIcon />
-            </label>
-          </R.Back>
-        </R.Filp>
-      </R.FlipBook>
+      {/* 이벤트 페이지가 아닌 일반 이야기 페이지 */}
+      {!eventPicPageOpen && (
+        <Flip
+          nowPage={nowPage}
+          allContent={allContent}
+          isRendered={isRendered}
+          picHandler={picHandler}
+        />
+      )}
     </R.Book>
   );
 };

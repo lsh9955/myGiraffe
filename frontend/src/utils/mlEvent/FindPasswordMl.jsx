@@ -29,11 +29,13 @@ const style = {
   borderRadius: 10,
 };
 
-const ClassifierMl = ({ nextOnlyPage }) => {
+const FindPasswordMl = ({ choiceNextPage }) => {
   // 모달 오픈시 필요한 변수
   const [open, setOpen] = useState(true);
   //다시 그리기 모달 창 컨트롤
   const [isOpen, setIsOpen] = useState(false);
+  //틀린 횟수(3번 틀리면 집에 감)
+  const [wrongCount, setWrongCount] = useState(0);
 
   const handleClose = () => {
     setOpen(false);
@@ -51,8 +53,8 @@ const ClassifierMl = ({ nextOnlyPage }) => {
     const NumMl = async () => {
       await axios
         .post(
-          "https://j8b201.p.ssafy.io/api/classifier",
-          // "http://192.168.31.87:5000/api/classifier",
+          "https://j8b201.p.ssafy.io/api/numbers",
+          // "http://192.168.31.87:5000/api/numbers",
           {
             base64_drawing: String(e),
           }
@@ -94,7 +96,7 @@ const ClassifierMl = ({ nextOnlyPage }) => {
             variant="h6"
             component="h2"
           >
-            소중한 물건을 그려보자
+            자물쇠 비밀번호를 적어주세요!
           </Typography>
           <Box
             sx={{
@@ -165,4 +167,4 @@ const ClassifierMl = ({ nextOnlyPage }) => {
   );
 };
 
-export default ClassifierMl;
+export default FindPasswordMl;
