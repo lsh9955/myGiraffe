@@ -1,14 +1,14 @@
 # app.py
-from flask import Flask, request, jsonify
+# from flask import Flask, jsonify, Blueprint, request, Response
+import io
+import os
+import numpy as np
+from flask import Flask, request
 from flask_cors import CORS
 from keras.models import load_model
 from PIL import Image, ImageOps
-import numpy as np
-import io
-import os
-from flask import Blueprint, request, Response
 import base64
-import json
+# import json
 
 # Flask app 임을 선언 합니다.
 app = Flask(__name__)
@@ -57,7 +57,7 @@ def classifier():
     print("=====POST Done=====")
 
     # 들어온 Base64 코드를 잘라서 반영 해주기
-    image_data = base64.b64decode(request.json['base64_drawing'][22:])
+    image_data = base64.b64decode(request.json['base64_drawing'])
 
     # 배경을 하얀색으로 바꿔주기. 그냥 RGB로 바꿔버리면 검정색으로 바뀜.
     # image = Image.open(io.BytesIO(image_data)).convert('RGB')
@@ -94,7 +94,7 @@ def classifier():
     # 확률이 가장 높은 모델의 index -> 이름 도출
     index = np.argmax(prediction)
     class_name = class_names[index]
-    printing_text = f'{round(max(prediction[0]) * 100)}% 확률로 {class_name[2:-1]}입니다.'
+    print(f'{round(max(prediction[0]) * 100)}% 확률로 {class_name[2:-1]}입니다.')
 
     # 반환용 JSON 형식으로 구조 짜기
     # datas = {'label': str(class_name[2:-1]),

@@ -31,9 +31,9 @@ def aivoice():
     if request.method == 'POST':
         # POST로 전달된 텍스트를 가져옵니다.
         text = request.json['text']
-    elif request.method == 'GET':
+    elif request.method == 'GET' or request.json['text'] == "":
         # GET으로 전달된 텍스트를 가져옵니다.
-        text = "다솔님 바보바보바보"
+        text = "제가 말할 수 있는 대사가 없어요."
 
     # TTS 작업 수행
     client = texttospeech.TextToSpeechClient(credentials=credentials)

@@ -1,9 +1,8 @@
 # app.py
-from flask import request, Flask
-from flask_cors import CORS
-from flask import Blueprint, request
 import os
 import json
+from flask import Flask, request, Response
+from flask_cors import CORS
 from PIL import Image
 import io
 from dotenv import load_dotenv
@@ -47,6 +46,11 @@ with open(txt_path, 'r') as f:
 def numbers():
     if request.method == 'GET':
         return "POST 방식으로 요청해주세요."
+    elif request.json['base64_drawing'] == "null" \
+         or request.json['base64_drawing'] == txt_str \
+         or request.json['base64_drawing'] == txt_str[22:]:
+        response = Response(response='null', status=400, mimetype='application/json')
+        return response
     print("=====POST Done=====")
 
     # vision client 선언!
@@ -55,7 +59,7 @@ def numbers():
 
     # POST로 받는 데이터가 이미 BASE64 로 인코딩된 이미지이므로
     # Base64로 디코딩 해줍니다.
-    image = vision.Image(content=base64.b64decode(request.json['base64_drawing'][22:]))
+    image = vision.Image(content=base64.b64decode(request.json['base64_drawing']))
 
     # 자, 그러면 이제 한국어로만 인식해보도록 하죠.
     image_context = vision.ImageContext(language_hints=["ko"])
@@ -92,10 +96,13 @@ def numbers():
 def visionapi():
     if request.method == 'GET':
         return "POST로 요청해주셔야 합니다."
-    elif request.json['base64_drawing'] == "null" or request.json['base64_drawing'] == txt_str:
-        return "null"
+    elif request.json['base64_drawing'] == "null" \
+            or request.json['base64_drawing'] == txt_str \
+            or request.json['base64_drawing'] == txt_str[22:]:
+        response = Response(response='null', status=400, mimetype='application/json')
+        return response
     print("=====POST Done=====")
-
+    print(request.json['base64_drawing'])
     # vision client 선언!
     client = vision.ImageAnnotatorClient(credentials=credentials)
     print("=====Client Done=====")
@@ -111,9 +118,12 @@ def visionapi():
 
     # Base64로 디코딩 해줍니다. 앞의 부분은 자르고 뒤의 코드만 가져옵니다.
     try:
-        decoded_image = base64.b64decode(request.json['base64_drawing'][22:])
+        decoded_image = base64.b64decode(request.json['base64_drawing'])
     except base64.binascii.Error:
-        return "옳지 않은 Base_64 인코딩 입니다. 올바른 코드를 입력해 주세요."
+        print("400에러: 옳지 못한 Base64 코드")
+        response = Response(response='옳지 못한 Base64 코드', status=400, mimetype='application/json')
+        return response
+        # return "옳지 않은 Base_64 인코딩 입니다. 올바른 코드를 입력해 주세요."
 
     # PNG 이미지를 JPEG 이미지로 변환
     image_rgba = Image.open(io.BytesIO(decoded_image)).convert('RGBA')
@@ -121,7 +131,7 @@ def visionapi():
     image_rgb.paste(image_rgba, mask=image_rgba.split()[3])
 
     # [디버깅 용] 분석용 이미지 로컬에 파일로 저장하기
-    image_rgb.save("./resized_images/vision_image.jpeg", format="JPEG")
+    # image_rgb.save("./resized_images/vision_image.jpeg", format="JPEG")
 
     # 이미지 분석을 위해 vision.Image 객체 생성
     buffered = io.BytesIO()
@@ -146,7 +156,7 @@ def visionapi():
     print("이게 디스크립션", descriptions)
 
     # # ============= 라벨 태깅용 코드 ================#
-    response_label = client.label_detection(image=image, max_results=30)
+    response_label = client.label_detection(image=image, max_results=40)
     # print("=====response Done=====")
 
     answer = "none"
