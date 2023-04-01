@@ -35,3 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### jwt yml ###
+application-route.yml
+application-jwt.yml
