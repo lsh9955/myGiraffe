@@ -27,9 +27,9 @@ public class DiaryController {
 
     private final DiaryService diaryService;
 
-    @GetMapping("/list/{userId}")
+    @GetMapping("/list")
     public ResponseEntity<? extends BaseResponseBody> getDiaries(
-            @PathVariable("userId") String userId) {
+            @RequestHeader("userId") String userId) {
 
         var diaries = diaryService.findDiariesByUserId(userId);
 
@@ -54,9 +54,12 @@ public class DiaryController {
             @RequestPart
             @Valid
             DiaryPostRequest diary,
+            @RequestHeader("userId") String userId,
             @RequestPart
             MultipartFile diaryImg,
             HttpServletRequest request) throws IOException {
+
+        diary.setUserId(userId);
 
         var id = diaryService.saveDiary(diary, diaryImg);
 

@@ -30,9 +30,9 @@ public class MyBookController {
 
     private final MyBookService myBookService;
 
-    @GetMapping("/list/{userId}")
+    @GetMapping("/list")
     public ResponseEntity<? extends BaseResponseBody> getAllMyBooks(
-            @PathVariable("userId") String userId) {
+            @RequestHeader("userId") String userId) {
 
         var myBooks = myBookService.findAllMyBooksByUserId(userId);
 
@@ -57,7 +57,10 @@ public class MyBookController {
             @RequestPart
             @Valid
             MyBookPostRequest myBook,
+            @RequestHeader("userId") String userId,
             HttpServletRequest request) throws IOException {
+
+        myBook.setUserId(userId);
 
         var id = myBookService.saveMyBook(myBook);
 
@@ -69,7 +72,7 @@ public class MyBookController {
                 .body(new BaseResponseBody<>(201, "Created", successMessage));
     }
 
-    @DeleteMapping("/{bookId}")
+    @DeleteMapping
     public ResponseEntity<? extends BaseResponseBody> deleteMyBook(
             @PathVariable
             @Positive(message = "필수 입력값 입니다(양수).")
