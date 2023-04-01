@@ -96,7 +96,9 @@ public class ScenarioServiceImpl implements ScenarioService {
     // MultipartFile -> URL
     var thumbnailImgUrl = imageUrlProvider.getImageUrl(thumbnailImg);
     // List -> String
-    var interContents = objectMapper.writeValueAsString(request.getInterContents());
+    var interContents = Optional.of(objectMapper.writeValueAsString(request.getInterContents()))
+        .filter((o) -> !o.equals("null"))
+        .orElse(scenario.getInterContents());
 
     // 각 필드에 대해 null 이 아닌 경우 변경, null 이면 변경 X
     // toBuilder()와 리플렉션을 사용해 null 이 아닌 값만 빌드하는 방식도 생각해보기
@@ -111,8 +113,7 @@ public class ScenarioServiceImpl implements ScenarioService {
             .orElse(scenario.getIntroImgUrl()))
         .thumbnailImgUrl(Optional.ofNullable(thumbnailImgUrl)
             .orElse(scenario.getThumbnailImgUrl()))
-        .interContents(Optional.ofNullable(interContents)
-            .orElse(scenario.getInterContents()))
+        .interContents(interContents)
         .build();
 
     // DB 에 저장하고 ID 값을 반환

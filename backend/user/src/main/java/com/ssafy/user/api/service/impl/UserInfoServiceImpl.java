@@ -1,6 +1,6 @@
 package com.ssafy.user.api.service.impl;
 
-import com.ssafy.user.api.dto.request.UserInfoPostRequest;
+import com.ssafy.user.api.dto.request.UserPostRequest;
 import com.ssafy.user.api.dto.response.UserInfoGetResponse;
 import com.ssafy.user.api.service.UserInfoService;
 import com.ssafy.user.db.entity.UserInfo;
@@ -45,7 +45,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public String saveUserInfo(UserInfoPostRequest request) {
+    public String saveUserInfo(UserPostRequest request) {
 
         userInfoRepository.findById(request.getUserId())
                 .ifPresent((x) -> {throw new IllegalArgumentException("이미 존재하는 회원입니다.");});
@@ -60,7 +60,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
-    public String updateUserImage(UserInfoPostRequest request) {
+    public String updateUserImage(UserPostRequest request) {
 
         var userId = userInfoRepository.findById(request.getUserId())
                 .orElseThrow(() -> new IllegalArgumentException("존재 하지 않는 회원입니다."));

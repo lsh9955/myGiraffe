@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.net.URL;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("api/resources/images")
 public class StorageController {
 
+  @Value("${request.url}") private String REQUEST_URL;
   private final StorageService storageService;
 
   @GetMapping("/{imageId}")
@@ -39,7 +41,7 @@ public class StorageController {
   public ResponseEntity<Object> createImageFile(@RequestParam MultipartFile imageFile) throws IOException {
 
     var imageId = storageService.saveImageFile(imageFile);
-    var url = new URL("http", "j8b201.p.ssafy.io", "/api/resources/images/" + imageId);
+    var url = new URL(REQUEST_URL + imageId);
 
     return ResponseEntity
         .ofNullable(new BaseResponseBody<>(200, "OK", url));

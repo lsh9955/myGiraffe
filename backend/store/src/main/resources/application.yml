@@ -1,13 +1,10 @@
-server:
-  port: 9031
 
 spring:
   application:
-    name: books-service
+    name: store-service
 
-  data:
-    mongodb:
-      uri: mongodb://localhost:27017/girin
+  profiles:
+    include: db
 
   servlet:
     multipart:

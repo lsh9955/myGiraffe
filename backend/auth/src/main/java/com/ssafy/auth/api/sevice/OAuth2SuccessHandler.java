@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -32,8 +33,9 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final UserRepository userRepository;
     private final TokenProvider tokenProvider;
     private final UserProfileClient userProfileClient;
-    // private String redirectUrl = "https://j8b201.p.ssafy.io/login";
-    private String redirectUrl = "http://localhost:3000/login";
+
+    @Value("${request.url.front-login}")
+    private String redirectUrl;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
@@ -64,11 +66,15 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             // 저장된 회원 정보 불러옴 -> userId 사용
             user = userRepository.findBySocialId(userDto.getSocialId()).orElseThrow(NotFoundException::new);
 
+            log.info("userId = {}", user.getUserId());
+
             userInfoDto = new UserInfoDto(
                 String.valueOf(user.getUserId())
                 , String.valueOf(attributes.get("nickname"))
                 , String.valueOf(attributes.get("image"))
             );
+
+            log.info("userId = {}, user nickname = {}, user image = {}", userInfoDto.getUserId(), userInfoDto.getNickname(), userInfoDto.getImage());
 
             // 토큰 발행
             tokens = tokenProvider.generateToken(userInfoDto.getUserId(), Role.USER.getKey());
@@ -81,7 +87,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             // );
 
             // 프로필 DB에 저장
-            // userProfileClient.insertProfile(userInfoDto);
+            userProfileClient.insertProfile(userInfoDto);
         } else {
             userInfoDto = new UserInfoDto(
                 String.valueOf(user.getUserId())
@@ -100,7 +106,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             // }
             log.info("userInfoDto ={}", userInfoDto);
 
-            // userProfileClient.updateImage(userInfoDto);
+            userProfileClient.updateImage(userInfoDto);
         }
 
         String targetUrl;

@@ -114,9 +114,14 @@ public class PageServiceImpl implements PageService {
     // MultiPartFile -> String
     var bgImgUrl = imageUrlProvider.getImageUrl(bgImg);
     // List -> String
-    var nextPage = objectMapper.writeValueAsString(request.getNextPage());
+    String nextPage = Optional
+        .of(objectMapper.writeValueAsString(request.getNextPage()))
+        .filter((o) -> !o.equals("null"))
+        .orElse(page.getNextPage());
     // JsonNode -> String
-    var jsonString = objectMapper.writeValueAsString(request.getObjData());
+    var jsonString = Optional.of(objectMapper.writeValueAsString(request.getObjData()))
+        .filter((o) -> !o.equals("null"))
+        .orElse(page.getObjData());
 
     // 각 필드에 대해 null 이 아닌 경우 변경, null 이면 변경 X
     // toBuilder()와 리플렉션을 사용해 null 이 아닌 값만 빌드하는 방식도 생각해보기
@@ -127,10 +132,8 @@ public class PageServiceImpl implements PageService {
             .orElse(page.getScript()))
         .bgImgUrl(Optional.ofNullable(bgImgUrl)
             .orElse(page.getBgImgUrl()))
-        .nextPage(Optional.ofNullable(nextPage)
-            .orElse(page.getNextPage()))
-        .objData(Optional.ofNullable(jsonString)
-            .orElse(page.getObjData()))
+        .nextPage(nextPage)
+        .objData(jsonString)
         .build();
 
     // DB 에 저장하고 ID 값을 반환

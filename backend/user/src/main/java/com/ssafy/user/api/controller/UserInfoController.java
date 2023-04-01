@@ -1,6 +1,6 @@
 package com.ssafy.user.api.controller;
 
-import com.ssafy.user.api.dto.request.UserInfoPostRequest;
+import com.ssafy.user.api.dto.request.UserPostRequest;
 import com.ssafy.user.api.dto.response.BaseResponseBody;
 import com.ssafy.user.api.service.UserInfoService;
 import com.ssafy.user.api.service.UserScenarioListService;

@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 @Component
 public class ImageUrlProvider {
+  
   @Value("${request.url}") String REQUEST_URL;
   private final OkHttpClient okHttpClient = new OkHttpClient()
       .newBuilder()
