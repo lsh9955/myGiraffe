@@ -27,9 +27,9 @@ public class SketchController {
 
     private final SketchService sketchService;
 
-    @GetMapping("/list/{userId}")
+    @GetMapping("/list")
     public ResponseEntity<? extends BaseResponseBody> getSketches(
-            @PathVariable("userId") String userId) {
+            @RequestHeader("userId") String userId) {
 
         var sketches = sketchService.findSketchesByUserId(userId);
 
@@ -55,9 +55,12 @@ public class SketchController {
             @RequestPart
             @Valid
             SketchPostRequest sketch,
+            @RequestHeader("userId") String userId,
             @RequestPart
             MultipartFile sketchImg,
             HttpServletRequest request) throws IOException {
+
+        sketch.setUserId(userId);
 
         var id = sketchService.saveSketch(sketch, sketchImg);
 
