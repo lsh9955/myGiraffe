@@ -27,30 +27,33 @@ public class UserInfoController {
 
     @PostMapping(value = "/user", produces = "application/json")
     public ResponseEntity<? extends BaseResponseBody> insertProfile(
-            @RequestBody UserPostRequest request) {
+            @RequestBody UserInfoPostRequest request) {
 
         // userInfo 주입
         var userInfo = userInfoService.saveUserInfo(request);
 
+        var userScenario = userScenarioListService.saveUserScenario(request.getUserId(), 1);
+        var successMessage = "기본 시나리오 추가 성공: (ID=" + userScenario + ")";
+
         return ResponseEntity
                 .ok()
-                .body(new BaseResponseBody<>(200, "OK", userInfo));
-    };
+                .body(new BaseResponseBody<>(200, "OK", successMessage + userInfo));
+    }
 
     @PostMapping(value = "/image", produces = "application/json")
     public ResponseEntity<? extends BaseResponseBody> updateImage(
-            @RequestBody UserPostRequest request) { // 프로필 사진 업데이트
+            @RequestBody UserInfoPostRequest request) { // 프로필 사진 업데이트
 
         var userInfo = userInfoService.updateUserImage(request);
 
         return ResponseEntity
                 .ok()
                 .body(new BaseResponseBody<>(200, "OK", userInfo));
-    };
+    }
 
-    @GetMapping("/{userId}")
+    @GetMapping
     public ResponseEntity<? extends BaseResponseBody> getUserInfo(
-            @PathVariable("userId")
+            @RequestHeader("userId")
             @NotBlank(message = "필수 입력값입니다") // validation
             String userId) {
 
@@ -62,9 +65,9 @@ public class UserInfoController {
                 .body(new BaseResponseBody<>(200, "OK", userInfo));
     }
 
-    @GetMapping("/scenarios/{userId}")
+    @GetMapping("/scenarios")
     public ResponseEntity<? extends BaseResponseBody> getAllUserScenarios(
-            @PathVariable("userId") String userId) {
+            @RequestHeader("userId") String userId) {
 
         var userScenarioList = userScenarioListService.findAllScenariosByUserId(userId);
 
@@ -75,10 +78,8 @@ public class UserInfoController {
 
     @PatchMapping
     public ResponseEntity<? extends BaseResponseBody> updateUserKey(
-            @RequestPart Map<String, Object> param) {
-
-        String userId = (String) param.get("userId");
-        Integer keyAmount = (Integer) param.get("keyAmount");
+            @RequestHeader("userId") String userId,
+            @RequestBody Integer keyAmount) {
 
         var userinfo = userInfoService.updateKeyAmount(userId, keyAmount);
 
@@ -93,10 +94,8 @@ public class UserInfoController {
 
     @PostMapping
     public ResponseEntity<? extends BaseResponseBody> insertScenario(
-            @RequestPart Map<String, Object> param) {
-
-        String userId = (String) param.get("userId");
-        Integer scenarioId = (Integer) param.get("scenarioId");
+            @RequestHeader("userId") String userId,
+            @RequestBody Integer scenarioId) {
 
         var userScenario = userScenarioListService.saveUserScenario(userId, scenarioId);
 
@@ -106,8 +105,5 @@ public class UserInfoController {
                 .ok()
                 .body(new BaseResponseBody<>(201, "Created", successMessage));
     }
-
-
-
 
 }
