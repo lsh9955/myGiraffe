@@ -40,12 +40,10 @@ public interface UserInfoService {
 
 
     /**
-     * 결제 모듈 연동을 위한 데이터(거래번호, 식별번호)를 전달합니다.
+     * 결제 모듈 연동을 위한 데이터(거래번호, 식별번호) 요청
      * @param PaymentPostRequest request
      * @return 결제를 위한 값을 갖고 있는 JSON? or IMP num?
      */
-//    String setIMPCode(PaymentPostRequest request);
-
 
 
 }
