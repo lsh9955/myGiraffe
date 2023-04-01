@@ -67,16 +67,25 @@ def classifier():
     image = image_rgb
 
     # [디버깅 용] original 이미지 저장
-    # save_path = os.path.join(os.getcwd(), 'resized_images')
-    # image.save(os.path.join(save_path, 'original_image.jpg'))
+    save_path = os.path.join(os.getcwd())
+    image.save(os.path.join(save_path, 'original_image.jpg'))
 
     # 224, 224 의 학습 데이터에 맞춰 리사이징.
     # 센터에 맞춰서 자르기
     size = (224, 224)
-    image = ImageOps.fit(image, size, Image.Resampling.LANCZOS)
+    image.thumbnail(size, Image.ANTIALIAS)
+    image_size = image.size
+
+    if image_size[0] != size[0] or image_size[1] != size[1]:
+        thumb = image.crop((0, 0, size[0], size[1]))
+        offset_x = max((size[0] - image_size[0]) / 2, 0)
+        offset_y = max((size[1] - image_size[1]) / 2, 0)
+        image = Image.new('RGBA', size, (255, 255, 255, 0))
+        image.paste(thumb, (int(offset_x), int(offset_y)))
 
     # [디버깅 용] 리사이즈 이미지 저장 코드
-    # image.save(os.path.join(save_path, 'resized_image.jpg'))
+
+    image.save(os.path.join(save_path, 'resized_image.jpg'))
 
     # 이미지를 Numpy 배열로 전환
     image_array = np.asarray(image)
