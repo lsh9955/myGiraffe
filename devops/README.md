@@ -1,3 +1,13 @@
+# 내가 그린 기린 동화
+
+## 시스템 아키텍처
+
+![](./%EC%8B%9C%EC%8A%A4%ED%85%9C_%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98.png)
+
+## CI/CD 다이어그램
+
+![](./CICD_%EB%8B%A4%EC%9D%B4%EC%96%B4%EA%B7%B8%EB%9E%A8.png)
+
 # EC2 Docker ufw 설정
 
 ## 문제 상황
