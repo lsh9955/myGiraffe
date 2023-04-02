@@ -1,6 +1,7 @@
 package com.ssafy.user.api.service;
 
 import com.ssafy.user.api.dto.request.MyBookPostRequest;
+import com.ssafy.user.api.dto.request.MyBookPutRequest;
 import com.ssafy.user.db.entity.MyBook;
 
 import java.io.IOException;
@@ -25,12 +26,18 @@ public interface MyBookService {
 
 
     /**
-     * 사용자가 진행한 동화책을 저장합니다.
+     * 사용자가 진행할 동화책을 새로 생성합니다.
      * @param MyBookPostRequest request
      * @return 생성된 내 동화책 ID
      */
-    Integer saveMyBook(MyBookPostRequest request) throws IOException;
+    Integer saveMyBook(MyBookPostRequest request, String userId);
 
+    /**
+     * 사용자가 진행한 동화책을 최종 저장합니다.
+     * @param request
+     * @return
+     */
+    Integer updateMyBook(MyBookPutRequest request, String userId);
 
     /**
      * 사용자가 저장한 동화책 하나를 삭제합니다.
