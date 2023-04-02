@@ -6,7 +6,7 @@ const initialStateValue = {
   userId: null,
   userName: null,
   profileImg: null,
-  coinAmount: null,
+  coinAmount: 0,
   accessToken: null,
 };
 // slice 이름을 user로 함
