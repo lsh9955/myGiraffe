@@ -109,6 +109,7 @@ const Rsp = ({ pageChangeHandler }) => {
           timer={timer}
           resetTimer={resetTimer}
           endGameHandler={endGameHandler}
+          pageChangeHandler={pageChangeHandler}
         />
         <Container>
           <ServiceName>재미있는 가위바위보 게임</ServiceName>

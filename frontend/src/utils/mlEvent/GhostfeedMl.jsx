@@ -38,18 +38,17 @@ const GhostfeedMl = () => {
   // ml서버에 넘겨줄 이미지
   const [getImg, setGetImg] = useState(null);
   const getImgHandler = (e) => {
-    setGetImg(e.split(",")[1]);
-  };
-  useEffect(() => {
+    setGetImg(e);
+
     const NumMl = async () => {
       await axios
         .post(
-          // "https://j8b201.p.ssafy.io/api/visionapi",
-          "http://192.168.31.87:5000/api/visionapi",
+          "https://j8b201.p.ssafy.io/api/visionapi",
+          // "http://192.168.31.87:5000/api/visionapi",
           {
             criteria_1: String("insect"),
             criteria_2: String("plant"),
-            base64_drawing: String(getImg),
+            base64_drawing: String(e.slice(22)),
           },
           {
             headers: {
@@ -65,7 +64,7 @@ const GhostfeedMl = () => {
         });
     };
     NumMl();
-  }, [getImg]);
+  };
   return (
     <>
       <Modal

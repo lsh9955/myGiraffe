@@ -5,6 +5,7 @@ import ClassifierMl from "utils/mlEvent/ClassifierMl";
 import Flip from "./Flip";
 import FindPasswordMl from "utils/mlEvent/FindPasswordMl";
 import RspPage from "pages/RspPage";
+import GhostfeedMl from "utils/mlEvent/GhostfeedMl";
 
 /**읽고 있는 동화책 컴포넌트 (현재 페이지, 페이지 바뀔 때 이벤트, 모든 페이지 정보, 현재까지 읽은 페이지 정보)*/
 const StoryPage = ({
@@ -83,7 +84,7 @@ const StoryPage = ({
     setLost(item);
   };
   //이벤트 페이지 분류
-  const eventPage = [3, 9, 21];
+  const eventPage = [3, 9, 21, 24];
   return (
     <R.Book>
       {/* 소중한 그림 그려주기 */}
@@ -132,6 +133,10 @@ const StoryPage = ({
       )}
       {/* 유령과 가위바위보 */}
       {nowPage === 21 && <RspPage pageChangeHandler={pageChangeHandler} />}
+      {/* 유령이 먹을 그림 그려주기 */}
+      {nowPage === 24 && (
+        <GhostfeedMl nextOnlyPage={nextOnlyPage} lostHandler={lostHandler} />
+      )}
       <R.PageInput
         type="checkbox"
         ref={checkRef1}
