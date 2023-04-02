@@ -80,7 +80,7 @@ const BookInfo = ({ data, isOpen, openCheck }) => {
             variant="h6"
             component="h2"
           >
-            {data.title}
+            {data?.title}
           </Typography>
           <Box
             sx={{
@@ -89,7 +89,7 @@ const BookInfo = ({ data, isOpen, openCheck }) => {
               alignItems: "center",
             }}
           >
-            <B.BookInfoImg src={data.introImgUrl} alt="책 소개 이미지" />
+            <B.BookInfoImg src={data?.introImgUrl} alt="책 소개 이미지" />
           </Box>
           <Typography
             id="modal-modal-description"
@@ -105,7 +105,7 @@ const BookInfo = ({ data, isOpen, openCheck }) => {
           >
             동화 줄거리
           </Typography>
-          <p style={{ whiteSpace: "pre-wrap" }}>{data.introScript}</p>
+          <p style={{ whiteSpace: "pre-wrap" }}>{data?.introScript}</p>
 
           <Typography
             sx={{
@@ -119,7 +119,7 @@ const BookInfo = ({ data, isOpen, openCheck }) => {
           >
             인터렉션 요소
           </Typography>
-          <p style={{ whiteSpace: "pre-wrap" }}>{data.interContents}</p>
+          <p style={{ whiteSpace: "pre-wrap" }}>{data?.interContents}</p>
 
           <Typography
             id="modal-modal-description"
@@ -134,7 +134,7 @@ const BookInfo = ({ data, isOpen, openCheck }) => {
           >
             필요한 열쇠 개수
           </Typography>
-          {data.price}
+          {data?.price}
           <Box
             sx={{
               display: "flex",
