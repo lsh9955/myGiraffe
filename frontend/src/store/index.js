@@ -6,17 +6,17 @@ import {
 import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
 import userReducer from "./AuthSlice";
-import gameReducer from "./GameSlice";
+import bookReducer from "./BookSlice";
 // getDefaultMiddleware 는 persistReducer에러를 없애기 위해 적용
 const reducers = combineReducers({
   user: userReducer,
-  game: gameReducer,
+  book: bookReducer,
 });
 // persisit 설정
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["user", "game"],
+  whitelist: ["user", "book"],
 };
 const persistedReducer = persistReducer(persistConfig, reducers);
 

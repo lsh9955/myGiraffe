@@ -50,6 +50,11 @@ const GhostfeedMl = () => {
             criteria_1: String("insect"),
             criteria_2: String("plant"),
             base64_drawing: String(getImg),
+          },
+          {
+            headers: {
+              Authorization: process.env.REACT_APP_TOKEN,
+            },
           }
         )
         .then((response) => {

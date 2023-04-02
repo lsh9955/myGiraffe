@@ -21,7 +21,12 @@ const MySketchbookList = () => {
     const sketchBooks = async () => {
       await axios
         .get(
-          "https://port-0-nodebook-1b5xkk2fldhlzqkd.gksl2.cloudtype.app/diary"
+          "https://port-0-nodebook-1b5xkk2fldhlzqkd.gksl2.cloudtype.app/diary",
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
+            },
+          }
         )
         .then((response) => {
           console.log(response.data);

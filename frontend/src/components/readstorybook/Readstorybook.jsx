@@ -22,7 +22,12 @@ const Readstorybook = () => {
   useEffect(() => {
     const res = async () => {
       const book = await axios.get(
-        "https://j8b201.p.ssafy.io/api/books/pages/1"
+        "https://j8b201.p.ssafy.io/api/books/pages/1",
+        {
+          headers: {
+            Authorization: `${process.env.REACT_APP_TOKEN}`,
+          },
+        }
       );
       const bookContent = book;
       console.log(bookContent.data.content);

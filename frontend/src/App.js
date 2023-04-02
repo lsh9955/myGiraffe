@@ -56,7 +56,7 @@ function App() {
         <Route path="/login" exact>
           <LoginPage component={LoginPage} />
         </Route>
-        <Route path="/">
+        <Route path="/redirect">
           <RedirectPage component={RedirectPage} />
         </Route>
       </Switch>

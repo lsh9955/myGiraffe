@@ -21,7 +21,7 @@ import RspSpinner from "components/rsp/RspSpinner";
 import FingerPose from "utils/fingerPose/FingerPose";
 import WinLose from "./WinLose";
 
-const Rsp = () => {
+const Rsp = ({ pageChangeHandler }) => {
   const [isLoad, setIsLoad] = useState(false);
   const [ghostHand, setGhostHand] = useState(null);
   const [ghostHandFi, setGhostHandFi] = useState(null);
@@ -52,9 +52,14 @@ const Rsp = () => {
     setRestartGame(!restartGame);
   };
   /**비기지 않아 게임이 종료될 때 게임 종료 여부 알려주는 함수 */
-  const endGameHandler = () => {
-    console.log("hello");
-    setIsGameEnd(true);
+  const endGameHandler = (resultGame) => {
+    if (resultGame === "졌습니다!") {
+      pageChangeHandler(22);
+      setIsGameEnd(true);
+    } else if (resultGame === "이겼습니다!") {
+      pageChangeHandler(23);
+      setIsGameEnd(true);
+    }
   };
   useEffect(() => {
     setRandomNum(Math.floor(Math.random() * 3) + 1);

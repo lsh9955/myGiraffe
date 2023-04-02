@@ -4,11 +4,15 @@ import one from "./1.jpg";
 import * as R from "./ReadstorybookStyle";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-const Flip = ({ isRendered, allContent, nowPage, picHandler }) => {
-  useEffect(() => {
-    console.log(allContent[nowPage]);
-  }, []);
-
+import BookText from "./BookText";
+const Flip = ({
+  isRendered,
+  allContent,
+  nowPage,
+  picHandler,
+  lost,
+  pageChangeHandler,
+}) => {
   return (
     <>
       {/* 커버 페이지 -이전 페이지와 동일*/}
@@ -58,7 +62,9 @@ const Flip = ({ isRendered, allContent, nowPage, picHandler }) => {
           </R.Back>
           {/* 두번째장 앞면 -현재 랜더링된 페이지와 동일*/}
           <R.Front>
-            <div>{allContent[nowPage - 1]?.script}</div>
+            <div>
+              <BookText text={allContent[nowPage - 1]?.script} lost={lost} />
+            </div>
             {allContent[nowPage - 1]?.nextPage.length == 1 &&
               !allContent[nowPage - 1]?.objData.isEvent && (
                 <label htmlFor="c2">

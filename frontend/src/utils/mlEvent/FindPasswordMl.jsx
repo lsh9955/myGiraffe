@@ -29,7 +29,7 @@ const style = {
   borderRadius: 10,
 };
 
-const FindPasswordMl = ({ choiceNextPage }) => {
+const FindPasswordMl = ({ pageChangeHandler }) => {
   // 모달 오픈시 필요한 변수
   const [open, setOpen] = useState(true);
   //다시 그리기 모달 창 컨트롤
@@ -56,17 +56,27 @@ const FindPasswordMl = ({ choiceNextPage }) => {
           "https://j8b201.p.ssafy.io/api/numbers",
           // "http://192.168.31.87:5000/api/numbers",
           {
-            base64_drawing: String(e),
+            base64_drawing: String(e.slice(22)),
+          },
+          {
+            headers: {
+              Authorization: process.env.REACT_APP_TOKEN,
+            },
           }
         )
         .then((response) => {
           console.log(response);
-          nextOnlyPage();
+          if (response.data === Number("313")) {
+            pageChangeHandler(11);
+          } else {
+            if (wrongCount + 1 === 3) {
+              pageChangeHandler(10);
+            } else {
+              setWrongCount(wrongCount + 1);
+            }
+          }
         })
         .catch((error) => {
-          console.log(error);
-          //모델 배포 후 삭제할 것
-          nextOnlyPage();
           //모달창 생성해주기
           setIsOpen(true);
         });
@@ -95,9 +105,7 @@ const FindPasswordMl = ({ choiceNextPage }) => {
             id="modal-modal-title"
             variant="h6"
             component="h2"
-          >
-            자물쇠 비밀번호를 적어주세요!
-          </Typography>
+          ></Typography>
           <Box
             sx={{
               display: "flex",
@@ -117,9 +125,7 @@ const FindPasswordMl = ({ choiceNextPage }) => {
               justifyContent: "center",
               alignItems: "center",
             }}
-          >
-            가방 안에 들어있던 물건은 뭐였을까?
-          </Typography>
+          ></Typography>
           <Typography
             sx={{
               mt: 1,
@@ -129,9 +135,7 @@ const FindPasswordMl = ({ choiceNextPage }) => {
               justifyContent: "center",
               alignItems: "center",
             }}
-          >
-            (닌텐도 스위치, 축구공, 인형, 일기장, 로봇, 스마트폰)
-          </Typography>
+          ></Typography>
           <Typography
             sx={{
               mt: 1,
@@ -141,9 +145,7 @@ const FindPasswordMl = ({ choiceNextPage }) => {
               justifyContent: "center",
               alignItems: "center",
             }}
-          >
-            중에 하나를 골라 그려주세요.
-          </Typography>
+          ></Typography>
           <Box
             sx={{
               display: "flex",
@@ -157,10 +159,7 @@ const FindPasswordMl = ({ choiceNextPage }) => {
       </Modal>
       <Repaint isOpen={isOpen} openCheck={openCheck} />
       <SketchWriteContainer>
-        <SketchTitle>
-          (닌텐도 스위치, 축구공, 인형, 일기장, 로봇, 스마트폰) 중에 1개를 골라
-          그려주세요.
-        </SketchTitle>
+        <SketchTitle>자물쇠 비밀번호를 적어주세요!</SketchTitle>
         <CanvasTool getImgHandler={getImgHandler} />
       </SketchWriteContainer>
     </>

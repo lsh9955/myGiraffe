@@ -4,6 +4,7 @@ import * as R from "./ReadstorybookStyle";
 import ClassifierMl from "utils/mlEvent/ClassifierMl";
 import Flip from "./Flip";
 import FindPasswordMl from "utils/mlEvent/FindPasswordMl";
+import RspPage from "pages/RspPage";
 
 /**읽고 있는 동화책 컴포넌트 (현재 페이지, 페이지 바뀔 때 이벤트, 모든 페이지 정보, 현재까지 읽은 페이지 정보)*/
 const StoryPage = ({
@@ -20,8 +21,9 @@ const StoryPage = ({
   const [eventPicPageOpen, setEventPicPageOpen] = useState(false);
   const [eventNumPageOpen, setEventNumPageOpen] = useState(false);
   const [eventTitle, setEventTitle] = useState(null);
-  //!현재 이미지가 로딩되지 않기 떄문에, 이미지를 제외하고 설정
-
+  //!현재 이미지가 로딩되지 않기 때문에, 이미지를 제외하고 설정
+  //잃어버린 물건
+  const [lost, setLost] = useState(null);
   //첫 페이지 넘김 여부
   const checkRef1 = useRef(null);
   //두 번째 페이지 넘김 여부
@@ -72,21 +74,64 @@ const StoryPage = ({
     setEventTitle(titleInput);
   };
 
-  //경우의 수가 한 가지일떄, 다음 페이지로 넘어가기
+  //경우의 수가 한 가지일때, 다음 페이지로 넘어가기
   const nextOnlyPage = () => {
     setSecPageflip(true);
   };
-  const choiceNextPage = (e) => {};
+  //잃어버린 물건 state에 저장
+  const lostHandler = (item) => {
+    setLost(item);
+  };
+  //이벤트 페이지 분류
+  const eventPage = [3, 9, 21];
   return (
     <R.Book>
       {/* 소중한 그림 그려주기 */}
-      {eventPicPageOpen && nowPage === 3 && (
-        <ClassifierMl nextOnlyPage={nextOnlyPage} />
+      {nowPage === 3 && (
+        <ClassifierMl nextOnlyPage={nextOnlyPage} lostHandler={lostHandler} />
       )}
       {/* 자물쇠 비밀번호 그려주기 */}
-      {eventPicPageOpen && nowPage === 9 && (
-        <FindPasswordMl choiceNextPage={choiceNextPage} />
+      {nowPage === 9 && (
+        <FindPasswordMl pageChangeHandler={pageChangeHandler} />
       )}
+      {/* 열쇠 찾기 */}
+      {nowPage === 11 && (
+        <>
+          <button
+            onClick={() => {
+              pageChangeHandler(13);
+            }}
+          >
+            책상서랍
+          </button>
+          <button
+            onClick={() => {
+              pageChangeHandler(14);
+            }}
+          >
+            청소도구
+          </button>
+          <button
+            onClick={() => {
+              pageChangeHandler(15);
+            }}
+          >
+            하늘
+          </button>
+        </>
+      )}
+      {/* 유령 찾기 */}
+      {nowPage === 14 && (
+        <button
+          onClick={() => {
+            pageChangeHandler(17);
+          }}
+        >
+          쓰레기봉투
+        </button>
+      )}
+      {/* 유령과 가위바위보 */}
+      {nowPage === 21 && <RspPage pageChangeHandler={pageChangeHandler} />}
       <R.PageInput
         type="checkbox"
         ref={checkRef1}
@@ -108,12 +153,14 @@ const StoryPage = ({
         }}
       />
       {/* 이벤트 페이지가 아닌 일반 이야기 페이지 */}
-      {!eventPicPageOpen && (
+      {!eventPicPageOpen && eventPage.indexOf(nowPage) === -1 && (
         <Flip
           nowPage={nowPage}
           allContent={allContent}
           isRendered={isRendered}
           picHandler={picHandler}
+          lost={lost}
+          pageChangeHandler={pageChangeHandler}
         />
       )}
     </R.Book>

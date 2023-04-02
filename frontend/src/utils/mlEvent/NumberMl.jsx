@@ -47,6 +47,11 @@ const NumberMl = () => {
           "http://192.168.31.87:5000/api/numbers",
           {
             base64_drawing: String(getImg),
+          },
+          {
+            headers: {
+              Authorization: process.env.REACT_APP_TOKEN,
+            },
           }
         )
         .then((response) => {
