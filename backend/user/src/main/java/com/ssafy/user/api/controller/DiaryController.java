@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.net.URI;
 
+@CrossOrigin
 @Slf4j
 @Validated
 @ValidateOnExecution

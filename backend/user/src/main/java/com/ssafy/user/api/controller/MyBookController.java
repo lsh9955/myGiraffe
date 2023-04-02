@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.net.URI;
 
+@CrossOrigin
 @Slf4j
 @Validated
 @ValidateOnExecution
