@@ -48,7 +48,12 @@ const MyStorybookList = () => {
     const fetchBooks = async () => {
       await axios
         .get(
-          "https://port-0-nodebook-1b5xkk2fldhlzqkd.gksl2.cloudtype.app/mybook"
+          "https://port-0-nodebook-1b5xkk2fldhlzqkd.gksl2.cloudtype.app/mybook",
+          {
+            headers: {
+              Authorization: process.env.REACT_APP_TOKEN,
+            },
+          }
         )
         .then((response) => {
           console.log(response.data);

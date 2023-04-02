@@ -1,0 +1,27 @@
+.thickness {
+  /* border-radius: 50%; */
+  height: 1rem;
+  background: black;
+}
+.container {
+  margin-left: 10%;
+  width: fit-content;
+}
+
+input {
+  background: transparent;
+  border: none;
+  margin-bottom: 4vmin;
+  /* border: 2px solid #a7f3d0; */
+  border-radius: 2rem;
+  margin-left: 2vmin;
+}
+button {
+  background: transparent;
+  border: none;
+  margin-bottom: 4vmin;
+  border: 2px solid #a7f3d0;
+  border-radius: 2rem;
+  margin-left: 2vmin;
+  padding: 2vmin 2rem;
+}

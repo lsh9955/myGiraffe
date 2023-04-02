@@ -3,6 +3,7 @@ import styled from "styled-components";
 import loginBg from "../../assets/image/loginBackground.gif";
 import loginSpeechBackground from "../../assets/image/loginSpeechBackground.png";
 import loginSpeechArrow from "../../assets/image/loginSpeechArrow.png";
+import kakaoLogin from "assets/icon/kakaoLogin.png";
 
 export const LoginBackBackground = styled.div`
   width: 100vw;
@@ -46,7 +47,12 @@ export const LoginTxt = styled.div`
   font-size: 4vw;
 `;
 
-export const KakaoLogin = styled.img`
-  height: auto;
+export const KakaoLogin = styled.a`
+  height: 15%;
   width: 60%;
+  cursor: pointer;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url(${kakaoLogin});
 `;

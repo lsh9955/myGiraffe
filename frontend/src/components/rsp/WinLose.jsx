@@ -22,6 +22,7 @@ const WinLose = ({
   timer,
   resetTimer,
   endGameHandler,
+  pageChangeHandler,
 }) => {
   const [open, setOpen] = useState(false);
   const [winLose, setWinLose] = useState(null);
@@ -33,8 +34,11 @@ const WinLose = ({
       resetTimer();
     } else {
       endGameHandler();
-      //임시로 메인으로 돌아가게 함. 책 만든 이후엔 다음 페이지로 이동할 수 있도록 조정
-      // history.push("/");
+      if (winLose === "졌습니다!") {
+        pageChangeHandler(22);
+      } else if (winLose === "이겼습니다!") {
+        pageChangeHandler(23);
+      }
     }
   };
   useEffect(() => {

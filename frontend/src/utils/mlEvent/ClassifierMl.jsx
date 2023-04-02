@@ -10,9 +10,13 @@ import { Box, Typography, Modal } from "@mui/material/";
 import { Buttontwo } from "components/common/button/ButtonStyle";
 import { TutorialNumberGif } from "components/modal/tutorial_modal/TutorialStyle";
 import GifClassifier from "assets/image/tutorialclassifier.gif";
+import Repaint from "components/modal/repaint/Repaint";
 
 // 소중한 물건인지 확인하는 ml
 
+//물건 정보를 redux에 저장
+import { item } from "store/BookSlice";
+import { useDispatch } from "react-redux";
 // 모달 mui 스타일
 const style = {
   position: "absolute",
@@ -28,36 +32,56 @@ const style = {
   borderRadius: 10,
 };
 
-const ClassifierMl = () => {
+const ClassifierMl = ({ nextOnlyPage, lostHandler }) => {
   // 모달 오픈시 필요한 변수
   const [open, setOpen] = useState(true);
+  //다시 그리기 모달 창 컨트롤
+  const [isOpen, setIsOpen] = useState(false);
+
   const handleClose = () => {
     setOpen(false);
   };
-
+  //모달 창 열렸는지 확인
+  const openCheck = (e) => {
+    if (e != isOpen) {
+      setIsOpen(e);
+    }
+  };
+  const dispatch = useDispatch();
   const [getImg, setGetImg] = useState(null);
   const getImgHandler = (e) => {
-    setGetImg(e.split(",")[1]);
-  };
-  useEffect(() => {
+    setGetImg(e);
     const NumMl = async () => {
       await axios
         .post(
-          // "https://j8b201.p.ssafy.io/api/classifier",
-          "http://192.168.31.87:5000/api/classifier",
+          "https://j8b201.p.ssafy.io/api/classifier",
+          // "http://192.168.31.87:5000/api/classifier",
           {
-            base64_drawing: String(getImg),
+            criteria_1: String("Insect,Insects,Bug,Bugs"),
+            criteria_2: String("Fruits,Fruit,Plant,Plants"),
+            base64_drawing: String(e.slice(22)),
+          },
+          {
+            headers: {
+              Authorization: process.env.REACT_APP_TOKEN,
+            },
           }
         )
         .then((response) => {
           console.log(response);
+          dispatch(item({ lostItem: response.data }));
+          lostHandler(response.data);
+          nextOnlyPage();
         })
         .catch((error) => {
           console.log(error);
+          //모달창 생성해주기
+          setIsOpen(true);
         });
     };
     NumMl();
-  }, [getImg]);
+  };
+
   return (
     <>
       <Modal
@@ -139,6 +163,7 @@ const ClassifierMl = () => {
           </Box>
         </Box>
       </Modal>
+      <Repaint isOpen={isOpen} openCheck={openCheck} />
       <SketchWriteContainer>
         <SketchTitle>
           (닌텐도 스위치, 축구공, 인형, 일기장, 로봇, 스마트폰) 중에 1개를 골라

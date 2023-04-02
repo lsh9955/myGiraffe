@@ -1,19 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import CanvasTool from "utils/canvas/CanvasTool";
-import {
-  SketchWriteContainer,
-  SketchTitle,
-} from "components/common/sketchbook/SketchBookStyle";
-// 모달에 필요한 컴포넌트 import
 import { Box, Typography, Modal } from "@mui/material/";
-import { Buttontwo } from "components/common/button/ButtonStyle";
-import { TutorialNumberGif } from "components/modal/tutorial_modal/TutorialStyle";
-import GifNumber from "assets/image/tutorialnumber.gif";
-
-// 숫자 인식 ml
-
-// 모달 mui 스타일
+import axios from "axios";
+import * as B from "./bookInfoStyle";
+import { useHistory } from "react-router-dom";
 const style = {
   position: "absolute",
   top: "50%",
@@ -24,30 +13,32 @@ const style = {
   border: "3px solid #ff8f5c",
   boxShadow: 24,
   outline: "none",
-  p: 4,
+  fontSize: "18px",
+  p: 2,
   borderRadius: 10,
 };
-
-const NumberMl = () => {
-  // 모달 오픈시 필요한 변수
-  const [open, setOpen] = useState(true);
+// 책 정보 모달창 (결제 필요시 결제버튼 포함)
+const BookInfo = ({ title, isOpen, openCheck }) => {
+  const [open, setOpen] = useState(false);
+  const [data, setData] = useState(null);
+  const history = useHistory();
   const handleClose = () => {
     setOpen(false);
   };
-
-  const [getImg, setGetImg] = useState(null);
-  const getImgHandler = (e) => {
-    setGetImg(e);
-  };
   useEffect(() => {
-    const NumMl = async () => {
+    if (isOpen) {
+      setOpen(true);
+    }
+  }, [isOpen]);
+  useEffect(() => {
+    openCheck(open);
+  }, [open]);
+
+  useEffect(() => {
+    const getBookInfo = async () => {
       await axios
-        .post(
-          // "https://j8b201.p.ssafy.io/api/numbers",
-          "http://192.168.31.87:5000/api/numbers",
-          {
-            base64_drawing: String(getImg),
-          },
+        .get(
+          "https://port-0-nodebook-1b5xkk2fldhlzqkd.gksl2.cloudtype.app/sketchbook",
           {
             headers: {
               Authorization: process.env.REACT_APP_TOKEN,
@@ -55,17 +46,20 @@ const NumberMl = () => {
           }
         )
         .then((response) => {
-          console.log(response);
+          setData(response.data);
         })
         .catch((error) => {
           console.log(error);
         });
     };
-    NumMl();
-  }, [getImg]);
-
+    getBookInfo();
+  }, []);
+  const handleBookOpen = () => {
+    handleClose();
+    history.push("/bookdetail/1");
+  };
   return (
-    <>
+    <div>
       <Modal
         open={open}
         onClose={handleClose}
@@ -86,7 +80,7 @@ const NumberMl = () => {
             variant="h6"
             component="h2"
           >
-            수학 문제를 풀어보자
+            {data && data[0].title}
           </Typography>
           <Box
             sx={{
@@ -95,45 +89,52 @@ const NumberMl = () => {
               alignItems: "center",
             }}
           >
-            <TutorialNumberGif src={GifNumber} alt="GifNumber" />
+            <B.BookInfoImg src={data && data[0].img} alt="책 소개 이미지" />
           </Box>
           <Typography
             id="modal-modal-description"
             sx={{
               mt: 1,
               mb: 1,
-              fontSize: 18,
+              fontSize: 22,
               display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+              //   justifyContent: "center",
+              //   alignItems: "center",
             }}
           >
-            유령이 낸 문제를 보고
+            동화 줄거리
           </Typography>
+          소녀가 나와서 성냥개비를 강매함
           <Typography
             sx={{
               mt: 1,
               mb: 1,
-              fontSize: 18,
+              fontSize: 22,
               display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+              //   justifyContent: "center",
+              //   alignItems: "center",
             }}
           >
-            정답을 펜으로 적어보세요.
+            인터렉션 요소
           </Typography>
+          가위바위보 게임 그림 그리기ff가위바위보 게임 그림 그리기ff가위바위보
+          게임 그림 그리기ff가위바위보 게임 그림 그리기ff가위바위보 게임 그림
+          그리기ff가위바위보 게임 그림 그리기ff가위바위보 게임 그림
+          그리기ff가위바위보 게임 그림 그리기ff가위바위보 게임 그림
           <Typography
+            id="modal-modal-description"
             sx={{
               mt: 1,
               mb: 1,
-              fontSize: 18,
+              fontSize: 22,
               display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+              //   justifyContent: "center",
+              //   alignItems: "center",
             }}
           >
-            답을 적었다면, 완료 버튼을 눌러주세요.
+            필요한 열쇠 개수
           </Typography>
+          430개
           <Box
             sx={{
               display: "flex",
@@ -141,16 +142,20 @@ const NumberMl = () => {
               alignItems: "center",
             }}
           >
-            <Buttontwo onClick={handleClose}>확인</Buttontwo>
+            <B.Buttonone
+              onClick={() => {
+                //들어갈 책의 idx
+                handleBookOpen(2);
+              }}
+            >
+              책 읽기
+            </B.Buttonone>
+            <B.Buttontwo onClick={handleClose}>취소</B.Buttontwo>
           </Box>
         </Box>
       </Modal>
-      <SketchWriteContainer>
-        <SketchTitle>재미있는 숫자 퀴즈! 3*5-6 = ?</SketchTitle>
-        <CanvasTool getImgHandler={getImgHandler} />
-      </SketchWriteContainer>
-    </>
+    </div>
   );
 };
 
-export default NumberMl;
+export default BookInfo;
