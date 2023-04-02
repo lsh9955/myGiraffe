@@ -13,7 +13,8 @@ const StorybookListPage = () => {
           },
         })
         .then((response) => {
-          setBookData(response.data);
+          setBookData(response.data.content);
+          console.log(response.data.content);
         })
         .catch((error) => {
           console.log(error);
