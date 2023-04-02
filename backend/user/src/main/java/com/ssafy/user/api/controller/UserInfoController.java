@@ -10,9 +10,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @Validated
@@ -22,92 +26,87 @@ import java.util.Map;
 @RequestMapping("api/members")
 public class UserInfoController {
 
-    private final UserInfoService userInfoService;
-    private final UserScenarioListService userScenarioListService;
+  private final UserInfoService userInfoService;
+  private final UserScenarioListService userScenarioListService;
 
-    @PostMapping(value = "/user", produces = "application/json")
-    public ResponseEntity<? extends BaseResponseBody> insertProfile(
-            @RequestBody UserPostRequest request) {
+  @PostMapping(value = "/user", produces = "application/json")
+  public ResponseEntity<? extends BaseResponseBody> createProfile(
+      @RequestBody UserPostRequest request) {
 
-        // userInfo 주입
-        var userInfo = userInfoService.saveUserInfo(request);
+    // userInfo 주입
+    var userInfo = userInfoService.saveUserInfo(request);
 
-        return ResponseEntity
-                .ok()
-                .body(new BaseResponseBody<>(200, "OK", userInfo));
-    };
+    var userScenario = userScenarioListService.saveUserScenario(request.getUserId(), 1);
+    var successMessage = userInfo + " 회원 정보 추가 성공: (ID=" + userScenario + ")";
 
-    @PostMapping(value = "/image", produces = "application/json")
-    public ResponseEntity<? extends BaseResponseBody> updateImage(
-            @RequestBody UserPostRequest request) { // 프로필 사진 업데이트
+    return ResponseEntity
+        .ok()
+        .body(new BaseResponseBody<>(200, "OK", successMessage));
+  }
 
-        var userInfo = userInfoService.updateUserImage(request);
+  @PostMapping(value = "/image", produces = "application/json")
+  public ResponseEntity<? extends BaseResponseBody> updateImage(
+      @RequestBody UserPostRequest request) { // 프로필 사진 업데이트
 
-        return ResponseEntity
-                .ok()
-                .body(new BaseResponseBody<>(200, "OK", userInfo));
-    };
+    var userInfo = userInfoService.updateUserImage(request);
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<? extends BaseResponseBody> getUserInfo(
-            @PathVariable("userId")
-            @NotBlank(message = "필수 입력값입니다") // validation
-            String userId) {
+    return ResponseEntity
+        .ok()
+        .body(new BaseResponseBody<>(200, "OK", userInfo));
+  }
 
-        //UserInfo userInfo
-        var userInfo = userInfoService.findUserInfoByUserId(userId);
+  @GetMapping
+  public ResponseEntity<? extends BaseResponseBody> getUserInfo(
+      @RequestHeader("userId")
+      @NotBlank(message = "필수 입력값입니다") // validation
+      String userId) {
 
-        return ResponseEntity
-                .ok()
-                .body(new BaseResponseBody<>(200, "OK", userInfo));
-    }
+    var userInfo = userInfoService.findUserInfoByUserId(userId);
 
-    @GetMapping("/scenarios/{userId}")
-    public ResponseEntity<? extends BaseResponseBody> getAllUserScenarios(
-            @PathVariable("userId") String userId) {
+    return ResponseEntity
+        .ok()
+        .body(new BaseResponseBody<>(200, "OK", userInfo));
+  }
 
-        var userScenarioList = userScenarioListService.findAllScenariosByUserId(userId);
+  @GetMapping("/scenarios")
+  public ResponseEntity<? extends BaseResponseBody> getAllUserScenarios(
+      @RequestHeader("userId") String userId) {
 
-        return ResponseEntity
-                .ok()
-                .body(new BaseResponseBody<>(200, "OK", userScenarioList));
-    }
+    var userScenarioList = userScenarioListService.findAllScenariosByUserId(userId);
 
-    @PatchMapping
-    public ResponseEntity<? extends BaseResponseBody> updateUserKey(
-            @RequestPart Map<String, Object> param) {
+    return ResponseEntity
+        .ok()
+        .body(new BaseResponseBody<>(200, "OK", userScenarioList));
+  }
 
-        String userId = (String) param.get("userId");
-        Integer keyAmount = (Integer) param.get("keyAmount");
+  @PatchMapping
+  public ResponseEntity<? extends BaseResponseBody> updateUserKey(
+      @RequestHeader("userId") String userId,
+      @RequestBody Integer keyAmount) {
 
-        var userinfo = userInfoService.updateKeyAmount(userId, keyAmount);
+    var userinfo = userInfoService.updateKeyAmount(userId, keyAmount);
 
-        var successMessage = "유저 키 수량 변경 성공: (ID=" + userinfo.getUserId()
-                + " : " + userinfo.getCoinAMount() + ")";
+    var successMessage = "유저 키 수량 변경 성공: (ID=" + userinfo.getUserId()
+        + " : " + userinfo.getCoinAMount() + ")";
 
-        return ResponseEntity
-                .ok()
-                .body(new BaseResponseBody<>(200, "OK", successMessage));
+    return ResponseEntity
+        .ok()
+        .body(new BaseResponseBody<>(200, "OK", successMessage));
 
-    }
+  }
 
-    @PostMapping
-    public ResponseEntity<? extends BaseResponseBody> insertScenario(
-            @RequestPart Map<String, Object> param) {
+  @PostMapping
+  public ResponseEntity<? extends BaseResponseBody> insertScenario(
+      @RequestHeader("userId") String userId,
+      @RequestBody Integer scenarioId) {
 
-        String userId = (String) param.get("userId");
-        Integer scenarioId = (Integer) param.get("scenarioId");
+    var userScenario = userScenarioListService.saveUserScenario(userId, scenarioId);
 
-        var userScenario = userScenarioListService.saveUserScenario(userId, scenarioId);
+    var successMessage = "시나리오 추가 성공: (ID=" + userScenario + ")";
 
-        var successMessage = "시나리오 추가 성공: (ID=" + userScenario + ")";
-
-        return ResponseEntity
-                .ok()
-                .body(new BaseResponseBody<>(201, "Created", successMessage));
-    }
-
-
-
+    return ResponseEntity
+        .ok()
+        .body(new BaseResponseBody<>(201, "Created", successMessage));
+  }
 
 }

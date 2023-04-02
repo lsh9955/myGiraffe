@@ -7,15 +7,21 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.executable.ValidateOnExecution;
+import java.io.IOException;
+import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.net.URI;
 
 @Slf4j
 @Validated
@@ -25,61 +31,64 @@ import java.net.URI;
 @RequestMapping("api/members/diaries")
 public class DiaryController {
 
-    private final DiaryService diaryService;
+  private final DiaryService diaryService;
 
-    @GetMapping("/list/{userId}")
-    public ResponseEntity<? extends BaseResponseBody> getDiaries(
-            @PathVariable("userId") String userId) {
+  @GetMapping("/list")
+  public ResponseEntity<? extends BaseResponseBody> getDiaries(
+      @RequestHeader("userId") String userId) {
 
-        var diaries = diaryService.findDiariesByUserId(userId);
+    var diaries = diaryService.findDiariesByUserId(userId);
 
-        return ResponseEntity
-                .ok()
-                .body(new BaseResponseBody<>(200, "OK", diaries));
-    }
+    return ResponseEntity
+        .ok()
+        .body(new BaseResponseBody<>(200, "OK", diaries));
+  }
 
-    @GetMapping("/{diaryId}")
-    public ResponseEntity<? extends BaseResponseBody> getDiary(
-            @PathVariable("diaryId") Integer diaryId) {
+  @GetMapping("/{diaryId}")
+  public ResponseEntity<? extends BaseResponseBody> getDiary(
+      @PathVariable("diaryId") Integer diaryId) {
 
-        var diary = diaryService.findDiaryById(diaryId);
+    var diary = diaryService.findDiaryById(diaryId);
 
-        return ResponseEntity
-                .ok()
-                .body(new BaseResponseBody<>(200, "OK", diary));
-    }
+    return ResponseEntity
+        .ok()
+        .body(new BaseResponseBody<>(200, "OK", diary));
+  }
 
-    @PostMapping
-    public ResponseEntity<? extends BaseResponseBody> createDiary(
-            @RequestPart
-            @Valid
-            DiaryPostRequest diary,
-            @RequestPart
-            MultipartFile diaryImg,
-            HttpServletRequest request) throws IOException {
+  @PostMapping
+  public ResponseEntity<? extends BaseResponseBody> createDiary(
+      @RequestPart
+      @Valid
+      DiaryPostRequest diary,
+      @RequestHeader("userId") String userId,
+      @RequestPart
+      MultipartFile diaryImg,
+      HttpServletRequest request) throws IOException {
 
-        var id = diaryService.saveDiary(diary, diaryImg);
+    diary.setUserId(userId);
 
-        var location = URI.create(request.getRequestURI() + "/" + id);
-        var successMessage = "그림일기 생성 성공: (ID=" + id + ")";
+    var id = diaryService.saveDiary(diary, diaryImg);
 
-        return ResponseEntity
-                .created(location)
-                .body(new BaseResponseBody<>(201, "Created", successMessage));
-    }
+    var location = URI.create(request.getRequestURI() + "/" + id);
+    var successMessage = "그림일기 생성 성공: (ID=" + id + ")";
 
-    @DeleteMapping("/{diaryId}")
-    public ResponseEntity<? extends BaseResponseBody> deleteDiary(
-            @PathVariable
-            @Positive(message = "필수 입력값 입니다(양수).")
-            Integer diaryId) {
+    return ResponseEntity
+        .created(location)
+        .body(new BaseResponseBody<>(201, "Created", successMessage));
+  }
 
-        diaryService.deleteDiary(diaryId);
+  @DeleteMapping("/{diaryId}")
+  public ResponseEntity<? extends BaseResponseBody> deleteDiary(
+      @PathVariable
+      @Positive(message = "필수 입력값 입니다(양수).")
+      Integer diaryId) {
 
-        var successMessage = "그림일기가 성공적으로 삭제되었습니다: (ID=" + diaryId + ")";
+    diaryService.deleteDiary(diaryId);
 
-        return ResponseEntity
-                .ok()
-                .body(new BaseResponseBody<>(200, "OK", successMessage));
-    }
+    var successMessage = "그림일기가 성공적으로 삭제되었습니다: (ID=" + diaryId + ")";
+
+    return ResponseEntity
+        .ok()
+        .body(new BaseResponseBody<>(200, "OK", successMessage));
+  }
 }
