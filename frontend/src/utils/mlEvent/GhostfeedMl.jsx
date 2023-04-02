@@ -46,8 +46,8 @@ const GhostfeedMl = () => {
           "https://j8b201.p.ssafy.io/api/visionapi",
           // "http://192.168.31.87:5000/api/visionapi",
           {
-            criteria_1: String("insect"),
-            criteria_2: String("plant"),
+            criteria_1: String("Insect,Insects,Bug,Bugs"),
+            criteria_2: String("Fruits,Fruit,Plant,Plants"),
             base64_drawing: String(e.slice(22)),
           },
           {
