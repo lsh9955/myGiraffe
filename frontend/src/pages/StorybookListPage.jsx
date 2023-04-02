@@ -7,14 +7,11 @@ const StorybookListPage = () => {
   useEffect(() => {
     const sketchBooks = async () => {
       await axios
-        .get(
-          "https://port-0-nodebook-1b5xkk2fldhlzqkd.gksl2.cloudtype.app/sketchbook",
-          {
-            headers: {
-              Authorization: process.env.REACT_APP_TOKEN,
-            },
-          }
-        )
+        .get("http://j8b201.p.ssafy.io:9021/api/books/scenarios", {
+          headers: {
+            Authorization: process.env.REACT_APP_TOKEN,
+          },
+        })
         .then((response) => {
           setBookData(response.data);
         })
