@@ -31,7 +31,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     var myBooks = myBookRepository.findAllByUserInfo(userInfo);
 
     for (MyBook myBook : myBooks) {
-      if("temp".equals(myBook.getBookName())) {
+      if ("temp".equals(myBook.getBookName())) {
         myBookRepository.deleteById(myBook.getBookId());
       }
     }

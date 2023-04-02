@@ -9,14 +9,12 @@ import com.ssafy.user.db.entity.MyBookPage;
 import com.ssafy.user.db.repository.MyBookPageRepository;
 import com.ssafy.user.db.repository.MyBookRepository;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
-import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -73,10 +71,11 @@ public class MyBookPageServiceImpl implements MyBookPageService {
 
     // 동화책에 해당 페이지번호가 이미 있으면 그 페이지와 이후에 저장된 페이지들 전부 DB 에서 삭제
     for (int i = 0; i < myBookPages.size(); i++) {
-      if(myBookPages.get(i).getPageNo().equals(request.getPageNo())) {
+      if (myBookPages.get(i).getPageNo().equals(request.getPageNo())) {
         savedIndex = i;
+      } else if (savedIndex > i) {
+        continue;
       }
-      else if (savedIndex > i) continue;
       myBookPageRepository.deleteById(myBookPages.get(i).getPageId());
     }
 
