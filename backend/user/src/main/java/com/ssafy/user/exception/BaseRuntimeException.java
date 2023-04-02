@@ -12,11 +12,12 @@ import org.springframework.http.HttpStatus;
 @Getter
 public class BaseRuntimeException extends RuntimeException {
 
-    private HttpStatus httpStatus;
+  private HttpStatus httpStatus;
 
-    private RuntimeException exception;
-    public BaseRuntimeException(HttpStatus httpStatus, String exceptionMessage) {
-        this.httpStatus = httpStatus;
-        this.exception = new RuntimeException(exceptionMessage);
-    }
+  private RuntimeException exception;
+
+  public BaseRuntimeException(HttpStatus httpStatus, String exceptionMessage) {
+    this.httpStatus = httpStatus;
+    this.exception = new RuntimeException(exceptionMessage);
+  }
 }
