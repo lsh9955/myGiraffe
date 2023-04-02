@@ -21,6 +21,7 @@ import BookInfo from "components/modal/bookInfo_modal/BookInfo";
 /**동화책 선택 컴포넌트 */
 const Storybookmain = ({ bookData }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [data, setData] = useState(null);
   // 이전 버튼 스타일
   const SamplePrevArrow = (props) => {
     const { className, style, onClick } = props;
@@ -83,7 +84,7 @@ const Storybookmain = ({ bookData }) => {
 
   return (
     <Container>
-      <BookInfo isOpen={isOpen} openCheck={openCheck} />
+      <BookInfo isOpen={isOpen} openCheck={openCheck} data={data} />
       <TitleContainer>읽고 싶은 동화를 선택해주세요!</TitleContainer>
       <Slider {...settings}>
         {bookData?.map((data, idx) => (
@@ -97,17 +98,19 @@ const Storybookmain = ({ bookData }) => {
               <MySketchbookLockContainer
                 onClick={() => {
                   bookInfoShowHandler(data);
+                  setData(data);
                 }}
               >
-                <MySketchbookLockimage bgImg={data.img} />
+                <MySketchbookLockimage bgImg={data.thumbnailImgUrl} />
                 <Lock src={lock} />
               </MySketchbookLockContainer>
             ) : (
               // 구입한 책
               <MySketchbookimage
-                src={data.img}
+                src={data.thumbnailImgUrl}
                 onClick={() => {
                   bookInfoShowHandler(idx);
+                  setData(data);
                 }}
               />
             )}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import CanvasTool from "utils/canvas/CanvasTool";
 import {
@@ -73,6 +73,7 @@ const FindPasswordMl = ({ pageChangeHandler }) => {
               pageChangeHandler(10);
             } else {
               setWrongCount(wrongCount + 1);
+              alert(`${wrongCount + 1}번 틀렸어요`);
             }
           }
         })
@@ -105,7 +106,9 @@ const FindPasswordMl = ({ pageChangeHandler }) => {
             id="modal-modal-title"
             variant="h6"
             component="h2"
-          ></Typography>
+          >
+            교실 비밀번호를 풀어보자
+          </Typography>
           <Box
             sx={{
               display: "flex",
@@ -125,7 +128,9 @@ const FindPasswordMl = ({ pageChangeHandler }) => {
               justifyContent: "center",
               alignItems: "center",
             }}
-          ></Typography>
+          >
+            선생님 자리에서 찾은 단서를 가지고,
+          </Typography>
           <Typography
             sx={{
               mt: 1,
@@ -135,7 +140,9 @@ const FindPasswordMl = ({ pageChangeHandler }) => {
               justifyContent: "center",
               alignItems: "center",
             }}
-          ></Typography>
+          >
+            비밀번호를 캔버스에 적어보세요.
+          </Typography>
           <Typography
             sx={{
               mt: 1,
@@ -145,7 +152,9 @@ const FindPasswordMl = ({ pageChangeHandler }) => {
               justifyContent: "center",
               alignItems: "center",
             }}
-          ></Typography>
+          >
+            3번 이상 틀린다면, 어떤 일이 일어날까요?
+          </Typography>
           <Box
             sx={{
               display: "flex",
