@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Storybookmain from "components/storybookmain/Storybookmain";
+import BookInfo from "components/modal/bookInfo_modal/BookInfo";
 /**읽을 동화 선택 페이지 */
 const StorybookListPage = () => {
   const [bookData, setBookData] = useState(null);

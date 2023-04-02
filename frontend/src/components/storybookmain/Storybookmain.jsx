@@ -83,7 +83,6 @@ const Storybookmain = ({ bookData }) => {
 
   return (
     <Container>
-      <BookInfo isOpen={isOpen} openCheck={openCheck} />
       <TitleContainer>읽고 싶은 동화를 선택해주세요!</TitleContainer>
       <Slider {...settings}>
         {bookData?.map((data, idx) => (
@@ -92,6 +91,7 @@ const Storybookmain = ({ bookData }) => {
               bookInfoShowHandler(data);
             }}
           >
+            <BookInfo isOpen={isOpen} openCheck={openCheck} data={data} />
             {idx === 2 ? (
               // 아직 구입하지 않은 책
               <MySketchbookLockContainer
@@ -99,13 +99,13 @@ const Storybookmain = ({ bookData }) => {
                   bookInfoShowHandler(data);
                 }}
               >
-                <MySketchbookLockimage bgImg={data.img} />
+                <MySketchbookLockimage bgImg={data.thumbnailImgUrl} />
                 <Lock src={lock} />
               </MySketchbookLockContainer>
             ) : (
               // 구입한 책
               <MySketchbookimage
-                src={data.img}
+                src={data.thumbnailImgUrl}
                 onClick={() => {
                   bookInfoShowHandler(idx);
                 }}
