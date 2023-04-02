@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Storybookmain from "components/storybookmain/Storybookmain";
+import BookInfo from "components/modal/bookInfo_modal/BookInfo";
 /**읽을 동화 선택 페이지 */
 const StorybookListPage = () => {
   const [bookData, setBookData] = useState(null);
   useEffect(() => {
     const sketchBooks = async () => {
       await axios
-        .get(
-          "https://port-0-nodebook-1b5xkk2fldhlzqkd.gksl2.cloudtype.app/sketchbook",
-          {
-            headers: {
-              Authorization: process.env.REACT_APP_TOKEN,
-            },
-          }
-        )
+        .get("http://j8b201.p.ssafy.io:9021/api/books/scenarios", {
+          headers: {
+            Authorization: process.env.REACT_APP_TOKEN,
+          },
+        })
         .then((response) => {
-          setBookData(response.data);
+          setBookData(response.data.content);
+          console.log(response.data.content);
         })
         .catch((error) => {
           console.log(error);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import CanvasTool from "utils/canvas/CanvasTool";
 import {
@@ -9,7 +9,7 @@ import {
 import { Box, Typography, Modal } from "@mui/material/";
 import { Buttontwo } from "components/common/button/ButtonStyle";
 import { TutorialNumberGif } from "components/modal/tutorial_modal/TutorialStyle";
-import GifNumber from "assets/image/tutorialnumber.gif";
+import GifGhostFeed from "assets/image/ghost_feed.gif";
 
 // 과일인지, 곤충인지 확인하는 ml
 
@@ -96,7 +96,7 @@ const GhostfeedMl = () => {
               alignItems: "center",
             }}
           >
-            <TutorialNumberGif src={GifNumber} alt="GifNumber" />
+            <TutorialNumberGif src={GifGhostFeed} alt="GifGhostFeed" />
           </Box>
           <Typography
             id="modal-modal-description"

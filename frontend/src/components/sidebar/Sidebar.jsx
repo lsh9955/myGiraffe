@@ -75,7 +75,7 @@ const Sidebar = () => {
   // 결제 모듈
   const onClickPayment = () => {
     const { IMP } = window;
-    IMP.init("imp26454654"); // 결제 데이터 정의(환석님 고유 번호라서 axios로 받아와야함)
+    IMP.init(process.env.REACT_APP_KAKAOPAY_IMP); // 사용자 코드
     const data = {
       pg: "kakaopay.{TC0ONETIME}", // PG사 (필수항목)
       pay_method: "card",
