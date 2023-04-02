@@ -1,17 +1,30 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import * as R from "./ReadstorybookStyle";
-import one from "./1.jpg";
 
-//mui아이콘 중 방향 버튼 아이콘을 가져오기
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import ClassifierMl from "utils/mlEvent/ClassifierMl";
+import Flip from "./Flip";
+import FindPasswordMl from "utils/mlEvent/FindPasswordMl";
+import RspPage from "pages/RspPage";
+import GhostfeedMl from "utils/mlEvent/GhostfeedMl";
 
-/**읽고 있는 동화책 컴포넌트 */
-const StoryPage = ({ nowPage, pageChangeHandler }) => {
+/**읽고 있는 동화책 컴포넌트 (현재 페이지, 페이지 바뀔 때 이벤트, 모든 페이지 정보, 현재까지 읽은 페이지 정보)*/
+const StoryPage = ({
+  nowPage,
+  pageChangeHandler,
+  allContent,
+  alreadyReadPage,
+}) => {
   const [isRendered, setIsRendered] = useState(false);
   const [firPageflip, setFirPageflip] = useState(false);
   const [secPageflip, setSecPageflip] = useState(false);
-
+  const [nowPageInfo, setNowPageInfo] = useState(allContent[nowPage - 1]);
+  //그림 그리는 이벤트 페이지, 숫자 그리는 이벤트 페이지를 여는 경우 설정
+  const [eventPicPageOpen, setEventPicPageOpen] = useState(false);
+  const [eventNumPageOpen, setEventNumPageOpen] = useState(false);
+  const [eventTitle, setEventTitle] = useState(null);
+  //!현재 이미지가 로딩되지 않기 때문에, 이미지를 제외하고 설정
+  //잃어버린 물건
+  const [lost, setLost] = useState(null);
   //첫 페이지 넘김 여부
   const checkRef1 = useRef(null);
   //두 번째 페이지 넘김 여부
@@ -25,18 +38,105 @@ const StoryPage = ({ nowPage, pageChangeHandler }) => {
   useEffect(() => {
     setIsRendered(true);
   }, []);
-  //배열에 현재 페이지 수를 적어놓고, 추가될 때 마다 전체를 다시 리랜더링하는 방식은?
+  //배열에 현재 페이지 수를 적어놓고, 추가될 때 마다 페이지 전체의 컴포넌트가 바뀜
+
+  //다음 불러올 페이지를 찾는 함수
+  const findBeforePage = (targetPage) => {
+    for (let i = 0; i < allContent.length; i++) {
+      if (allContent[i].pageNo === targetPage) {
+        return allContent[i].pageId;
+      }
+    }
+  };
 
   useEffect(() => {
-    if (firPageflip || secPageflip) {
+    if (firPageflip) {
       setTimeout(() => {
-        pageChangeHandler(nowPage + 1);
+        if (alreadyReadPage.length <= 1) {
+          alert("첫 페이지에요");
+        } else {
+          pageChangeHandler(alreadyReadPage[alreadyReadPage.length - 1]);
+        }
+      }, 500);
+    } else if (secPageflip) {
+      setTimeout(() => {
+        if (allContent[nowPage - 1].nextPage.length === 1) {
+          pageChangeHandler(
+            findBeforePage(allContent[nowPage - 1].nextPage[0])
+          );
+        }
       }, 500);
     }
   }, [firPageflip, secPageflip]);
 
+  //그림 페이지 열고 닫음
+  const picHandler = (titleInput) => {
+    setEventPicPageOpen(!eventPicPageOpen);
+    setEventTitle(titleInput);
+  };
+
+  //경우의 수가 한 가지일때, 다음 페이지로 넘어가기
+  const nextOnlyPage = () => {
+    setSecPageflip(true);
+  };
+  //잃어버린 물건 state에 저장
+  const lostHandler = (item) => {
+    setLost(item);
+  };
+  //이벤트 페이지 분류
+  const eventPage = [3, 9, 21, 24];
   return (
     <R.Book>
+      {/* 소중한 그림 그려주기 */}
+      {nowPage === 3 && (
+        <ClassifierMl nextOnlyPage={nextOnlyPage} lostHandler={lostHandler} />
+      )}
+      {/* 자물쇠 비밀번호 그려주기 */}
+      {nowPage === 9 && (
+        <FindPasswordMl pageChangeHandler={pageChangeHandler} />
+      )}
+      {/* 열쇠 찾기 */}
+      {nowPage === 11 && (
+        <>
+          <button
+            onClick={() => {
+              pageChangeHandler(13);
+            }}
+          >
+            책상서랍
+          </button>
+          <button
+            onClick={() => {
+              pageChangeHandler(14);
+            }}
+          >
+            청소도구
+          </button>
+          <button
+            onClick={() => {
+              pageChangeHandler(15);
+            }}
+          >
+            하늘
+          </button>
+        </>
+      )}
+      {/* 유령 찾기 */}
+      {nowPage === 14 && (
+        <button
+          onClick={() => {
+            pageChangeHandler(17);
+          }}
+        >
+          쓰레기봉투
+        </button>
+      )}
+      {/* 유령과 가위바위보 */}
+      {nowPage === 21 && <RspPage pageChangeHandler={pageChangeHandler} />}
+      {/* 유령이 먹을 그림 그려주기 */}
+      {nowPage === 24 && (
+        <GhostfeedMl nextOnlyPage={nextOnlyPage} lostHandler={lostHandler} />
+      )}
       <R.PageInput
         type="checkbox"
         ref={checkRef1}
@@ -57,73 +157,17 @@ const StoryPage = ({ nowPage, pageChangeHandler }) => {
           setSecPageflip(!secPageflip);
         }}
       />
-      {/* 커버 페이지 -이전 페이지와 동일*/}
-      <R.Cover>
-        <img src={one} alt="Cover" />
-        <div>
-          안녕하세안녕하세안녕하세안녕하세안녕하세안녕하세안녕하세안녕하세안녕하세안녕하세안녕하세안녕하세안녕하세안녕하세
-        </div>
-      </R.Cover>
-
-      <R.FlipBook className="flip-book">
-        <R.Filp id="p1" pageIdx="1" isRendered={isRendered}>
-          {/* 첫번째장 앞면 -이전 페이지와 동일*/}
-          <R.Front>
-            <label htmlFor="c1">
-              <KeyboardArrowRightIcon />
-            </label>
-          </R.Front>
-          {/* 첫번째장 뒷면 -현재 랜더링된 페이지와 동일*/}
-          <R.Back>
-            <img src={one} alt="Cover" />
-            <div>
-              반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다
-            </div>
-            <label htmlFor="c1">
-              <KeyboardArrowLeftIcon />
-            </label>
-          </R.Back>
-        </R.Filp>
-        <R.Filp id="p2" pageIdx="2" isRendered={isRendered}>
-          {/* 두번째장 뒷면 -다음 페이지와 동일*/}
-          <R.Back>
-            <img src={one} alt="Cover" />
-            <div>
-              반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다
-            </div>
-            <label htmlFor="c2">
-              <KeyboardArrowLeftIcon />
-            </label>
-          </R.Back>
-          {/* 두번째장 앞면 -현재 랜더링된 페이지와 동일*/}
-          <R.Front>
-            <div>
-              반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다
-            </div>
-            <label htmlFor="c2">
-              <KeyboardArrowRightIcon />
-            </label>
-          </R.Front>
-        </R.Filp>
-        <R.Filp id="p3" pageIdx="3" isRendered={isRendered}>
-          {/* 첫번째장 앞면 -이전 페이지와 동일*/}
-          <R.Front>
-            <label htmlFor="c3">
-              <KeyboardArrowRightIcon />
-            </label>
-          </R.Front>
-          {/* 첫번째장 뒷면 -현재 랜더링된 페이지와 동일*/}
-          <R.Back>
-            <img src={one} alt="Cover" />
-            <div>
-              반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다반갑습니다
-            </div>
-            <label htmlFor="c3">
-              <KeyboardArrowLeftIcon />
-            </label>
-          </R.Back>
-        </R.Filp>
-      </R.FlipBook>
+      {/* 이벤트 페이지가 아닌 일반 이야기 페이지 */}
+      {!eventPicPageOpen && eventPage.indexOf(nowPage) === -1 && (
+        <Flip
+          nowPage={nowPage}
+          allContent={allContent}
+          isRendered={isRendered}
+          picHandler={picHandler}
+          lost={lost}
+          pageChangeHandler={pageChangeHandler}
+        />
+      )}
     </R.Book>
   );
 };

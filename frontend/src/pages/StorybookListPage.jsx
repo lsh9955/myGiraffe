@@ -8,7 +8,12 @@ const StorybookListPage = () => {
     const sketchBooks = async () => {
       await axios
         .get(
-          "https://port-0-nodebook-1b5xkk2fldhlzqkd.gksl2.cloudtype.app/sketchbook"
+          "https://port-0-nodebook-1b5xkk2fldhlzqkd.gksl2.cloudtype.app/sketchbook",
+          {
+            headers: {
+              Authorization: process.env.REACT_APP_TOKEN,
+            },
+          }
         )
         .then((response) => {
           setBookData(response.data);

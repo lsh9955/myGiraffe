@@ -39,6 +39,7 @@ export const Cover = styled.div`
     padding: 5% 5%;
     font-size: 300%;
     width: 200%;
+    white-space: pre-wrap;
   }
 `;
 export const FlipBook = styled.div`
@@ -98,6 +99,7 @@ export const Front = styled.div`
 
   & div {
     width: 100%;
+    white-space: pre-wrap;
 
     font-size: 300%;
     padding: 10% 10%;
@@ -149,6 +151,17 @@ export const Back = styled.div`
     font-size: 300%;
     padding: 5% 5%;
     position: relative;
+  }
+  & button {
+    position: absolute;
+    background-color: white;
+    width: 30%;
+    height: 8%;
+    border-radius: 20px;
+    top: 50%;
+    left: 35%;
+    color: black;
+    font-size: 250%;
   }
 `;
 
