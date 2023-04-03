@@ -34,9 +34,16 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final TokenProvider tokenProvider;
     private final UserProfileClient userProfileClient;
 
-    @Value("${request.url.front-login}")
-    private String redirectUrl;
+    // private static String DEFAULT_DIRECTORY_PATH; // 초기값은 리눅스 파일시스템 경로
 
+    @Value("${request.url.front-login}")
+    private static String redirectUrl;
+
+    static {
+        var os = System.getProperty("os.name").toLowerCase();
+        if (os.contains("win")) redirectUrl = "http://localhost:3000/redirect";
+    }
+    
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
         throws IOException {
