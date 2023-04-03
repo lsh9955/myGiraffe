@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import StoryPage from "./StoryPage";
 import axios from "axios";
+import { useSelector } from "react-redux";
+
 /**읽고 있는 동화책 컴포넌트 */
 const Readstorybook = ({ handleCapture }) => {
   const [pageInfo, setPageInfo] = useState([1]);
   const [nowPage, setNowPage] = useState(1);
   const [allContent, setAllContent] = useState([]);
+  const userSeq = useSelector((state) => state.user);
+
   const pageChangeHandler = (e) => {
     setNowPage(e);
     //이야기를 진행하는 경우(순방향)
@@ -25,7 +29,7 @@ const Readstorybook = ({ handleCapture }) => {
         "https://j8b201.p.ssafy.io/api/books/pages/1",
         {
           headers: {
-            Authorization: `${process.env.REACT_APP_TOKEN}`,
+            Authorization: userSeq.accessToken,
           },
         }
       );
