@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Slider from "react-slick";
 import {
   MydraweritemContainer,
@@ -22,10 +23,11 @@ import { useSelector } from "react-redux";
 
 /**동화책 선택 컴포넌트 */
 const Storybookmain = ({ bookData }) => {
-  const userSeq = useSelector((state) => state.user.userId);
+  const userSeq = useSelector((state) => state.user);
   const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState(null);
   const [userBook, setUserBook] = useState(null);
+  const [bookBuyCheck, setBookBuyCheck] = useState(false);
   //유저가 가진 책 정보 가져오기
   const haveBook = async () => {
     const book = await axios.get(
@@ -37,12 +39,25 @@ const Storybookmain = ({ bookData }) => {
       }
     );
     const bookContent = book;
-    setUserBook(bookContent.data.content);
+    console.log(
+      bookContent.data.content.map((v) => {
+        return v.scenarioId;
+      })
+    );
+    setUserBook(
+      bookContent.data.content.map((v) => {
+        return v.scenarioId;
+      })
+    );
   };
   useEffect(() => {
     haveBook();
     //책 구입시도 실행시킬 것
-  }, []);
+  }, [bookBuyCheck]);
+  //책 구입시 실행
+  const buyHandler = () => {
+    setBookBuyCheck(!bookBuyCheck);
+  };
 
   // 이전 버튼 스타일
   const SamplePrevArrow = (props) => {
@@ -106,7 +121,13 @@ const Storybookmain = ({ bookData }) => {
 
   return (
     <Container>
-      <BookInfo isOpen={isOpen} openCheck={openCheck} data={data} />
+      <BookInfo
+        isOpen={isOpen}
+        openCheck={openCheck}
+        data={data}
+        userBook={userBook}
+        buyHandler={buyHandler}
+      />
       <TitleContainer>읽고 싶은 동화를 선택해주세요!</TitleContainer>
       <Slider {...settings}>
         {bookData?.map((clickdata, idx) => (
