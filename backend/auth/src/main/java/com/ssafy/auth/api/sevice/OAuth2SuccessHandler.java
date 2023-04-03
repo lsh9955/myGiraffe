@@ -34,7 +34,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final TokenProvider tokenProvider;
     private final UserProfileClient userProfileClient;
 
-    @Value("http://localhost:3000/login")
+    @Value("${request.url.front-login}")
     private String redirectUrl;
 
     @Override
