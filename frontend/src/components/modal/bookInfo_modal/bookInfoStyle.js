@@ -48,6 +48,7 @@ export const ModalBody = styled.div`
 export const ModalBodyContnet = styled.p`
   margin: 10%;
   font-size: 10%;
+  white-space: pre-wrap;
 `;
 
 export const ModalFooter = styled.div`
