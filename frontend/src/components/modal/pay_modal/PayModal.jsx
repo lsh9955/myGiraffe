@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Box, Typography, Modal } from "@mui/material/";
 import * as B from "./PayModalStyle";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 
 const style = {
@@ -25,6 +25,8 @@ const style = {
 /**책 구입 컴포넌트*/
 const PayModal = ({ data, handleClose, buyHandler }) => {
   const userSeq = useSelector((state) => state.user);
+  // dispatch 변수
+  const dispatch = useDispatch();
 
   const handleBuy = () => {
     const getUserInfo = async () => {
@@ -65,6 +67,16 @@ const PayModal = ({ data, handleClose, buyHandler }) => {
               alert("결제가 완료되었습니다!");
               buyHandler();
               handleClose();
+              // 열쇠 개수 dispatch로 기록해줌
+              dispatch(
+                login({
+                  accessToken: userSeq.accessToken,
+                  userId: userSeq.userId,
+                  userName: userSeq.userName,
+                  profileImg: userSeq.profileImg,
+                  coinAmount: nowUserCoin - data.price,
+                })
+              );
             })
             .catch((err) => alert("오류가 발생했어요. 다시 결제해주세요"));
         })
