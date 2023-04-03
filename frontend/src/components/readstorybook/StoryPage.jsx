@@ -8,6 +8,7 @@ import RspPage from "pages/RspPage";
 import GhostfeedMl from "utils/mlEvent/GhostfeedMl";
 //화살표 아이콘
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import NumberMl from "utils/mlEvent/NumberMl";
 /**읽고 있는 동화책 컴포넌트 (현재 페이지, 페이지 바뀔 때 이벤트, 모든 페이지 정보, 현재까지 읽은 페이지 정보)*/
 const StoryPage = ({
   nowPage,
@@ -55,6 +56,8 @@ const StoryPage = ({
     if (isRendered) {
       handleCapture();
       console.log("캡쳐했어요");
+      console.log(allContent);
+      console.log(nowPage);
     }
     if (firPageflip) {
       setTimeout(() => {
@@ -90,7 +93,7 @@ const StoryPage = ({
     setLost(item);
   };
   //이벤트 페이지 분류
-  const eventPage = [3, 9, 21, 24];
+  const eventPage = [3, 9, 21, 24, 30, 31];
   return (
     <R.Book>
       {/* 소중한 그림 그려주기 */}
@@ -145,8 +148,11 @@ const StoryPage = ({
       {/* 유령과 가위바위보 */}
       {nowPage === 21 && <RspPage pageChangeHandler={pageChangeHandler} />}
       {/* 유령이 먹을 그림 그려주기 */}
-      {nowPage === 24 && (
-        <GhostfeedMl nextOnlyPage={nextOnlyPage} lostHandler={lostHandler} />
+      {nowPage === 24 && <GhostfeedMl pageChangeHandler={pageChangeHandler} />}
+
+      {/* 유령이 낸 수학 문제 맞추기 */}
+      {(nowPage === 30 || nowPage === 31) && (
+        <NumberMl pageChangeHandler={pageChangeHandler} />
       )}
       <R.PageInput
         type="checkbox"

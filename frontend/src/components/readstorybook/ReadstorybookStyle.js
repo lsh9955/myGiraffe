@@ -49,7 +49,7 @@ export const FlipBook = styled.div`
   perspective: 1500px;
 `;
 
-export const Filp = styled.div`
+export const Flip = styled.div`
   width: 100%;
   height: 100%;
   position: absolute;
@@ -222,5 +222,24 @@ export const TrashClick = styled.div`
     color: white;
     font-size: 500%;
     text-align: left;
+  }
+`;
+
+export const EndButton = styled.button`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  bottom: 10%;
+  left: 30%;
+  width: 50%;
+  font-size: 500%;
+  height: 10%;
+  background-color: white;
+  z-index: 20;
+  border-radius: 20px;
+  :hover {
+    background-color: gray;
   }
 `;
