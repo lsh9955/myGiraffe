@@ -55,7 +55,7 @@ const Sidebar = () => {
     setKeyCount(0);
     setTotalPayment(0);
   };
-  const userInfo = useSelector((state) => state.user);
+  const userSeq = useSelector((state) => state.user);
   // 열쇠 개수
   const [keyCount, setKeyCount] = useState(0);
   // 총 결제 금액
@@ -63,8 +63,8 @@ const Sidebar = () => {
 
   //유저 정보 가져오기
   useEffect(() => {
-    setKeyCount(userInfo?.coinAmount);
-  }, [userInfo]);
+    setKeyCount(userSeq?.coinAmount);
+  }, [userSeq]);
   // 열쇠 증가 함수
   const keyUp = () => {
     setKeyCount(keyCount + 1);
@@ -106,7 +106,20 @@ const Sidebar = () => {
       alert("결제해주셔서 감사합니다!");
       console.log(keyCount);
       handleClose();
-      axios.patch("http://j8b201.p.ssafy.io:9011/api/members", {});
+      dispatch(login({ coinAmount: keyCount }));
+      axios
+        .patch("http://j8b201.p.ssafy.io:9011/api/members", {
+          headers: {
+            Authorization: userSeq.accessToken,
+          },
+          keyCount,
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     } else {
       alert(`${error_msg}`);
     }
@@ -137,14 +150,14 @@ const Sidebar = () => {
     >
       <S.Container>
         <S.UserImg
-          src={userInfo?.profileImg}
+          src={userSeq?.profileImg}
           alt="기본유저이미지"
           style={{ height: "10vh", marginTop: "5vh" }}
         />
       </S.Container>
 
       <S.MarginContainer></S.MarginContainer>
-      <S.UserName>{userInfo?.userName}</S.UserName>
+      <S.UserName>{userSeq?.userName}</S.UserName>
       <S.KeyBackground>
         <button>
           <p>
