@@ -50,19 +50,16 @@ const Sidebar = () => {
     setKeyCount(0);
     setTotalPayment(0);
   };
-
+  const userInfo = useSelector((state) => state.user);
   // 열쇠 개수
-  const [keyCount, setKeyCount] = useState();
+  const [keyCount, setKeyCount] = useState(0);
   // 총 결제 금액
   const [totalPayment, setTotalPayment] = useState(0);
-  const userKeyAmount = useSelector((state) => {
-    state.user.coinAmount;
-  });
+
   //유저 정보 가져오기
   useEffect(() => {
-    console.log(userKeyAmount);
-    setKeyCount(userKeyAmount);
-  }, []);
+    setKeyCount(userInfo?.coinAmount);
+  }, [userInfo]);
   // 열쇠 증가 함수
   const keyUp = () => {
     setKeyCount(keyCount + 1);
@@ -132,18 +129,19 @@ const Sidebar = () => {
     >
       <S.Container>
         <S.UserImg
-          src={defaultUserImg}
+          src={userInfo?.profileImg}
           alt="기본유저이미지"
           style={{ height: "10vh", marginTop: "5vh" }}
         />
       </S.Container>
 
       <S.MarginContainer></S.MarginContainer>
-      <S.UserName>유저 이름</S.UserName>
+      <S.UserName>{userInfo?.userName}</S.UserName>
       <S.KeyBackground>
         <button>
           <p>
-            5<span>열쇠</span>
+            {keyCount}
+            <span>열쇠</span>
           </p>
         </button>
       </S.KeyBackground>

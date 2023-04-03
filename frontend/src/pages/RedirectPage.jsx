@@ -27,7 +27,6 @@ const RedirectPage = () => {
           userName: infoRes.data.content.userName,
           profileImg: infoRes.data.content.profileImg,
           coinAmount: infoRes.data.content.coinAmount,
-          accessToken: infoRes.data.content.accessToken,
         })
       );
     };
