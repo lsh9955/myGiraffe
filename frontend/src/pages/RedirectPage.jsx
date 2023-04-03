@@ -11,7 +11,7 @@ const RedirectPage = () => {
     const getUserInfo = async () => {
       console.log(location.search.split("?Authorization=")[1]);
       const infoRes = await axios.get(
-        "http://j8b201.p.ssafy.io:9011/api/members",
+        "https://j8b201.p.ssafy.io/api/members",
         {
           headers: {
             Accept: "*/*",
