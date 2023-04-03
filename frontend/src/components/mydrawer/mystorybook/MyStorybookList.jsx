@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 /**내 동화책 리스트 컴포넌트 */
 import axios from "axios";
@@ -43,7 +44,7 @@ const MyStorybookList = () => {
     bookimage8,
     bookimage9,
   ];
-
+  const userSeq = useSelector((state) => state.user.accessToken);
   useEffect(() => {
     const fetchBooks = async () => {
       await axios
@@ -51,7 +52,7 @@ const MyStorybookList = () => {
           "https://port-0-nodebook-1b5xkk2fldhlzqkd.gksl2.cloudtype.app/mybook",
           {
             headers: {
-              Authorization: process.env.REACT_APP_TOKEN,
+              Authorization: userSeq,
             },
           }
         )
