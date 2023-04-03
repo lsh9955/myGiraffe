@@ -61,10 +61,6 @@ const Sidebar = () => {
   // 총 결제 금액
   const [totalPayment, setTotalPayment] = useState(0);
 
-  //유저 정보 가져오기
-  useEffect(() => {
-    setKeyCount(userSeq?.coinAmount);
-  }, [userSeq]);
   // 열쇠 증가 함수
   const keyUp = () => {
     setKeyCount(keyCount + 1);
@@ -106,14 +102,27 @@ const Sidebar = () => {
       alert("결제해주셔서 감사합니다!");
       console.log(keyCount);
       handleClose();
-      dispatch(login({ coinAmount: keyCount }));
-      axios
-        .patch("http://j8b201.p.ssafy.io:9011/api/members", {
-          headers: {
-            Authorization: userSeq.accessToken,
-          },
-          keyCount,
+      // 추후 dispatch에 추가할 것
+
+      dispatch(
+        login({
+          accessToken: userSeq.accessToken,
+          userId: userSeq.userId,
+          userName: userSeq.userName,
+          profileImg: userSeq.profileImg,
+          coinAmount: userSeq.coinAmount + keyCount,
         })
+      );
+      axios
+        .patch(
+          "https://j8b201.p.ssafy.io/api/members",
+          { keyAmount: userSeq.coinAmount + keyCount },
+          {
+            headers: {
+              Authorization: userSeq.accessToken,
+            },
+          }
+        )
         .then((response) => {
           console.log(response);
         })
@@ -161,7 +170,7 @@ const Sidebar = () => {
       <S.KeyBackground>
         <button>
           <p>
-            {keyCount}
+            {userSeq?.coinAmount}
             <span>열쇠</span>
           </p>
         </button>
