@@ -11,14 +11,15 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class JwtUtil {
 
-    private final String secret;
+    @Value("${jwt.secret}")
+    private String secret;
 
-    @Autowired
-    public JwtUtil(
-            @Value("${jwt.secret}")String secret
-    ) {
-        this.secret = secret;
-    }
+    // @Autowired
+    // public JwtUtil(
+    //         String secret
+    // ) {
+    //     this.secret = secret;
+    // }
 
     public String getUid(String token) {
         log.info("Jwt Util 생성 getUid()");

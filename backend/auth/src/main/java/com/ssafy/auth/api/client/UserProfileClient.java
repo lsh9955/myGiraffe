@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestPart;
 
-@FeignClient(name = "user-profile-client", url = "${request.url.user-server}")
+@FeignClient(name = "user-profile-client", url = "http://localhost:8085/api/members")
 public interface UserProfileClient {
     @PostMapping(value = "/user",produces = "application/json")
     ResponseEntity<? extends BaseResponseBody> insertProfile(@RequestBody UserInfoDto userInfoDto);

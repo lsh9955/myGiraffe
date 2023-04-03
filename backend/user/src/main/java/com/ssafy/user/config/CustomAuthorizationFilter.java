@@ -6,35 +6,50 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import io.jsonwebtoken.Jwts;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
+@Component
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
 	@Autowired
 	private JwtUtil jwtUtil;
 
+	// @Value("${jwt.secret}")
+	// private String secret;
+
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+		log.info("필터 진입");
 		if (request.getServletPath().equals("/api/members/user") || request.getServletPath().equals("/api/members/image")) {    // 로그인은 그냥 건너 뛴다
 			filterChain.doFilter(request, response);
 		} else {
 
-			String token = request.getHeader("Authorization");   // 헤더의 토큰 파싱 (Bearer 제거)
+			String token = request.getHeader("Authorization").substring(7);   // 헤더의 토큰 파싱 (Bearer 제거)
+
+			log.info("{}", token);
 			try {
 				String userId = jwtUtil.getUid(token);
+
+				// String userId = Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(token).getBody().getSubject();
 				addAuthorizationHeaders(request, userId);
 
 				Authentication auth = getAuthentication(userId);

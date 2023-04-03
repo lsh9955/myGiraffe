@@ -1,5 +1,6 @@
 package com.ssafy.user.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,11 +13,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
-
+@Slf4j
 @RequiredArgsConstructor
 @Configuration
 public class SecurityConfig {
+
+	@Autowired
+	private CustomAuthorizationFilter customAuthorizationFilter;
 
 	@Bean
 	public WebSecurityCustomizer configure() {
@@ -45,7 +50,10 @@ public class SecurityConfig {
 			.requestMatchers("/api/members/image").permitAll()
 			.anyRequest().authenticated()
 			.and()
-			.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+			.addFilterBefore(customAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
+
+		// log.info("필터 적용 전");
+		// 	http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
 		return http.build();
 	}
