@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserPostRequest {
+public class UserInfoPostRequest {
 
   @NotEmpty(message = "필수 입력 항목입니다.")
   private String userId;
