@@ -2,7 +2,7 @@
 import styled from "styled-components";
 
 export const BookInfoImg = styled.img`
-  width: 200px;
+  width: 300px;
   height: auto;
   display: flex;
   justify-content: center;
