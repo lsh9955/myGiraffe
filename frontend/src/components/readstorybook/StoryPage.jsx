@@ -13,6 +13,7 @@ const StoryPage = ({
   pageChangeHandler,
   allContent,
   alreadyReadPage,
+  handleCapture,
 }) => {
   const [isRendered, setIsRendered] = useState(false);
   const [firPageflip, setFirPageflip] = useState(false);
@@ -50,6 +51,10 @@ const StoryPage = ({
   };
 
   useEffect(() => {
+    if (isRendered) {
+      handleCapture();
+      console.log("캡쳐했어요");
+    }
     if (firPageflip) {
       setTimeout(() => {
         if (alreadyReadPage.length <= 1) {

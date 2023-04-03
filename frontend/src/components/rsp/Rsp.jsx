@@ -53,10 +53,10 @@ const Rsp = ({ pageChangeHandler }) => {
   };
   /**비기지 않아 게임이 종료될 때 게임 종료 여부 알려주는 함수 */
   const endGameHandler = (resultGame) => {
-    if (resultGame === "졌습니다!") {
+    if (resultGame === "ㅠㅠ 아쉽게 졌다") {
       pageChangeHandler(22);
       setIsGameEnd(true);
-    } else if (resultGame === "이겼습니다!") {
+    } else if (resultGame === "와아~!! 가위바위보 게임에서 이겼다") {
       pageChangeHandler(23);
       setIsGameEnd(true);
     }

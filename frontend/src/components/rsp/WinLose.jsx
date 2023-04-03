@@ -34,9 +34,9 @@ const WinLose = ({
       resetTimer();
     } else {
       endGameHandler();
-      if (winLose === "졌습니다!") {
+      if (winLose === "ㅠㅠ 아쉽게 졌다") {
         pageChangeHandler(22);
-      } else if (winLose === "이겼습니다!") {
+      } else if (winLose === "와아~!! 가위바위보 게임에서 이겼다") {
         pageChangeHandler(23);
       }
     }
@@ -50,17 +50,17 @@ const WinLose = ({
       } else if (ghostHandFi === "paper" && userHand === "paper") {
         setWinLose("비겼습니다!");
       } else if (ghostHandFi === "rock" && userHand === "scissors") {
-        setWinLose("졌습니다!");
+        setWinLose("ㅠㅠ 아쉽게 졌다");
       } else if (ghostHandFi === "scissors" && userHand === "paper") {
-        setWinLose("졌습니다!");
+        setWinLose("ㅠㅠ 아쉽게 졌다");
       } else if (ghostHandFi === "paper" && userHand === "rock") {
-        setWinLose("졌습니다!");
+        setWinLose("ㅠㅠ 아쉽게 졌다");
       } else if (ghostHandFi === "rock" && userHand === "paper") {
-        setWinLose("이겼습니다!");
+        setWinLose("와아~!! 가위바위보 게임에서 이겼다");
       } else if (ghostHandFi === "scissors" && userHand === "rock") {
-        setWinLose("이겼습니다!");
+        setWinLose("와아~!! 가위바위보 게임에서 이겼다");
       } else if (ghostHandFi === "paper" && userHand === "scissors") {
-        setWinLose("이겼습니다!");
+        setWinLose("와아~!! 가위바위보 게임에서 이겼다");
       }
       setOpen(true);
     }
@@ -100,10 +100,10 @@ const WinLose = ({
             {winLose === "비겼습니다!" && (
               <Buttontwo onClick={handleClose}>다시하기</Buttontwo>
             )}
-            {winLose === "이겼습니다!" && (
+            {winLose === "와아~!! 가위바위보 게임에서 이겼다" && (
               <Buttontwo onClick={handleClose}>확인</Buttontwo>
             )}
-            {winLose === "졌습니다!" && (
+            {winLose === "ㅠㅠ 아쉽게 졌다" && (
               <Buttontwo onClick={handleClose}>확인</Buttontwo>
             )}
           </Box>
