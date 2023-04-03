@@ -25,14 +25,11 @@ const MySketchbookList = () => {
   useEffect(() => {
     const sketchBooks = async () => {
       await axios
-        .get(
-          "https://port-0-nodebook-1b5xkk2fldhlzqkd.gksl2.cloudtype.app/diary",
-          {
-            headers: {
-              Authorization: userSeq.accessToken,
-            },
-          }
-        )
+        .get("https://j8b201.p.ssafy.io/api/members/sketch/list", {
+          headers: {
+            Authorization: userSeq.accessToken,
+          },
+        })
         .then((response) => {
           console.log(response.data);
           setDatas(response.data);
@@ -98,15 +95,19 @@ const MySketchbookList = () => {
   return (
     <Container>
       <TitleContainer>내 스케치북</TitleContainer>
-      <Slider {...settings}>
-        {datas.map((data) => (
-          <MydraweritemContainer>
-            <MySketchbookimage src={data.img} />
-            <ImgTitle>{data.title}</ImgTitle>
-            <ImgP>{data.date}</ImgP>
-          </MydraweritemContainer>
-        ))}
-      </Slider>
+      {datas.length > 0 ? (
+        <Slider {...settings}>
+          {datas.map((data) => (
+            <MydraweritemContainer>
+              <MySketchbookimage src={data.img} />
+              <ImgTitle>{data.title}</ImgTitle>
+              <ImgP>{data.date}</ImgP>
+            </MydraweritemContainer>
+          ))}
+        </Slider>
+      ) : (
+        <></>
+      )}
     </Container>
   );
 };
