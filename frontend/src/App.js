@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { useSelector } from "react-redux";
 //nav,footer 항목(그림책 외 모두 적용)
@@ -24,9 +24,11 @@ import RedirectPage from "./pages/RedirectPage";
 function App() {
   /** 로그인 여부 판단 */
 
-  const userSeq = useSelector((state) => {
-    return state.user.userId;
-  });
+  const userSeq = useSelector((state) => state.user.userId);
+
+  useEffect(() => {
+    console.log(userSeq);
+  }, [userSeq]);
 
   return (
     <div style={{ position: "relative" }}>
@@ -34,7 +36,7 @@ function App() {
         <Route
           path="/"
           render={() =>
-            !userSeq ? (
+            userSeq === null ? (
               <Redirect to="/login" />
             ) : (
               <>

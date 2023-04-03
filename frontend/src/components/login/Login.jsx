@@ -6,21 +6,21 @@ import * as L from "./LoginStyle";
 /**로그인 컴포넌트 */
 const Login = () => {
   const history = useHistory();
-  const isLogin = useSelector((state) => state.user.authenticated);
-
-  const KAKAO_AUTH_URL = process.env.REACT_APP_KAKAO_AUTH_URL;
+  const isLogin = useSelector((state) => state.user.userId);
 
   useEffect(() => {
     if (isLogin) {
       history.push("/");
     }
-  }, []);
+  }, [isLogin]);
 
   return (
     <L.LoginBackBackground>
       <L.LoginSpeechBackground>
         <L.LoginTxt>어서와요!</L.LoginTxt>
-        <L.KakaoLogin href={KAKAO_AUTH_URL}></L.KakaoLogin>
+        <L.KakaoLogin
+          href={"http://j8b201.p.ssafy.io:9001/oauth2/authorization/kakao"}
+        ></L.KakaoLogin>
 
         <L.LoginSpeechArrow />
       </L.LoginSpeechBackground>
