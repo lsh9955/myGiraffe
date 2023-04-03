@@ -9,7 +9,7 @@ import {
 import { Box, Typography, Modal } from "@mui/material/";
 import { Buttontwo } from "components/common/button/ButtonStyle";
 import { TutorialNumberGif } from "components/modal/tutorial_modal/TutorialStyle";
-import GifClassifier from "assets/image/tutorialclassifier.gif";
+import GifFindPassword from "assets/image/password_tutorial.gif";
 import Repaint from "components/modal/repaint/Repaint";
 
 // 소중한 물건인지 확인하는 ml
@@ -116,7 +116,7 @@ const FindPasswordMl = ({ pageChangeHandler }) => {
               alignItems: "center",
             }}
           >
-            <TutorialNumberGif src={GifClassifier} alt="GifClassifier" />
+            <TutorialNumberGif src={GifFindPassword} alt="GifClassifier" />
           </Box>
           <Typography
             id="modal-modal-description"
