@@ -12,7 +12,7 @@ import {
   Typography,
   Modal,
 } from "@mui/material/";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -23,7 +23,9 @@ import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 
 import * as S from "./SidebarStyle";
+import { login } from "store/AuthSlice";
 import { Buttontwo } from "components/common/button/ButtonStyle";
+import axios from "axios";
 /**사이드바 컴포넌트 */
 
 // 결제 모달 스타일
@@ -42,6 +44,9 @@ const style = {
 };
 
 const Sidebar = () => {
+  // dispatch 변수
+  const dispatch = useDispatch();
+
   // 모달창 오픈할 때 필요한 변수
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -94,11 +99,14 @@ const Sidebar = () => {
     IMP.request_pay(data, callback);
   };
 
+  // 결제 모듈 성공시 axios patch로 열쇠 개수 변경
   const callback = (response) => {
     const { success, error_msg } = response;
     if (success) {
       alert("결제해주셔서 감사합니다!");
+      console.log(keyCount);
       handleClose();
+      axios.patch("http://j8b201.p.ssafy.io:9011/api/members", {});
     } else {
       alert(`${error_msg}`);
     }
