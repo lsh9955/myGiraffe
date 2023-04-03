@@ -6,7 +6,8 @@ import Flip from "./Flip";
 import FindPasswordMl from "utils/mlEvent/FindPasswordMl";
 import RspPage from "pages/RspPage";
 import GhostfeedMl from "utils/mlEvent/GhostfeedMl";
-
+//화살표 아이콘
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 /**읽고 있는 동화책 컴포넌트 (현재 페이지, 페이지 바뀔 때 이벤트, 모든 페이지 정보, 현재까지 읽은 페이지 정보)*/
 const StoryPage = ({
   nowPage,
@@ -102,7 +103,7 @@ const StoryPage = ({
       )}
       {/* 열쇠 찾기 */}
       {nowPage === 11 && (
-        <>
+        <R.FindKey>
           <button
             onClick={() => {
               pageChangeHandler(13);
@@ -122,19 +123,24 @@ const StoryPage = ({
               pageChangeHandler(15);
             }}
           >
-            하늘
+            창문
           </button>
-        </>
+        </R.FindKey>
       )}
       {/* 유령 찾기 */}
       {nowPage === 14 && (
-        <button
-          onClick={() => {
-            pageChangeHandler(17);
-          }}
-        >
-          쓰레기봉투
-        </button>
+        <>
+          <R.TrashClick>
+            <ArrowDownwardIcon sx={{ color: "white", fontSize: "500%" }} />
+            <div>눌러보세요!</div>
+          </R.TrashClick>
+          {/* 쓰레기봉투 */}
+          <R.TrashBox
+            onClick={() => {
+              pageChangeHandler(17);
+            }}
+          ></R.TrashBox>
+        </>
       )}
       {/* 유령과 가위바위보 */}
       {nowPage === 21 && <RspPage pageChangeHandler={pageChangeHandler} />}

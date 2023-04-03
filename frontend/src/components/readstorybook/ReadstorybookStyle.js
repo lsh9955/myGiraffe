@@ -172,3 +172,55 @@ export const NextBtn = styled.label`
   cursor: pointer;
   color: #000;
 `;
+
+export const FindKey = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  top: 70%;
+  left: 5%;
+  width: 40%;
+  height: 20%;
+  z-index: 30;
+  flex-direction: row;
+  & > button {
+    width: 30%;
+    height: 50%;
+    font-size: 300%;
+
+    background-color: white;
+    border-radius: 4px;
+    :hover {
+      background-color: gray;
+    }
+  }
+`;
+export const TrashBox = styled.button`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  justify-content: space-between;
+  top: 60%;
+  left: 12%;
+  width: 20%;
+  height: 20%;
+  z-index: 30;
+`;
+
+export const TrashClick = styled.div`
+  position: absolute;
+  display: flex;
+
+  top: 55%;
+  left: 18%;
+  width: 20%;
+  height: 20%;
+  z-index: 20;
+  & > div {
+    color: white;
+    font-size: 500%;
+    text-align: left;
+  }
+`;

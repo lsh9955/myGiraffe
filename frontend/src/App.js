@@ -23,8 +23,9 @@ import RedirectPage from "./pages/RedirectPage";
 
 function App() {
   /** 로그인 여부 판단 */
+
   const userSeq = useSelector((state) => {
-    return state.user.accessToken;
+    return state.user.userId;
   });
 
   return (
