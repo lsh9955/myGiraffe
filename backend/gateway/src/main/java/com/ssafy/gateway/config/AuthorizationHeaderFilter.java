@@ -1,6 +1,5 @@
 package com.ssafy.gateway.config;
 
-import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
 import com.ssafy.gateway.util.JwtUtil;
