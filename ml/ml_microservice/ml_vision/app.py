@@ -28,8 +28,6 @@ credentials = service_account.Credentials.from_service_account_info(vision_api_k
 digit_dict = {'o': '0', "O": '0', 'ㅇ': '0',
               '|': '1', 'l': '1', 'I': '1', 'ㅣ': '1',
               'p': '9', 'q': '9', 'g': '9',
-              'x': '*', 'X': '*',
-              '%': '/',
               }
 
 # app.py가 있는 폴더 경로
@@ -59,7 +57,15 @@ def numbers():
 
     # POST로 받는 데이터가 이미 BASE64 로 인코딩된 이미지이므로
     # Base64로 디코딩 해줍니다.
-    image = vision.Image(content=base64.b64decode(request.json['base64_drawing']))
+    # image = vision.Image(content=base64.b64decode(request.json['base64_drawing']))
+
+    # Base64로 디코딩 해줍니다. 앞의 부분은 자르고 뒤의 코드만 가져옵니다.
+    try:
+        image = vision.Image(content=base64.b64decode(request.json['base64_drawing'][22:]))
+    except base64.binascii.Error:
+        print("400에러: 옳지 못한 Base64 코드")
+        response = Response(response='옳지 못한 Base64 코드', status=400, mimetype='application/json')
+        return response
 
     # 자, 그러면 이제 한국어로만 인식해보도록 하죠.
     image_context = vision.ImageContext(language_hints=["ko"])
@@ -77,16 +83,14 @@ def numbers():
         if origin_text[checking].isnumeric():
             digit += origin_text[checking]
         else:
-            if origin_text[checking] in ["+", "-", "*", "/"]:
-                digit += origin_text[checking]
-            elif origin_text[checking] in digit_dict.keys():
+            if origin_text[checking] in digit_dict.keys():
                 digit += digit_dict[origin_text[checking]]
-
-    digit = str(eval(digit))
 
     # digit = ''.join(re.findall(r'\d', response.full_text_annotation.text))
     if digit == "":
         digit = "null"
+    else:
+        digit = str(digit)
 
     return digit
 
