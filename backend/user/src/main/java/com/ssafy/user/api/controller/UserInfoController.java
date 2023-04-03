@@ -4,6 +4,8 @@ import com.ssafy.user.api.dto.request.UserInfoPostRequest;
 import com.ssafy.user.api.dto.response.BaseResponseBody;
 import com.ssafy.user.api.service.UserInfoService;
 import com.ssafy.user.api.service.UserScenarioListService;
+
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.executable.ValidateOnExecution;
 import lombok.RequiredArgsConstructor;
@@ -58,11 +60,8 @@ public class UserInfoController {
   }
 
   @GetMapping
-  public ResponseEntity<? extends BaseResponseBody> getUserInfo(
-      @RequestHeader("userId")
-      @NotBlank(message = "필수 입력값입니다") // validation
-      String userId) {
-
+  public ResponseEntity<? extends BaseResponseBody> getUserInfo(HttpServletRequest request) {
+    String userId = (String)request.getAttribute("userId");
     var userInfo = userInfoService.findUserInfoByUserId(userId);
 
     return ResponseEntity
@@ -71,9 +70,9 @@ public class UserInfoController {
   }
 
   @GetMapping("/scenarios")
-  public ResponseEntity<? extends BaseResponseBody> getAllUserScenarios(
-      @RequestHeader("userId") String userId) {
+  public ResponseEntity<? extends BaseResponseBody> getAllUserScenarios(HttpServletRequest request) {
 
+    String userId = (String)request.getAttribute("userId");
     var userScenarioList = userScenarioListService.findAllScenariosByUserId(userId);
 
     return ResponseEntity
@@ -83,9 +82,10 @@ public class UserInfoController {
 
   @PatchMapping
   public ResponseEntity<? extends BaseResponseBody> updateUserKey(
-      @RequestHeader("userId") String userId,
+      HttpServletRequest request,
       @RequestBody Integer keyAmount) {
 
+    String userId = (String)request.getAttribute("userId");
     var userinfo = userInfoService.updateKeyAmount(userId, keyAmount);
 
     var successMessage = "유저 키 수량 변경 성공: (ID=" + userinfo.getUserId()
@@ -99,9 +99,10 @@ public class UserInfoController {
 
   @PostMapping
   public ResponseEntity<? extends BaseResponseBody> insertScenario(
-      @RequestHeader("userId") String userId,
+      HttpServletRequest request,
       @RequestBody Integer scenarioId) {
 
+    String userId = (String)request.getAttribute("userId");
     var userScenario = userScenarioListService.saveUserScenario(userId, scenarioId);
 
     var successMessage = "시나리오 추가 성공: (ID=" + userScenario + ")";

@@ -1,6 +1,8 @@
 spring:
   profiles:
-    include: db
+    include:
+    - db
+    - jwt
 
   servlet:
     multipart:
