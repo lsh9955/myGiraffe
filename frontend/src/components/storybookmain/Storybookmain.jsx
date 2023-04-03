@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
 import {
   MydraweritemContainer,
@@ -18,10 +18,32 @@ import lock from "assets/icon/lock.png";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import BookInfo from "components/modal/bookInfo_modal/BookInfo";
+import { useSelector } from "react-redux";
+
 /**동화책 선택 컴포넌트 */
 const Storybookmain = ({ bookData }) => {
+  const userSeq = useSelector((state) => state.user.userId);
   const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState(null);
+  const [userBook, setUserBook] = useState(null);
+  //유저가 가진 책 정보 가져오기
+  const haveBook = async () => {
+    const book = await axios.get(
+      "https://j8b201.p.ssafy.io/api/books/pages/1",
+      {
+        headers: {
+          Authorization: userSeq.accessToken,
+        },
+      }
+    );
+    const bookContent = book;
+    setUserBook(bookContent.data.content);
+  };
+  useEffect(() => {
+    haveBook();
+    //책 구입시도 실행시킬 것
+  }, []);
+
   // 이전 버튼 스타일
   const SamplePrevArrow = (props) => {
     const { className, style, onClick } = props;
@@ -87,34 +109,34 @@ const Storybookmain = ({ bookData }) => {
       <BookInfo isOpen={isOpen} openCheck={openCheck} data={data} />
       <TitleContainer>읽고 싶은 동화를 선택해주세요!</TitleContainer>
       <Slider {...settings}>
-        {bookData?.map((data, idx) => (
+        {bookData?.map((clickdata, idx) => (
           <MydraweritemContainer
             onClick={() => {
-              bookInfoShowHandler(data);
+              bookInfoShowHandler(clickdata);
             }}
           >
             {idx === 2 ? (
               // 아직 구입하지 않은 책
               <MySketchbookLockContainer
                 onClick={() => {
-                  bookInfoShowHandler(data);
-                  setData(data);
+                  bookInfoShowHandler(clickdata);
+                  setData(clickdata);
                 }}
               >
-                <MySketchbookLockimage bgImg={data.thumbnailImgUrl} />
+                <MySketchbookLockimage bgImg={clickdata.thumbnailImgUrl} />
                 <Lock src={lock} />
               </MySketchbookLockContainer>
             ) : (
               // 구입한 책
               <MySketchbookimage
-                src={data.thumbnailImgUrl}
+                src={clickdata.thumbnailImgUrl}
                 onClick={() => {
                   bookInfoShowHandler(idx);
-                  setData(data);
+                  setData(clickdata);
                 }}
               />
             )}
-            <ImgTitle>{data.title}</ImgTitle>
+            <ImgTitle>{clickdata.title}</ImgTitle>
           </MydraweritemContainer>
         ))}
       </Slider>
