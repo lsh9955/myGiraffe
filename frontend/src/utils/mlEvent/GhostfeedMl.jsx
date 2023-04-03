@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 import CanvasTool from "utils/canvas/CanvasTool";
 import {
   SketchWriteContainer,
@@ -29,6 +30,9 @@ const style = {
 };
 
 const GhostfeedMl = () => {
+  //유저 정보 가져오기
+  const userSeq = useSelector((state) => state.user);
+
   // 모달 오픈시 필요한 변수
   const [open, setOpen] = useState(true);
   const handleClose = () => {
@@ -52,7 +56,7 @@ const GhostfeedMl = () => {
           },
           {
             headers: {
-              Authorization: process.env.REACT_APP_TOKEN,
+              Authorization: userSeq.accessToken,
             },
           }
         )

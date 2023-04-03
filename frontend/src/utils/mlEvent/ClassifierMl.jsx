@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 import CanvasTool from "utils/canvas/CanvasTool";
 import {
   SketchWriteContainer,
@@ -37,6 +38,7 @@ const ClassifierMl = ({ nextOnlyPage, lostHandler }) => {
   const [open, setOpen] = useState(true);
   //다시 그리기 모달 창 컨트롤
   const [isOpen, setIsOpen] = useState(false);
+  const userSeq = useSelector((state) => state.user);
 
   const handleClose = () => {
     setOpen(false);
@@ -63,7 +65,7 @@ const ClassifierMl = ({ nextOnlyPage, lostHandler }) => {
           },
           {
             headers: {
-              Authorization: process.env.REACT_APP_TOKEN,
+              Authorization: userSeq.accessToken,
             },
           }
         )
