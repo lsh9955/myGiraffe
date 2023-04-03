@@ -3,6 +3,7 @@ import { Box, Typography, Modal } from "@mui/material/";
 import * as B from "./PayModalStyle";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
+import { login } from "store/AuthSlice";
 
 const style = {
   position: "absolute",
