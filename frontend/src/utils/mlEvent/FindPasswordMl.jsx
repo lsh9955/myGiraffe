@@ -5,6 +5,8 @@ import {
   SketchWriteContainer,
   SketchTitle,
 } from "components/common/sketchbook/SketchBookStyle";
+import { useSelector } from "react-redux";
+
 // 모달에 필요한 컴포넌트 import
 import { Box, Typography, Modal } from "@mui/material/";
 import { Buttontwo } from "components/common/button/ButtonStyle";
@@ -36,7 +38,7 @@ const FindPasswordMl = ({ pageChangeHandler }) => {
   const [isOpen, setIsOpen] = useState(false);
   //틀린 횟수(3번 틀리면 집에 감)
   const [wrongCount, setWrongCount] = useState(0);
-
+  const userSeq = useSelector((state) => state.user.accessToken);
   const handleClose = () => {
     setOpen(false);
   };
@@ -60,7 +62,7 @@ const FindPasswordMl = ({ pageChangeHandler }) => {
           },
           {
             headers: {
-              Authorization: process.env.REACT_APP_TOKEN,
+              Authorization: userSeq,
             },
           }
         )
