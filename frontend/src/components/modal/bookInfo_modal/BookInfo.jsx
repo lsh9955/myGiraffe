@@ -94,8 +94,9 @@ const BookInfo = ({ data, isOpen, openCheck }) => {
           <Typography
             id="modal-modal-description"
             sx={{
-              mt: 1,
+              mt: 2,
               mb: 1,
+              ml: 2,
               fontSize: 22,
               display: "flex",
               whiteSpace: "pre-wrap",
@@ -105,12 +106,22 @@ const BookInfo = ({ data, isOpen, openCheck }) => {
           >
             동화 줄거리
           </Typography>
-          <p style={{ whiteSpace: "pre-wrap" }}>{data?.introScript}</p>
+          <p
+            style={{
+              whiteSpace: "pre-wrap",
+              paddingLeft: "20px",
+              paddingRight: "20px",
+              fontSize: "18px",
+            }}
+          >
+            {data?.introScript}
+          </p>
 
           <Typography
             sx={{
               mt: 1,
               mb: 1,
+              ml: 2,
               fontSize: 22,
               display: "flex",
               //   justifyContent: "center",
@@ -119,13 +130,22 @@ const BookInfo = ({ data, isOpen, openCheck }) => {
           >
             인터렉션 요소
           </Typography>
-          <p style={{ whiteSpace: "pre-wrap" }}>{data?.interContents}</p>
+          <p
+            style={{
+              whiteSpace: "pre-wrap",
+              paddingLeft: "20px",
+              fontSize: "18px",
+            }}
+          >
+            {data?.interContents}
+          </p>
 
           <Typography
             id="modal-modal-description"
             sx={{
               mt: 1,
               mb: 1,
+              ml: 2,
               fontSize: 22,
               display: "flex",
               //   justifyContent: "center",
@@ -134,7 +154,7 @@ const BookInfo = ({ data, isOpen, openCheck }) => {
           >
             필요한 열쇠 개수
           </Typography>
-          {data?.price}
+          <p style={{ paddingLeft: "20px", fontSize: "24px" }}>{data?.price}</p>
           <Box
             sx={{
               display: "flex",
