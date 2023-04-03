@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
 import StoryPage from "./StoryPage";
 import axios from "axios";
 /**읽고 있는 동화책 컴포넌트 */
-const Readstorybook = () => {
+const Readstorybook = ({ handleCapture }) => {
   const [pageInfo, setPageInfo] = useState([1]);
   const [nowPage, setNowPage] = useState(1);
   const [allContent, setAllContent] = useState([]);
@@ -42,6 +42,7 @@ const Readstorybook = () => {
           <>
             {k === nowPage && (
               <StoryPage
+                handleCapture={handleCapture}
                 nowPage={nowPage}
                 pageChangeHandler={pageChangeHandler}
                 allContent={allContent}

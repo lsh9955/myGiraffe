@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   Box,
@@ -12,6 +12,7 @@ import {
   Typography,
   Modal,
 } from "@mui/material/";
+import { useSelector } from "react-redux";
 
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -49,11 +50,19 @@ const Sidebar = () => {
     setKeyCount(0);
     setTotalPayment(0);
   };
+
   // 열쇠 개수
-  const [keyCount, setKeyCount] = useState(0);
+  const [keyCount, setKeyCount] = useState();
   // 총 결제 금액
   const [totalPayment, setTotalPayment] = useState(0);
-
+  const userKeyAmount = useSelector((state) => {
+    state.user.coinAmount;
+  });
+  //유저 정보 가져오기
+  useEffect(() => {
+    console.log(userKeyAmount);
+    setKeyCount(userKeyAmount);
+  }, []);
   // 열쇠 증가 함수
   const keyUp = () => {
     setKeyCount(keyCount + 1);

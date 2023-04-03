@@ -12,6 +12,7 @@ const Flip = ({
   picHandler,
   lost,
   pageChangeHandler,
+  handleCapture,
 }) => {
   return (
     <>

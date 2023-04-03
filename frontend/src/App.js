@@ -23,17 +23,28 @@ import RedirectPage from "./pages/RedirectPage";
 
 function App() {
   /** 로그인 여부 판단 */
+
   const userSeq = useSelector((state) => {
-    return state.user.userSeq;
+    return state.user.userId;
   });
 
   return (
     <div style={{ position: "relative" }}>
       <Switch>
-        <Route path="/" exact>
-          <Navbar />
-          <MainPage component={MainPage} />
-        </Route>
+        <Route
+          path="/"
+          render={() =>
+            !userSeq ? (
+              <Redirect to="/login" />
+            ) : (
+              <>
+                <Navbar />
+                <MainPage component={MainPage} />
+              </>
+            )
+          }
+          exact
+        ></Route>
         <Route path="/diarydraw" component={DiaryDrawPage} />
         <Route path="/mydrawer">
           <Navbar />
