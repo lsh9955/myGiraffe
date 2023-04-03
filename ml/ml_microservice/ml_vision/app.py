@@ -61,7 +61,7 @@ def numbers():
 
     # Base64로 디코딩 해줍니다. 앞의 부분은 자르고 뒤의 코드만 가져옵니다.
     try:
-        image = vision.Image(content=base64.b64decode(request.json['base64_drawing'][22:]))
+        image = vision.Image(content=base64.b64decode(request.json['base64_drawing']))
     except base64.binascii.Error:
         print("400에러: 옳지 못한 Base64 코드")
         response = Response(response='옳지 못한 Base64 코드', status=400, mimetype='application/json')
