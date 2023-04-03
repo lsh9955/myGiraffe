@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 import CanvasTool from "utils/canvas/CanvasTool";
+import { useSelector } from "react-redux";
+
 import {
   SketchWriteContainer,
   SketchTitle,
@@ -31,6 +33,8 @@ const style = {
 const NumberMl = () => {
   // 모달 오픈시 필요한 변수
   const [open, setOpen] = useState(true);
+  const userSeq = useSelector((state) => state.user.accessToken);
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -50,7 +54,7 @@ const NumberMl = () => {
           },
           {
             headers: {
-              Authorization: process.env.REACT_APP_TOKEN,
+              Authorization: userSeq,
             },
           }
         )

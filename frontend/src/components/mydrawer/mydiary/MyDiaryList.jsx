@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 /**내 스케치북 리스트 컴포넌트 */
+import { useSelector } from "react-redux";
+
 import axios from "axios";
 import Slider from "react-slick";
 import {
@@ -17,6 +19,7 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 const MyDiaryList = () => {
   // axios로 내 스케치북 데이터 불러오기
+  const userSeq = useSelector((state) => state.user.accessToken);
   useEffect(() => {
     const sketchBooks = async () => {
       await axios
@@ -24,7 +27,7 @@ const MyDiaryList = () => {
           "https://port-0-nodebook-1b5xkk2fldhlzqkd.gksl2.cloudtype.app/sketchbook",
           {
             headers: {
-              Authorization: process.env.REACT_APP_TOKEN,
+              Authorization: userSeq,
             },
           }
         )
