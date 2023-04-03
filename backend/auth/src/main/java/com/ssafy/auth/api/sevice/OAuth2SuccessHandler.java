@@ -41,7 +41,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     static {
         var os = System.getProperty("os.name").toLowerCase();
-        if (os.contains("win")) redirectUrl = "http://localhost:3000/redirect";
+        if (!os.contains("win")) redirectUrl = "http://localhost:3000/redirect";
     }
     
     @Override
