@@ -78,6 +78,9 @@ export const Front = styled.div`
   background-color: #fff;
   box-sizing: border-box;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   & > label {
     position: absolute;
     top: 50%;
@@ -101,7 +104,7 @@ export const Front = styled.div`
     width: 100%;
     white-space: pre-wrap;
 
-    font-size: 300%;
+    font-size: 500%;
     padding: 10% 10%;
     position: relative;
   }
