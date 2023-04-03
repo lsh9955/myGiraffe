@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RestController;import java.util.Map;
 
 @CrossOrigin
 @Slf4j
@@ -83,9 +83,11 @@ public class UserInfoController {
   @PatchMapping
   public ResponseEntity<? extends BaseResponseBody> updateUserKey(
       HttpServletRequest request,
-      @RequestBody Integer keyAmount) {
+      @RequestBody Map<String, Object> param) {
 
     String userId = (String)request.getAttribute("userId");
+    Integer keyAmount = (Integer)param.get("keyAmount");
+
     var userinfo = userInfoService.updateKeyAmount(userId, keyAmount);
 
     var successMessage = "유저 키 수량 변경 성공: (ID=" + userinfo.getUserId()
@@ -100,9 +102,10 @@ public class UserInfoController {
   @PostMapping
   public ResponseEntity<? extends BaseResponseBody> insertScenario(
       HttpServletRequest request,
-      @RequestBody Integer scenarioId) {
+      @RequestBody Map<String, Object> param) {
 
     String userId = (String)request.getAttribute("userId");
+    Integer scenarioId = (Integer)param.get("scenarioId");
     var userScenario = userScenarioListService.saveUserScenario(userId, scenarioId);
 
     var successMessage = "시나리오 추가 성공: (ID=" + userScenario + ")";
