@@ -19,7 +19,7 @@ const RedirectPage = () => {
           },
         }
       );
-      console.log(infoRes);
+
       dispatch(
         login({
           accessToken: location.search.split("?Authorization=")[1],
