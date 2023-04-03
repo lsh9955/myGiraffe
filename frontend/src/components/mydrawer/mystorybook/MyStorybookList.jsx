@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+// 백에서 넘어오는 날짜 데이터 쉽게 변환해주는 라이브러리
+import moment from "moment";
+import "moment/locale/ko";
 
 /**내 동화책 리스트 컴포넌트 */
 import axios from "axios";
@@ -48,14 +51,11 @@ const MyStorybookList = () => {
   useEffect(() => {
     const fetchBooks = async () => {
       await axios
-        .get(
-          "https://port-0-nodebook-1b5xkk2fldhlzqkd.gksl2.cloudtype.app/mybook",
-          {
-            headers: {
-              Authorization: userSeq,
-            },
-          }
-        )
+        .get("https://j8b201.p.ssafy.io/api/members/books/list", {
+          headers: {
+            Authorization: userSeq,
+          },
+        })
         .then((response) => {
           console.log(response.data);
           setDatas(response.data);
@@ -120,24 +120,32 @@ const MyStorybookList = () => {
   };
 
   return (
-    <>
-      <Container>
-        <TitleContainer>내 동화책</TitleContainer>
+    <Container>
+      <TitleContainer>내 동화책</TitleContainer>
+      {datas.length > 0 ? (
         <Slider {...settings}>
           {datas.map((data, idx) => (
             <MydraweritemContainer>
-              <Link to={`/mybookdetail/${data.id}`}>
+              <Link to={`/mybookdetail/${data.bookId}`}>
                 <Mydraweritemimage src={bgImg[idx % 9]} />
                 <TextOverlay>
-                  <div>{data.title}</div>
-                  <p>{data.date}</p>
+                  <div>{data.bookName}</div>
+                  <p>
+                    {new Intl.DateTimeFormat("ko-KR", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    }).format(new Date(data.createdAt))}
+                  </p>
                 </TextOverlay>
               </Link>
             </MydraweritemContainer>
           ))}
         </Slider>
-      </Container>
-    </>
+      ) : (
+        <></>
+      )}
+    </Container>
   );
 };
 

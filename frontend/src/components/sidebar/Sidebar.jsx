@@ -130,7 +130,11 @@ const Sidebar = () => {
           console.log(error);
         });
     } else {
-      alert(`${error_msg}`);
+      if (error_msg && error_msg.includes("결제요청금액이 0원입니다.")) {
+        alert("결제요청금액이 0원입니다.");
+      } else if (error_msg) {
+        alert(`${error_msg}`);
+      }
     }
   };
 
