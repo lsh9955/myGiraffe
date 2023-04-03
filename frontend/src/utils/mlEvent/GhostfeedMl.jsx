@@ -57,7 +57,9 @@ const GhostfeedMl = () => {
           }
         )
         .then((response) => {
-          console.log(response);
+          //   let fruit = ["Fruits","Fruit",Plant,Plants"]
+          //   console.log(response);
+          //   if(response.data===)
         })
         .catch((error) => {
           console.log(error);
