@@ -83,6 +83,11 @@ const Readstorybook = ({ handleCapture, getPageImg }) => {
     //   interUserImg: "",
     // };
 
+    // formData.append(
+    //   "contentsData",
+    //   new Blob([JSON.stringify(contentsData)], { type: "application/json" })
+    // );
+
     // formdata에 전송할 데이터 담기
     const formData = new FormData();
 
@@ -94,14 +99,15 @@ const Readstorybook = ({ handleCapture, getPageImg }) => {
 
     formData.append(
       "myBookPage",
-      JSON.stringify({ bookId: saveBookId, pageNo: nowPage })
+      new Blob([JSON.stringify({ bookId: saveBookId, pageNo: nowPage })]),
+      { contentType: "application/json" }
     );
+
     console.log("###########################################", formData);
     axios
       .post("https://j8b201.p.ssafy.io/api/members/pages", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          charset: "utf-8",
           // "Content-Type": "application/json; multipart/form-data;",
 
           Authorization: userSeq.accessToken,
