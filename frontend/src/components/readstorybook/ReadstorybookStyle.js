@@ -104,7 +104,7 @@ export const Front = styled.div`
     width: 100%;
     white-space: pre-wrap;
 
-    font-size: 500%;
+    font-size: 400%;
     padding: 10% 10%;
     position: relative;
   }
