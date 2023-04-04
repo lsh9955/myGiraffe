@@ -99,8 +99,6 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             userProfileClient.updateImage(userInfoDto);
         }
 
-
-
         String REDIRECT_URI = getRedirectURI(requestWrapper);
         String targetUrl = UriComponentsBuilder.fromUriString(REDIRECT_URI)
             .queryParam(TokenKey.ACCESS.getKey(), "Bearer-" + tokens.getAccessToken())
