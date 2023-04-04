@@ -31,7 +31,7 @@ const Storybookmain = ({ bookData }) => {
   //유저가 가진 책 정보 가져오기
   const haveBook = async () => {
     const book = await axios.get(
-      "http://j8b201.p.ssafy.io:9011/api/members/scenarios",
+      "https://j8b201.p.ssafy.io/api/members/scenarios",
       {
         headers: {
           Authorization: userSeq.accessToken,
