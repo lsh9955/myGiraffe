@@ -151,7 +151,7 @@ const BookInfo = ({ data, isOpen, openCheck, userBook, buyHandler }) => {
               <B.Buttonone
                 onClick={() => {
                   //들어갈 책의 idx
-                  if (userBook.indexOf(data.scenarioId) === -1) {
+                  if (userBook && userBook.indexOf(data.scenarioId) === -1) {
                     setIsBuy(true);
                   } else {
                     handleBookOpen(data.scenarioId);
