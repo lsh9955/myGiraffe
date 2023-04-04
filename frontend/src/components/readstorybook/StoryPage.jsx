@@ -9,6 +9,13 @@ import GhostfeedMl from "utils/mlEvent/GhostfeedMl";
 //화살표 아이콘
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import NumberMl from "utils/mlEvent/NumberMl";
+//선생님 책상 위에 있는 물건
+import Ball from "assets/image/storybookinside/ball.png";
+import HappyBirthdayStone from "assets/image/storybookinside/happyBirthdayStone.png";
+import Rose from "assets/image/storybookinside/rose.png";
+// mui
+import { Modal } from "@mui/material/";
+
 /**읽고 있는 동화책 컴포넌트 (현재 페이지, 페이지 바뀔 때 이벤트, 모든 페이지 정보, 현재까지 읽은 페이지 정보)*/
 const StoryPage = ({
   nowPage,
@@ -51,6 +58,13 @@ const StoryPage = ({
       }
     }
   };
+
+  // 선생님 생일사진
+  const [open1, setOpen1] = useState(false);
+  // 선생님 축구공
+  const [open2, setOpen2] = useState(false);
+  // 선생님 장미
+  const [open3, setOpen3] = useState(false);
 
   useEffect(() => {
     if (isRendered) {
@@ -129,6 +143,34 @@ const StoryPage = ({
             창문
           </button>
         </R.FindKey>
+      )}
+      {/*선생님 책상 */}
+      {nowPage === 8 && (
+        <>
+          <R.TeachersItemPositionPicture onClick={() => setOpen1(true)}>
+            <R.TeachersPicture
+              src={HappyBirthdayStone}
+              alt="HappyBirthdayStone"
+            />
+          </R.TeachersItemPositionPicture>
+          <Modal open={open1} onClose={() => setOpen1(false)}>
+            <R.ModalPicture src={HappyBirthdayStone} />
+          </Modal>
+
+          <R.TeachersItemPositionBall onClick={() => setOpen2(true)}>
+            <R.TeachersBall src={Ball} alt="Ball" />
+          </R.TeachersItemPositionBall>
+          <Modal open={open2} onClose={() => setOpen2(false)}>
+            <R.ModalBall src={Ball} />
+          </Modal>
+
+          <R.TeachersItemPositionRose onClick={() => setOpen3(true)}>
+            <R.TeachersRose src={Rose} alt="Rose" />
+          </R.TeachersItemPositionRose>
+          <Modal open={open3} onClose={() => setOpen3(false)}>
+            <R.ModalRose src={Rose} />
+          </Modal>
+        </>
       )}
       {/* 유령 찾기 */}
       {nowPage === 14 && (
