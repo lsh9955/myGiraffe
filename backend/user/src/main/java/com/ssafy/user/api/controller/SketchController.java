@@ -62,7 +62,6 @@ public class SketchController {
   @PostMapping
   public ResponseEntity<? extends BaseResponseBody> createSketch(
       @RequestPart
-      @Valid
       SketchPostRequest sketch,
       @RequestPart
       MultipartFile sketchImg,
