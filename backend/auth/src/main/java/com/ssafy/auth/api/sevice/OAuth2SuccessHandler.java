@@ -112,13 +112,27 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     public String getRedirectURI(HttpServletRequest request) {
 
-        log.info("host = {}", request.getHeader("User-Agent"));
-        String os = null;
+        String brower = null;
 
-        // if (request.getHeader("User-Agent").toLowerCase().contains("win"))
-        //     return "http://localhost:3000/redirect";
+        String agent = request.getHeader("User-Agent").toLowerCase();
+        if (agent != null) {
+            if (agent.indexOf("Trident") > -1) {
+                brower = "MSIE";
+            } else if (agent.indexOf("Chrome") > -1) {
+                brower = "Chrome";
+            } else if (agent.indexOf("Opera") > -1) {
+                brower = "Opera";
+            } else if (agent.indexOf("iPhone") > -1 && agent.indexOf("Mobile") > -1) {
+                brower = "iPhone";
+            } else if (agent.indexOf("Android") > -1 && agent.indexOf("Mobile") > -1) {
+                brower = "Android";
+            }
+        }
+        log.info("agent = {}", agent);
 
+        if (agent.contains("chrome"))
+            return "https://j8b201.p.ssafy.io/redirect";
 
-        return "https://j8b201.p.ssafy.io/redirect";
+        return "http://localhost:3000/redirect";
     }
 }
