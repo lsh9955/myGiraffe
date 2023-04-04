@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
 //mui아이콘 중 방향 버튼 아이콘을 가져오기
 import one from "./1.jpg";
+import axios from "axios";
 import * as R from "./ReadstorybookStyle";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import BookText from "./BookText";
+import { useSelector, useDispatch } from "react-redux";
+
 const Flip = ({
   isRendered,
   allContent,
@@ -14,7 +17,9 @@ const Flip = ({
   pageChangeHandler,
   handleCapture,
 }) => {
-  console.log(allContent.filter((v) => v.pageId == nowPage));
+  const userSeq = useSelector((state) => state.user);
+
+  console.log(allContent);
   return (
     <>
       {/* 커버 페이지 -이전 페이지와 동일*/}
