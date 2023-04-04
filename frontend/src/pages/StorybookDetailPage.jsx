@@ -16,7 +16,7 @@ const StorybookDetailPage = () => {
   };
   return (
     <>
-      <div ref={captureRef} id="capture">
+      <div>
         <div
           style={{
             width: "100vw",
