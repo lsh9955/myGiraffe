@@ -49,7 +49,7 @@ export const FlipBook = styled.div`
   perspective: 1500px;
 `;
 
-export const Filp = styled.div`
+export const Flip = styled.div`
   width: 100%;
   height: 100%;
   position: absolute;
@@ -78,6 +78,9 @@ export const Front = styled.div`
   background-color: #fff;
   box-sizing: border-box;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   & > label {
     position: absolute;
     top: 50%;
@@ -101,7 +104,7 @@ export const Front = styled.div`
     width: 100%;
     white-space: pre-wrap;
 
-    font-size: 300%;
+    font-size: 500%;
     padding: 10% 10%;
     position: relative;
   }
@@ -222,5 +225,24 @@ export const TrashClick = styled.div`
     color: white;
     font-size: 500%;
     text-align: left;
+  }
+`;
+
+export const EndButton = styled.button`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  bottom: 10%;
+  left: 30%;
+  width: 50%;
+  font-size: 500%;
+  height: 10%;
+  background-color: white;
+  z-index: 20;
+  border-radius: 20px;
+  :hover {
+    background-color: gray;
   }
 `;
