@@ -22,7 +22,7 @@ const Readstorybook = ({ handleCapture }) => {
       setNowPage(beforepageInfo[beforepageInfo.length - 1]);
     }
   };
-
+  //책 내용 가져오기
   useEffect(() => {
     const res = async () => {
       const book = await axios.get(
@@ -36,9 +36,30 @@ const Readstorybook = ({ handleCapture }) => {
       const bookContent = book;
       console.log(bookContent.data.content);
       setAllContent(bookContent.data.content);
+
+      axios
+        .post(
+          "http://j8b201.p.ssafy.io:9011/api/members/books",
+          {
+            // 현재는 동화책이 하나밖에 없음
+            scenarioId: 1,
+          },
+          {
+            headers: {
+              Authorization: userSeq.accessToken,
+            },
+          }
+        )
+        .then((response) => {
+          console.log(
+            "#######################################################"
+          );
+          console.log(response);
+        });
     };
     res();
   }, []);
+
   return (
     <>
       {pageInfo.map((k) => {
