@@ -31,8 +31,8 @@ const MySketchbookList = () => {
           },
         })
         .then((response) => {
-          console.log(response.data);
-          setDatas(response.data);
+          console.log(response.data.content);
+          setDatas(response.data.content);
         })
         .catch((error) => {
           console.log(error);
@@ -92,6 +92,9 @@ const MySketchbookList = () => {
   // 내 스케치북 데이터
   const [datas, setDatas] = useState([]);
 
+  // 스케치북 날짜를 한국 시간으로 바꿈
+  const [dateString, setDateString] = useState("");
+
   return (
     <Container>
       <TitleContainer>내 스케치북</TitleContainer>
@@ -99,9 +102,12 @@ const MySketchbookList = () => {
         <Slider {...settings}>
           {datas.map((data) => (
             <MydraweritemContainer>
-              <MySketchbookimage src={data.img} />
-              <ImgTitle>{data.title}</ImgTitle>
-              <ImgP>{data.date}</ImgP>
+              <MySketchbookimage src={data.sketchImgUrl} />
+              <ImgP>
+                {new Date(data.savedAt).toLocaleString("ko-KR", {
+                  timeZone: "Asia/Seoul",
+                })}
+              </ImgP>
             </MydraweritemContainer>
           ))}
         </Slider>

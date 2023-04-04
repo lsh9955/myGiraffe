@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import CanvasDraw from "@win11react/react-canvas-draw";
@@ -6,6 +7,8 @@ import Palette from "./Palette";
 import * as C from "./CanvasToolStyle";
 //그림 일기 캔버스
 const CanvasToolDiary = ({ bgImg }) => {
+  // 완료 버튼 누른 후 메인페이지로 라우팅
+  const history = useHistory();
   // 리덕스에서 정보 가져오기
   const userSeq = useSelector((state) => state.user);
 
@@ -52,6 +55,8 @@ const CanvasToolDiary = ({ bgImg }) => {
         .then((response) => {
           console.log(response);
           console.log("저장 성공");
+          // 메인으로 이동
+          history.push("/");
         })
         .catch((error) => {
           console.log(error);
