@@ -4,8 +4,8 @@ import com.ssafy.user.api.dto.request.UserInfoPostRequest;
 import com.ssafy.user.api.dto.response.BaseResponseBody;
 import com.ssafy.user.api.service.UserInfoService;
 import com.ssafy.user.api.service.UserScenarioListService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.executable.ValidateOnExecution;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*")
 @Slf4j
 @Validated
-@ValidateOnExecution
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/members")
@@ -97,11 +96,12 @@ public class UserInfoController {
 
   }
 
-  @PostMapping
+  @PostMapping(/{})
   public ResponseEntity<? extends BaseResponseBody> insertScenario(
-      @RequestHeader("userId") String userId,
+      HttpServletRequest request,
       @RequestBody Integer scenarioId) {
 
+    var userId = (String) request.getAttribute("userId");
     var userScenario = userScenarioListService.saveUserScenario(userId, scenarioId);
 
     var successMessage = "시나리오 추가 성공: (ID=" + userScenario + ")";
