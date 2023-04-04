@@ -1,5 +1,5 @@
 import React from "react";
-import CanvasTool from "utils/canvas/CanvasTool";
+import CanvasToolDiary from "utils/canvas/CanvasToolDiary";
 import diaryBackground from "assets/image/diaryBackground.svg";
 import { DiaryTitle, DiaryWriteContainer } from "./DiaryWriteStyle";
 
@@ -8,7 +8,7 @@ const DiaryWrite = () => {
   return (
     <DiaryWriteContainer>
       <DiaryTitle>오늘 있었던 일을 일기로 작성해보자!</DiaryTitle>
-      <CanvasTool bgImg={diaryBackground} />
+      <CanvasToolDiary bgImg={diaryBackground} />
     </DiaryWriteContainer>
   );
 };

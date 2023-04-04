@@ -19,7 +19,7 @@ const RedirectPage = () => {
           },
         }
       );
-      console.log(infoRes);
+
       dispatch(
         login({
           accessToken: location.search.split("?Authorization=")[1],
@@ -27,7 +27,6 @@ const RedirectPage = () => {
           userName: infoRes.data.content.userName,
           profileImg: infoRes.data.content.profileImg,
           coinAmount: infoRes.data.content.coinAmount,
-          accessToken: infoRes.data.content.accessToken,
         })
       );
     };

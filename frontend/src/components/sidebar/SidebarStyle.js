@@ -7,11 +7,14 @@ export const Container = styled.div`
   display: flex;
   background-color: #8bd0fc;
   justify-content: space-between;
+  align-items: center;
 `;
 
 export const UserImg = styled.img`
   height: 10vh;
   margin-top: 5vh;
+  width: 10vh;
+  border-radius: 99px;
 `;
 
 export const MarginContainer = styled.div`

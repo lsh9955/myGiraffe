@@ -10,6 +10,7 @@ const StorybookDetailPage = () => {
     html2canvas(captureRef.current).then((canvas) => {
       const dataUrl = canvas.toDataURL();
       setGetPageImg(dataUrl);
+      console.log(dataUrl);
       // 이미지 데이터를 사용하여 다른 작업을 수행합니다.
     });
   };
@@ -26,7 +27,10 @@ const StorybookDetailPage = () => {
             overflow: "hidden",
           }}
         >
-          <Readstorybook handleCapture={handleCapture} />
+          <Readstorybook
+            handleCapture={handleCapture}
+            getPageImg={getPageImg}
+          />
         </div>
       </div>
     </>
