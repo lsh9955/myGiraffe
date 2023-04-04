@@ -1,7 +1,8 @@
 package com.ssafy.user.api.service;
 
 import com.ssafy.user.api.dto.request.DiaryPostRequest;
-import com.ssafy.user.db.entity.Diary;
+import com.ssafy.user.api.dto.response.DiaryGetResponse;
+import com.ssafy.user.api.dto.response.DiaryGetSimpleResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -15,7 +16,7 @@ public interface DiaryService {
    * @param userId
    * @return 해당 유저의 그림일기들
    */
-  List<Diary> findDiariesByUserId(String userId);
+  List<DiaryGetSimpleResponse> findAllDiariesByUserId(String userId);
 
 
   /**
@@ -24,7 +25,7 @@ public interface DiaryService {
    * @param diaryId
    * @return 해당 ID와 일치하는 그림일기
    */
-  Diary findDiaryById(Integer diaryId);
+  DiaryGetResponse findDiaryById(Integer diaryId);
 
 
   /**
@@ -33,7 +34,7 @@ public interface DiaryService {
    * @param DiaryPostRequest request
    * @return 해당 그림일기 ID
    */
-  Integer saveDiary(DiaryPostRequest request, MultipartFile diaryImg) throws IOException;
+  Integer saveDiary(String userId, DiaryPostRequest request, MultipartFile diaryImg) throws IOException;
 
 
   /**

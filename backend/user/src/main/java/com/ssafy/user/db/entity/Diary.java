@@ -37,7 +37,7 @@ public class Diary extends BaseTimeEntity {
   @Column(name = "diary_img_url", nullable = false)
   private String diaryImgUrl;
 
-  @Column(name = "diary_name", nullable = false)
-  private String diaryName;
+  @Column(name = "diary_trace_data", columnDefinition = "LONGTEXT")
+  private String diaryTraceData;
 
 }
