@@ -68,10 +68,8 @@ public class SketchController {
       MultipartFile sketchImg,
       HttpServletRequest request) throws IOException {
 
-    String userId = (String)request.getAttribute("userId");
-    sketch.setUserId(userId);
-
-    var id = sketchService.saveSketch(sketch, sketchImg);
+    var userId = (String) request.getAttribute("userId");
+    var id = sketchService.saveSketch(userId, sketch, sketchImg);
 
     var location = URI.create(request.getRequestURI() + "/" + id);
     var successMessage = "스케치북 생성 성공: (ID=" + id + ")";

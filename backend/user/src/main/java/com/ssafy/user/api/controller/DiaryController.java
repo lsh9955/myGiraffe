@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,14 +35,16 @@ public class DiaryController {
   private final DiaryService diaryService;
 
   @GetMapping("/list")
-  public ResponseEntity<? extends BaseResponseBody> getDiaries(HttpServletRequest request) {
+  public ResponseEntity<? extends BaseResponseBody> getDiaries(
+      HttpServletRequest request) {
 
-    String userId = (String)request.getAttribute("userId");
-    var diaries = diaryService.findDiariesByUserId(userId);
+    var userId = (String) request.getAttribute("userId");
+
+    var diaryList = diaryService.findAllDiariesByUserId(userId);
 
     return ResponseEntity
         .ok()
-        .body(new BaseResponseBody<>(200, "OK", diaries));
+        .body(new BaseResponseBody<>(200, "OK", diaryList));
   }
 
   @GetMapping("/{diaryId}")
@@ -66,10 +67,9 @@ public class DiaryController {
       MultipartFile diaryImg,
       HttpServletRequest request) throws IOException {
 
-    String userId = (String)request.getAttribute("userId");
-    diary.setUserId(userId);
+    var userId = (String) request.getAttribute("userId");
 
-    var id = diaryService.saveDiary(diary, diaryImg);
+    var id = diaryService.saveDiary(userId, diary, diaryImg);
 
     var location = URI.create(request.getRequestURI() + "/" + id);
     var successMessage = "그림일기 생성 성공: (ID=" + id + ")";

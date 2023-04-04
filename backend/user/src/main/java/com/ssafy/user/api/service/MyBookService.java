@@ -2,9 +2,8 @@ package com.ssafy.user.api.service;
 
 import com.ssafy.user.api.dto.request.MyBookPostRequest;
 import com.ssafy.user.api.dto.request.MyBookPutRequest;
-import com.ssafy.user.db.entity.MyBook;
+import com.ssafy.user.api.dto.response.MyBookGetResponse;
 
-import java.io.IOException;
 import java.util.List;
 
 public interface MyBookService {
@@ -15,7 +14,7 @@ public interface MyBookService {
    * @param userId
    * @return 유저가 보유한 동화책들의 리스트
    */
-  List<MyBook> findAllMyBooksByUserId(String userId);
+  List<MyBookGetResponse> findAllMyBooksByUserId(String userId);
 
 
   /**
@@ -24,7 +23,7 @@ public interface MyBookService {
    * @param bookId
    * @return 해당 ID의 보유한 동화책
    */
-  MyBook findMyBookById(Integer bookId);
+  MyBookGetResponse findMyBookById(Integer bookId);
 
 
   /**
