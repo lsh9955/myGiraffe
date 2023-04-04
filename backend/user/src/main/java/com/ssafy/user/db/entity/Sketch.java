@@ -37,6 +37,6 @@ public class Sketch extends BaseTimeEntity {
   @Column(name = "sketch_img_url", nullable = false)
   private String sketchImgUrl;
 
-  @Column(name = "sketch_name", nullable = false)
-  private String sketchName;
+  @Column(name = "sketch_trace_data", columnDefinition = "LONGTEXT")
+  private String sketchTraceData;
 }

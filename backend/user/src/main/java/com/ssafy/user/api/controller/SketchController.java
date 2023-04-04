@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+@CrossOrigin
 @Slf4j
 @Validated
 @ValidateOnExecution
@@ -61,14 +63,12 @@ public class SketchController {
       @RequestPart
       @Valid
       SketchPostRequest sketch,
-      @RequestHeader("userId") String userId,
       @RequestPart
       MultipartFile sketchImg,
       HttpServletRequest request) throws IOException {
 
-    sketch.setUserId(userId);
-
-    var id = sketchService.saveSketch(sketch, sketchImg);
+    var userId = (String) request.getAttribute("userId");
+    var id = sketchService.saveSketch(userId, sketch, sketchImg);
 
     var location = URI.create(request.getRequestURI() + "/" + id);
     var successMessage = "스케치북 생성 성공: (ID=" + id + ")";
