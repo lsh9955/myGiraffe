@@ -59,6 +59,7 @@ const Readstorybook = ({ handleCapture, getPageImg }) => {
             saveBookId.length - 1
           );
           setSaveBookId(saveBookId);
+          console.log(response);
           console.log("내 서재에 책 생성 완료");
         });
     };
@@ -96,12 +97,10 @@ const Readstorybook = ({ handleCapture, getPageImg }) => {
       formData.append("bgImg", file);
       formData.append("interUserImg", file);
     });
+    const changeJSON = JSON.stringify({ bookId: saveBookId, pageNo: "11-2" });
+    const blob = new Blob([changeJSON], { type: "application/json" });
 
-    formData.append(
-      "myBookPage",
-      new Blob([JSON.stringify({ bookId: saveBookId, pageNo: nowPage })]),
-      { contentType: "application/json" }
-    );
+    formData.append("myBookPage", blob);
 
     console.log("###########################################", formData);
     axios
@@ -113,7 +112,10 @@ const Readstorybook = ({ handleCapture, getPageImg }) => {
           Authorization: userSeq.accessToken,
         },
       })
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res);
+        console.log("성공했어요 제발!!!!!!!!!!!!!!!!!!!!!!!!!");
+      })
       .catch((err) => console.log(err));
   };
 
