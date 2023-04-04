@@ -1,10 +1,13 @@
 import React, { useEffect } from "react";
 //mui아이콘 중 방향 버튼 아이콘을 가져오기
 import one from "./1.jpg";
+import axios from "axios";
 import * as R from "./ReadstorybookStyle";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import BookText from "./BookText";
+import { useSelector, useDispatch } from "react-redux";
+
 const Flip = ({
   isRendered,
   allContent,
@@ -14,6 +17,8 @@ const Flip = ({
   pageChangeHandler,
   handleCapture,
 }) => {
+  const userSeq = useSelector((state) => state.user);
+
   return (
     <>
       {/* 커버 페이지 -이전 페이지와 동일*/}
@@ -21,7 +26,7 @@ const Flip = ({
         <div></div>
       </R.Cover>
       <R.FlipBook className="flip-book">
-        <R.Filp id="p1" pageIdx="1" isRendered={isRendered}>
+        <R.Flip id="p1" pageIdx="1" isRendered={isRendered}>
           {/* 첫번째장 앞면 -이전 페이지와 동일*/}
           <R.Front>
             <div></div>
@@ -32,8 +37,12 @@ const Flip = ({
           {/* 첫번째장 뒷면 -현재 랜더링된 페이지와 동일*/}
 
           <R.Back>
-            <img src={allContent[nowPage - 1]?.bgImgUrl} alt="Cover" />
-            {allContent[nowPage - 1]?.objData.isEvent && (
+            <img
+              src={allContent?.filter((v) => v.pageId == nowPage)[0]?.bgImgUrl}
+              alt="Cover"
+            />
+            {allContent?.filter((v) => v.pageId == nowPage)[0]?.objData
+              .isEvent && (
               <button
                 onClick={() => {
                   picHandler();
@@ -42,20 +51,25 @@ const Flip = ({
                 그림 그려주기
               </button>
             )}
-            <div>{allContent[nowPage - 1]?.script}</div>
-            {allContent[nowPage - 1]?.pageId != 1 &&
-              !allContent[nowPage - 1]?.objData.isEvent && (
+            <div>
+              {allContent?.filter((v) => v.pageId == nowPage)[0]?.script}
+            </div>
+            {allContent?.filter((v) => v.pageId == nowPage)[0]?.pageId != 1 &&
+              !allContent?.filter((v) => v.pageId == nowPage)[0]?.objData
+                .isEvent && (
                 <label htmlFor="c1">
                   <KeyboardArrowLeftIcon />
                 </label>
               )}
           </R.Back>
-        </R.Filp>
-        <R.Filp id="p2" pageIdx="2" isRendered={isRendered}>
+        </R.Flip>
+        <R.Flip id="p2" pageIdx="2" isRendered={isRendered}>
           {/* 두번째장 뒷면 -다음 페이지와 동일*/}
           <R.Back>
-            <img src={allContent[nowPage - 1]?.bgImgUrl} alt="Cover" />
-            <div></div>
+            <img
+              src={allContent?.filter((v) => v.pageId == nowPage)[0]?.bgImgUrl}
+              alt="Cover"
+            />
 
             <label htmlFor="c2">
               <KeyboardArrowLeftIcon />
@@ -63,18 +77,28 @@ const Flip = ({
           </R.Back>
           {/* 두번째장 앞면 -현재 랜더링된 페이지와 동일*/}
           <R.Front>
+            {/* 이야기 끝날 때 저장하기 - 수정중 */}
+            {allContent?.filter((v) => v.pageId == nowPage)[0]?.nextPage
+              .length === 0 && (
+              <R.EndButton onClick={() => {}}>이야기 끝내기</R.EndButton>
+            )}
             <div>
-              <BookText text={allContent[nowPage - 1]?.script} lost={lost} />
+              <BookText
+                text={allContent?.filter((v) => v.pageId == nowPage)[0]?.script}
+                lost={lost}
+              />
             </div>
-            {allContent[nowPage - 1]?.nextPage.length == 1 &&
-              !allContent[nowPage - 1]?.objData.isEvent && (
+            {allContent?.filter((v) => v.pageId == nowPage)[0]?.nextPage
+              .length == 1 &&
+              !allContent?.filter((v) => v.pageId == nowPage)[0]?.objData
+                .isEvent && (
                 <label htmlFor="c2">
                   <KeyboardArrowRightIcon />
                 </label>
               )}
           </R.Front>
-        </R.Filp>
-        <R.Filp id="p3" pageIdx="3" isRendered={isRendered}>
+        </R.Flip>
+        <R.Flip id="p3" pageIdx="3" isRendered={isRendered}>
           {/* 첫번째장 앞면 -이전 페이지와 동일*/}
           <R.Front>
             <label htmlFor="c3">
@@ -83,13 +107,16 @@ const Flip = ({
           </R.Front>
           {/* 첫번째장 뒷면 -현재 랜더링된 페이지와 동일*/}
           <R.Back>
-            <img src={allContent[nowPage - 1]?.bgImgUrl} alt="Cover" />
+            <img
+              src={allContent?.filter((v) => v.pageId == nowPage)[0]?.bgImgUrl}
+              alt="Cover"
+            />
             <div></div>
             <label htmlFor="c3">
               <KeyboardArrowLeftIcon />
             </label>
           </R.Back>
-        </R.Filp>
+        </R.Flip>
       </R.FlipBook>
     </>
   );

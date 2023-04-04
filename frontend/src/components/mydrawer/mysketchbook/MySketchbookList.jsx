@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 /**내 스케치북 리스트 컴포넌트 */
 import axios from "axios";
 import Slider from "react-slick";
@@ -15,19 +16,20 @@ import {
 //mui아이콘 중 방향 버튼 아이콘을 가져
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+
 const MySketchbookList = () => {
   // axios로 내 스케치북 데이터 불러오기
+
+  const userSeq = useSelector((state) => state.user);
+
   useEffect(() => {
     const sketchBooks = async () => {
       await axios
-        .get(
-          "https://port-0-nodebook-1b5xkk2fldhlzqkd.gksl2.cloudtype.app/diary",
-          {
-            headers: {
-              Authorization: `Bearer ${process.env.REACT_APP_TOKEN}`,
-            },
-          }
-        )
+        .get("https://j8b201.p.ssafy.io/api/members/sketch/list", {
+          headers: {
+            Authorization: userSeq.accessToken,
+          },
+        })
         .then((response) => {
           console.log(response.data);
           setDatas(response.data);
@@ -93,15 +95,19 @@ const MySketchbookList = () => {
   return (
     <Container>
       <TitleContainer>내 스케치북</TitleContainer>
-      <Slider {...settings}>
-        {datas.map((data) => (
-          <MydraweritemContainer>
-            <MySketchbookimage src={data.img} />
-            <ImgTitle>{data.title}</ImgTitle>
-            <ImgP>{data.date}</ImgP>
-          </MydraweritemContainer>
-        ))}
-      </Slider>
+      {datas.length > 0 ? (
+        <Slider {...settings}>
+          {datas.map((data) => (
+            <MydraweritemContainer>
+              <MySketchbookimage src={data.img} />
+              <ImgTitle>{data.title}</ImgTitle>
+              <ImgP>{data.date}</ImgP>
+            </MydraweritemContainer>
+          ))}
+        </Slider>
+      ) : (
+        <></>
+      )}
     </Container>
   );
 };
