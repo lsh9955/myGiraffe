@@ -1,10 +1,13 @@
 import { useRef, useState } from "react";
+import axios from "axios";
+import { useSelector } from "react-redux";
 import CanvasDraw from "@win11react/react-canvas-draw";
 import Palette from "./Palette";
 import * as C from "./CanvasToolStyle";
-import axios from "axios";
 //그림 일기 캔버스
 const CanvasToolDiary = ({ bgImg }) => {
+  // 리덕스에서 정보 가져오기
+  const userSeq = useSelector((state) => state.user);
   const canvasRef = useRef(null);
 
   const [canvas, setBrush] = useState("#000000");
