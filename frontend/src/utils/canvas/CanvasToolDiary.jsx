@@ -8,13 +8,26 @@ import * as C from "./CanvasToolStyle";
 const CanvasToolDiary = ({ bgImg }) => {
   // 리덕스에서 정보 가져오기
   const userSeq = useSelector((state) => state.user);
+
   const canvasRef = useRef(null);
 
   const [canvas, setBrush] = useState("#000000");
   const [brush, setThick] = useState(10);
 
+  // base64를 파일 객체로 만들기
+  function urltoFile(url, filename, mimeType) {
+    return fetch(url)
+      .then(function (res) {
+        return res.arrayBuffer();
+      })
+      .then(function (buf) {
+        return new File([buf], filename, { type: mimeType });
+      });
+  }
+
   // 그림데이터가 저장
   const handleExport = () => {
+    console.log(canvasRef.current);
     const data = canvasRef.current.getSaveData();
     console.log(data);
     const base64 = canvasRef.current.canvasContainer.childNodes[1].toDataURL();
@@ -22,7 +35,10 @@ const CanvasToolDiary = ({ bgImg }) => {
 
     // form 데이터로 만듦
     const diaryData = new FormData();
-    diaryData.append("diaryTraceData", data);
+    // urltoFile 함수로 이미지를 파일형태로 바꿈
+    urltoFile(base64, "diary.png", "image/png").then();
+
+    diaryData.append("diary", { diaryTraceData: data });
     diaryData.append("diaryImg", base64);
 
     axios
