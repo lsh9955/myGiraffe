@@ -246,3 +246,69 @@ export const EndButton = styled.button`
     background-color: gray;
   }
 `;
+
+export const TeachersPicture = styled.img`
+  width: 150px;
+  height: auto;
+`;
+
+export const ModalPicture = styled.img`
+  width: 600px;
+  height: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+export const TeachersBall = styled.img`
+  width: 130px;
+  height: auto;
+`;
+
+export const ModalBall = styled.img`
+  width: 400px;
+  height: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+export const TeachersRose = styled.img`
+  width: 100px;
+  height: auto;
+`;
+
+export const ModalRose = styled.img`
+  width: 250px;
+  height: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+export const TeachersItemPositionPicture = styled.div`
+  position: absolute;
+  display: flex;
+  top: 47%;
+  left: 8%;
+  z-index: 20;
+`;
+
+export const TeachersItemPositionBall = styled.div`
+  position: absolute;
+  display: flex;
+  top: 75%;
+  left: 28%;
+  z-index: 20;
+`;
+
+export const TeachersItemPositionRose = styled.div`
+  position: absolute;
+  display: flex;
+  top: 38%;
+  left: 38%;
+  z-index: 20;
+`;
