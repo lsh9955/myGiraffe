@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 //mui아이콘 중 방향 버튼 아이콘을 가져오기
 import one from "./1.jpg";
 import axios from "axios";
@@ -7,7 +7,8 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import BookText from "./BookText";
 import { useSelector, useDispatch } from "react-redux";
-
+import { useHistory } from "react-router";
+import html2canvas from "html2canvas";
 const Flip = ({
   isRendered,
   allContent,
@@ -15,10 +16,43 @@ const Flip = ({
   picHandler,
   lost,
   pageChangeHandler,
-  handleCapture,
-}) => {
-  const userSeq = useSelector((state) => state.user);
 
+  saveBookId,
+}) => {
+  const captureRef = useRef(null);
+  const handleCapture = () => {
+    html2canvas(captureRef.current).then((canvas) => {
+      const dataUrl = canvas.toDataURL();
+
+      console.log(dataUrl);
+      // 이미지 데이터를 사용하여 다른 작업을 수행합니다.
+    });
+  };
+
+  const history = useHistory();
+  const userSeq = useSelector((state) => state.user);
+  const bookSaveHandler = () => {
+    axios
+      .put(
+        "https://j8b201.p.ssafy.io/api/members/books",
+        {
+          bookId: saveBookId,
+          bookName: "테스트99",
+        },
+        {
+          headers: {
+            // "Content-Type": "application/json; multipart/form-data;",
+
+            Authorization: userSeq.accessToken,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        console.log("책을 정상적으로 저장하였습니다");
+        history.push("/");
+      });
+  };
   return (
     <>
       {/* 커버 페이지 -이전 페이지와 동일*/}
@@ -80,7 +114,7 @@ const Flip = ({
             {/* 이야기 끝날 때 저장하기 - 수정중 */}
             {allContent?.filter((v) => v.pageId == nowPage)[0]?.nextPage
               .length === 0 && (
-              <R.EndButton onClick={() => {}}>이야기 끝내기</R.EndButton>
+              <R.EndButton onClick={bookSaveHandler}>이야기 끝내기</R.EndButton>
             )}
             <div>
               <BookText
