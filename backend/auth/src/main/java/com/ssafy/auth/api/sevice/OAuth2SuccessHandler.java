@@ -34,18 +34,9 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final TokenProvider tokenProvider;
     private final UserProfileClient userProfileClient;
 
+    @Value("${request.url.front-login}")
     private static String redirectUrl;
 
-    @Value("${request.url.front-login}")
-    private String redirectRemote;
-
-    private String redirectLocal = "http://localhost:3000/redirect";
-
-    private String os = System.getProperty("os.name").toLowerCase();
-    if (os.contains("win")) redirectUrl = redirectLocal;
-    else redirectUrl = redirectRemote;
-    
-    
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
         throws IOException {
