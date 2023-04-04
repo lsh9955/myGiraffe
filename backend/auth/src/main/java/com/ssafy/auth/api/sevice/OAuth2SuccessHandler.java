@@ -35,15 +35,13 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final UserProfileClient userProfileClient;
 
     @Value("${request.url.front-login}")
-    private String redirectUrl;
+    private static String redirectUrl;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
         throws IOException {
         OAuth2User oAuth2User = (OAuth2User)authentication.getPrincipal();
         Map<String, Object> attributes = oAuth2User.getAttributes();
-        log.info("[!] oAuth2User = {}",oAuth2User);
-        log.info("[!] attributes = {}",oAuth2User.getAttributes());
 
         UserDto userDto = UserDto.builder()
             .socialId(String.valueOf(attributes.get("id")))
@@ -66,25 +64,14 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             // 저장된 회원 정보 불러옴 -> userId 사용
             user = userRepository.findBySocialId(userDto.getSocialId()).orElseThrow(NotFoundException::new);
 
-            log.info("userId = {}", user.getUserId());
-
             userInfoDto = new UserInfoDto(
                 String.valueOf(user.getUserId())
                 , String.valueOf(attributes.get("nickname"))
                 , String.valueOf(attributes.get("image"))
             );
 
-            log.info("userId = {}, user nickname = {}, user image = {}", userInfoDto.getUserId(), userInfoDto.getNickname(), userInfoDto.getImage());
-
             // 토큰 발행
             tokens = tokenProvider.generateToken(userInfoDto.getUserId(), Role.USER.getKey());
-            
-            // 리프레시 토큰 캐시 저장
-            // tokenProvider.setSaveRefresh(
-            //     String.valueOf(user.getUserId())
-            //     , tokens.getRefreshToken()
-            //     , tokenProvider.getExpiration(TokenKey.REFRESH)
-            // );
 
             // 프로필 DB에 저장
             userProfileClient.insertProfile(userInfoDto);
@@ -96,15 +83,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
             String access = tokenProvider.generateAccess(userInfoDto.getUserId(), Role.USER.getKey());
 
-            // 리프레시 토큰 유효하면 그대로 사용, 아니면 재발행
-            // String refresh = tokenProvider.getSavedRefresh(String.valueOf(user.getUserId()));
-            // if (refresh != null && tokenProvider.validateToken(refresh) == JwtCode.ACCESS) {
-            //     tokens = tokens.builder().accessToken(access)
-            //         .refreshToken(refresh).build();
-            // } else {
-                tokens = tokenProvider.generateToken(userInfoDto.getUserId(), Role.USER.getKey());
-            // }
-            log.info("userInfoDto ={}", userInfoDto);
+            tokens = tokenProvider.generateToken(userInfoDto.getUserId(), Role.USER.getKey());
 
             userProfileClient.updateImage(userInfoDto);
         }
@@ -112,7 +91,6 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String targetUrl;
         targetUrl = UriComponentsBuilder.fromUriString(redirectUrl)
             .queryParam(TokenKey.ACCESS.getKey(), "Bearer-" + tokens.getAccessToken())
-            // .queryParam(TokenKey.REFRESH.getKey(), "Bearer-" + tokens.getRefreshToken())
             .build().toUriString();
 
         // 프론트 페이지로 리다이렉트

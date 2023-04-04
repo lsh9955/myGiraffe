@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin
 @Slf4j
 @Validated
 @ValidateOnExecution
@@ -36,9 +36,9 @@ public class DiaryController {
   private final DiaryService diaryService;
 
   @GetMapping("/list")
-  public ResponseEntity<? extends BaseResponseBody> getDiaries(
-      @RequestHeader("userId") String userId) {
+  public ResponseEntity<? extends BaseResponseBody> getDiaries(HttpServletRequest request) {
 
+    String userId = (String)request.getAttribute("userId");
     var diaries = diaryService.findDiariesByUserId(userId);
 
     return ResponseEntity
@@ -62,11 +62,11 @@ public class DiaryController {
       @RequestPart
       @Valid
       DiaryPostRequest diary,
-      @RequestHeader("userId") String userId,
       @RequestPart
       MultipartFile diaryImg,
       HttpServletRequest request) throws IOException {
 
+    String userId = (String)request.getAttribute("userId");
     diary.setUserId(userId);
 
     var id = diaryService.saveDiary(diary, diaryImg);

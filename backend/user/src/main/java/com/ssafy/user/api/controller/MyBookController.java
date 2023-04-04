@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin
 @Slf4j
 @Validated
 @ValidateOnExecution
@@ -37,9 +37,9 @@ public class MyBookController {
   private final MyBookService myBookService;
 
   @GetMapping("/list")
-  public ResponseEntity<? extends BaseResponseBody> getAllMyBooks(
-      @RequestHeader("userId") String userId) {
+  public ResponseEntity<? extends BaseResponseBody> getAllMyBooks(HttpServletRequest request) {
 
+    String userId = (String)request.getAttribute("userId");
     var myBooks = myBookService.findAllMyBooksByUserId(userId);
 
     return ResponseEntity
@@ -63,9 +63,9 @@ public class MyBookController {
       @RequestBody
       @Valid
       MyBookPostRequest myBook,
-      @RequestHeader("userId") String userId,
       HttpServletRequest request) throws IOException {
 
+    String userId = (String)request.getAttribute("userId");
     var id = myBookService.saveMyBook(myBook, userId);
 
     var location = URI.create(request.getRequestURI() + "/" + id);
@@ -81,8 +81,9 @@ public class MyBookController {
       @RequestBody
       @Valid
       MyBookPutRequest myBook,
-      @RequestHeader("userId") String userId) {
+      HttpServletRequest request) {
 
+    String userId = (String)request.getAttribute("userId");
     var id = myBookService.updateMyBook(myBook, userId);
 
     var successMessage = "내 동화책 저장 성공: (ID=" + id + ")";

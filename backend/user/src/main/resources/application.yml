@@ -1,6 +1,9 @@
+server:
+  port: 8085
+
 spring:
   profiles:
-    include: db
+    include: db, jwt
 
   servlet:
     multipart:

@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin
 @Slf4j
 @Validated
 @ValidateOnExecution
@@ -37,8 +37,9 @@ public class SketchController {
 
   @GetMapping("/list")
   public ResponseEntity<? extends BaseResponseBody> getSketches(
-      @RequestHeader("userId") String userId) {
+      HttpServletRequest request) {
 
+    String userId = (String)request.getAttribute("userId");
     var sketches = sketchService.findSketchesByUserId(userId);
 
     return ResponseEntity
@@ -63,11 +64,11 @@ public class SketchController {
       @RequestPart
       @Valid
       SketchPostRequest sketch,
-      @RequestHeader("userId") String userId,
       @RequestPart
       MultipartFile sketchImg,
       HttpServletRequest request) throws IOException {
 
+    String userId = (String)request.getAttribute("userId");
     sketch.setUserId(userId);
 
     var id = sketchService.saveSketch(sketch, sketchImg);

@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RestController;import java.util.Map;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin
 @Slf4j
 @Validated
 @RequiredArgsConstructor
@@ -57,11 +57,8 @@ public class UserInfoController {
   }
 
   @GetMapping
-  public ResponseEntity<? extends BaseResponseBody> getUserInfo(
-      @RequestHeader("userId")
-      @NotBlank(message = "필수 입력값입니다") // validation
-      String userId) {
-
+  public ResponseEntity<? extends BaseResponseBody> getUserInfo(HttpServletRequest request) {
+    String userId = (String)request.getAttribute("userId");
     var userInfo = userInfoService.findUserInfoByUserId(userId);
 
     return ResponseEntity
@@ -70,9 +67,9 @@ public class UserInfoController {
   }
 
   @GetMapping("/scenarios")
-  public ResponseEntity<? extends BaseResponseBody> getAllUserScenarios(
-      @RequestHeader("userId") String userId) {
+  public ResponseEntity<? extends BaseResponseBody> getAllUserScenarios(HttpServletRequest request) {
 
+    String userId = (String)request.getAttribute("userId");
     var userScenarioList = userScenarioListService.findAllScenariosByUserId(userId);
 
     return ResponseEntity
@@ -82,8 +79,11 @@ public class UserInfoController {
 
   @PatchMapping
   public ResponseEntity<? extends BaseResponseBody> updateUserKey(
-      @RequestHeader("userId") String userId,
-      @RequestBody Integer keyAmount) {
+      HttpServletRequest request,
+      @RequestBody Map<String, Object> param) {
+
+    String userId = (String)request.getAttribute("userId");
+    Integer keyAmount = (Integer)param.get("keyAmount");
 
     var userinfo = userInfoService.updateKeyAmount(userId, keyAmount);
 
@@ -96,12 +96,13 @@ public class UserInfoController {
 
   }
 
-  @PostMapping(/{})
+  @PostMapping
   public ResponseEntity<? extends BaseResponseBody> insertScenario(
       HttpServletRequest request,
-      @RequestBody Integer scenarioId) {
+      @RequestBody Map<String, Object> param) {
 
-    var userId = (String) request.getAttribute("userId");
+    String userId = (String)request.getAttribute("userId");
+    Integer scenarioId = (Integer)param.get("scenarioId");
     var userScenario = userScenarioListService.saveUserScenario(userId, scenarioId);
 
     var successMessage = "시나리오 추가 성공: (ID=" + userScenario + ")";
