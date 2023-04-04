@@ -34,13 +34,14 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final TokenProvider tokenProvider;
     private final UserProfileClient userProfileClient;
 
-    private String redirectLocal = "http://localhost:3000/redirect";
+    @Value("${request.url.front-local-dev-login}")
+    private String DEVELOP_FRONT_REDIRECT_URI;
 
-    @Value("${request.url.front-login}")
-    private String redirectRemote;
+    @Value("${request.url.front-deploy-login}")
+    private String DEPLOY_FRONT_REDIRECT_URI;
 
     private String os = System.getProperty("os.name").toLowerCase();
-    private String redirectUrl = getOs(os);
+    private String REDIRECT_URI = getRedirectURI(os);
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
@@ -94,7 +95,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         }
 
         String targetUrl;
-        targetUrl = UriComponentsBuilder.fromUriString(redirectUrl)
+        targetUrl = UriComponentsBuilder.fromUriString(REDIRECT_URI)
             .queryParam(TokenKey.ACCESS.getKey(), "Bearer-" + tokens.getAccessToken())
             .build().toUriString();
 
@@ -102,10 +103,10 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
 
-    public String getOs(String os) {
+    public String getRedirectURI(String os) {
         if (os.contains("win"))
-            return redirectLocal;
+            return DEVELOP_FRONT_REDIRECT_URI;
 
-        return redirectRemote;
+        return DEPLOY_FRONT_REDIRECT_URI;
     }
 }
