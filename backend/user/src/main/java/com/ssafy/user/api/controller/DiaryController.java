@@ -4,13 +4,13 @@ import com.ssafy.user.api.dto.request.DiaryPostRequest;
 import com.ssafy.user.api.dto.response.BaseResponseBody;
 import com.ssafy.user.api.service.DiaryService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.executable.ValidateOnExecution;
 import java.io.IOException;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -58,7 +58,7 @@ public class DiaryController {
         .body(new BaseResponseBody<>(200, "OK", diary));
   }
 
-  @PostMapping
+  @PostMapping(consumes = {MediaType.ALL_VALUE})
   public ResponseEntity<? extends BaseResponseBody> createDiary(
       @RequestPart
       DiaryPostRequest diary,
