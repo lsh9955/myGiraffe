@@ -41,6 +41,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     // private String DEPLOY_FRONT_REDIRECT_URI;
 
     private String os = System.getProperty("os.name").toLowerCase();
+
     private String REDIRECT_URI = getRedirectURI(os);
 
     @Override
@@ -94,6 +95,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             userProfileClient.updateImage(userInfoDto);
         }
 
+        log.info("os = {}", os);
+
         String REDIRECT_URI = getRedirectURI(os);
         String targetUrl = UriComponentsBuilder.fromUriString(REDIRECT_URI)
             .queryParam(TokenKey.ACCESS.getKey(), "Bearer-" + tokens.getAccessToken())
@@ -104,7 +107,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     }
 
     public String getRedirectURI(String os) {
-        if (System.getProperty("os.name").toLowerCase().contains("win"))
+        if (os.contains("win"))
             return "http://localhost:3000/redirect";
 
         return "https://j8b201.p.ssafy.io/redirect";
