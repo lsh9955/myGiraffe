@@ -55,19 +55,9 @@ const Flip = ({
   };
   return (
     <>
-      <button onClick={handleCapture}>캡쳐하기</button>
       {/* 커버 페이지 -이전 페이지와 동일*/}
       <R.Cover>
-        <div ref={captureRef}>
-          <img
-            src={allContent?.filter((v) => v.pageId == nowPage)[0]?.bgImgUrl}
-            alt="Cover"
-          />
-          <BookText
-            text={allContent?.filter((v) => v.pageId == nowPage)[0]?.script}
-            lost={lost}
-          />
-        </div>
+        <div></div>
       </R.Cover>
       <R.FlipBook className="flip-book">
         <R.Flip id="p1" pageIdx="1" isRendered={isRendered}>
