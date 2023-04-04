@@ -61,7 +61,6 @@ public class DiaryController {
   @PostMapping
   public ResponseEntity<? extends BaseResponseBody> createDiary(
       @RequestPart
-      @Valid
       DiaryPostRequest diary,
       @RequestPart
       MultipartFile diaryImg,
