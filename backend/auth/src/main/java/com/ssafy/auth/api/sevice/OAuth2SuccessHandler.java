@@ -41,7 +41,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     private String redirectLocal = "http://localhost:3000/redirect";
 
-    var os = System.getProperty("os.name").toLowerCase();
+    private String os = System.getProperty("os.name").toLowerCase();
     if (os.contains("win")) redirectUrl = redirectLocal;
     else redirectUrl = redirectRemote;
     
