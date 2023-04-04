@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import CanvasTool from "utils/canvas/CanvasTool";
 import { useSelector } from "react-redux";
@@ -30,7 +30,7 @@ const style = {
   borderRadius: 10,
 };
 
-const NumberMl = () => {
+const NumberMl = ({ pageChangeHandler }) => {
   // 모달 오픈시 필요한 변수
   const [open, setOpen] = useState(true);
   const userSeq = useSelector((state) => state.user.accessToken);
@@ -42,15 +42,13 @@ const NumberMl = () => {
   const [getImg, setGetImg] = useState(null);
   const getImgHandler = (e) => {
     setGetImg(e);
-  };
-  useEffect(() => {
     const NumMl = async () => {
       await axios
         .post(
-          // "https://j8b201.p.ssafy.io/api/numbers",
-          "http://192.168.31.87:5000/api/numbers",
+          "https://j8b201.p.ssafy.io/api/numbers",
+          // "http://192.168.31.87:5000/api/numbers",
           {
-            base64_drawing: String(getImg),
+            base64_drawing: String(e.slice(22)),
           },
           {
             headers: {
@@ -60,13 +58,18 @@ const NumberMl = () => {
         )
         .then((response) => {
           console.log(response);
+          if (response.data === Number("9")) {
+            pageChangeHandler(32);
+          } else {
+            pageChangeHandler(10);
+          }
         })
         .catch((error) => {
           console.log(error);
         });
     };
     NumMl();
-  }, [getImg]);
+  };
 
   return (
     <>

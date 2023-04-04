@@ -26,10 +26,6 @@ function App() {
 
   const userSeq = useSelector((state) => state.user.userId);
 
-  useEffect(() => {
-    console.log(userSeq);
-  }, [userSeq]);
-
   return (
     <div style={{ position: "relative" }}>
       <Switch>

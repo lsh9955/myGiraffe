@@ -17,20 +17,18 @@ import {
 //mui아이콘 중 방향 버튼 아이콘을 가져
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+
 const MyDiaryList = () => {
   // axios로 내 스케치북 데이터 불러오기
   const userSeq = useSelector((state) => state.user.accessToken);
   useEffect(() => {
     const sketchBooks = async () => {
       await axios
-        .get(
-          "https://port-0-nodebook-1b5xkk2fldhlzqkd.gksl2.cloudtype.app/sketchbook",
-          {
-            headers: {
-              Authorization: userSeq,
-            },
-          }
-        )
+        .get("https://j8b201.p.ssafy.io/api/members/diaries/list", {
+          headers: {
+            Authorization: userSeq,
+          },
+        })
         .then((response) => {
           console.log(response.data);
           setDatas(response.data);
@@ -96,15 +94,19 @@ const MyDiaryList = () => {
   return (
     <Container>
       <TitleContainer>내 그림일기</TitleContainer>
-      <Slider {...settings}>
-        {datas.map((data) => (
-          <MydraweritemContainer>
-            <MySketchbookimage src={data.img} />
-            <ImgTitle>{data.titl}</ImgTitle>
-            <ImgP>{data.date}</ImgP>
-          </MydraweritemContainer>
-        ))}
-      </Slider>
+      {datas.length > 0 ? (
+        <Slider {...settings}>
+          {datas.map((data) => (
+            <MydraweritemContainer>
+              <MySketchbookimage src={data.img} />
+              <ImgTitle>{data.titl}</ImgTitle>
+              <ImgP>{data.date}</ImgP>
+            </MydraweritemContainer>
+          ))}
+        </Slider>
+      ) : (
+        <></>
+      )}
     </Container>
   );
 };

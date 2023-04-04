@@ -12,7 +12,7 @@ import {
   Typography,
   Modal,
 } from "@mui/material/";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -23,7 +23,9 @@ import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 
 import * as S from "./SidebarStyle";
+import { login } from "store/AuthSlice";
 import { Buttontwo } from "components/common/button/ButtonStyle";
+import axios from "axios";
 /**사이드바 컴포넌트 */
 
 // 결제 모달 스타일
@@ -42,6 +44,9 @@ const style = {
 };
 
 const Sidebar = () => {
+  // dispatch 변수
+  const dispatch = useDispatch();
+
   // 모달창 오픈할 때 필요한 변수
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -50,19 +55,12 @@ const Sidebar = () => {
     setKeyCount(0);
     setTotalPayment(0);
   };
-
+  const userSeq = useSelector((state) => state.user);
   // 열쇠 개수
-  const [keyCount, setKeyCount] = useState();
+  const [keyCount, setKeyCount] = useState(0);
   // 총 결제 금액
   const [totalPayment, setTotalPayment] = useState(0);
-  const userKeyAmount = useSelector((state) => {
-    state.user.coinAmount;
-  });
-  //유저 정보 가져오기
-  useEffect(() => {
-    console.log(userKeyAmount);
-    setKeyCount(userKeyAmount);
-  }, []);
+
   // 열쇠 증가 함수
   const keyUp = () => {
     setKeyCount(keyCount + 1);
@@ -97,13 +95,46 @@ const Sidebar = () => {
     IMP.request_pay(data, callback);
   };
 
+  // 결제 모듈 성공시 axios patch로 열쇠 개수 변경
   const callback = (response) => {
     const { success, error_msg } = response;
     if (success) {
       alert("결제해주셔서 감사합니다!");
+      console.log(keyCount);
       handleClose();
+      // 추후 dispatch에 추가할 것
+
+      dispatch(
+        login({
+          accessToken: userSeq.accessToken,
+          userId: userSeq.userId,
+          userName: userSeq.userName,
+          profileImg: userSeq.profileImg,
+          coinAmount: userSeq.coinAmount + keyCount,
+        })
+      );
+      axios
+        .patch(
+          "https://j8b201.p.ssafy.io/api/members",
+          { keyAmount: userSeq.coinAmount + keyCount },
+          {
+            headers: {
+              Authorization: userSeq.accessToken,
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     } else {
-      alert(`${error_msg}`);
+      if (error_msg && error_msg.includes("결제요청금액이 0원입니다.")) {
+        alert("결제요청금액이 0원입니다.");
+      } else if (error_msg) {
+        alert(`${error_msg}`);
+      }
     }
   };
 
@@ -132,18 +163,19 @@ const Sidebar = () => {
     >
       <S.Container>
         <S.UserImg
-          src={defaultUserImg}
+          src={userSeq?.profileImg}
           alt="기본유저이미지"
           style={{ height: "10vh", marginTop: "5vh" }}
         />
       </S.Container>
 
       <S.MarginContainer></S.MarginContainer>
-      <S.UserName>유저 이름</S.UserName>
+      <S.UserName>{userSeq?.userName}</S.UserName>
       <S.KeyBackground>
         <button>
           <p>
-            5<span>열쇠</span>
+            {userSeq?.coinAmount}
+            <span>열쇠</span>
           </p>
         </button>
       </S.KeyBackground>

@@ -10,16 +10,13 @@ const RedirectPage = () => {
   useEffect(() => {
     const getUserInfo = async () => {
       console.log(location.search.split("?Authorization=")[1]);
-      const infoRes = await axios.get(
-        "https://j8b201.p.ssafy.io/api/members",
-        {
-          headers: {
-            Accept: "*/*",
-            Authorization: location.search.split("?Authorization=")[1],
-          },
-        }
-      );
-      console.log(infoRes);
+      const infoRes = await axios.get("https://j8b201.p.ssafy.io/api/members", {
+        headers: {
+          Accept: "*/*",
+          Authorization: location.search.split("?Authorization=")[1],
+        },
+      });
+
       dispatch(
         login({
           accessToken: location.search.split("?Authorization=")[1],
@@ -27,7 +24,6 @@ const RedirectPage = () => {
           userName: infoRes.data.content.userName,
           profileImg: infoRes.data.content.profileImg,
           coinAmount: infoRes.data.content.coinAmount,
-          accessToken: infoRes.data.content.accessToken,
         })
       );
     };
