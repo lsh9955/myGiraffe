@@ -36,27 +36,27 @@ const CanvasToolDiary = ({ bgImg }) => {
     // form 데이터로 만듦
     const diaryData = new FormData();
     // urltoFile 함수로 이미지를 파일형태로 바꿈
-    urltoFile(base64, "diary.png", "image/png").then();
 
-    diaryData.append("diary", { diaryTraceData: data });
-    diaryData.append("diaryImg", base64);
-
-    axios
-      .post(
-        "https://j8b201.p.ssafy.io/api/members/diaries",
-        { data: diaryData },
-        {
+    urltoFile(base64, "diary.png", "image/png").then(function (file) {
+      diaryData.append("diaryImg", file);
+      const changeJSON = JSON.stringify({ diaryTraceData: data });
+      const blob = new Blob([changeJSON], { type: "application/json" });
+      diaryData.append("diary", blob);
+      axios
+        .post("https://j8b201.p.ssafy.io/api/members/diaries", diaryData, {
           headers: {
+            "Content-Type": "multipart/form-data",
             Authorization: userSeq.accessToken,
           },
-        }
-      )
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+        })
+        .then((response) => {
+          console.log(response);
+          console.log("저장 성공");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
   };
 
   const handleChangeComplete = (color) => {
