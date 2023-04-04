@@ -63,14 +63,12 @@ public class SketchController {
       @RequestPart
       @Valid
       SketchPostRequest sketch,
-      @RequestHeader("userId") String userId,
       @RequestPart
       MultipartFile sketchImg,
       HttpServletRequest request) throws IOException {
 
-    sketch.setUserId(userId);
-
-    var id = sketchService.saveSketch(sketch, sketchImg);
+    var userId = (String) request.getAttribute("userId");
+    var id = sketchService.saveSketch(userId, sketch, sketchImg);
 
     var location = URI.create(request.getRequestURI() + "/" + id);
     var successMessage = "스케치북 생성 성공: (ID=" + id + ")";
