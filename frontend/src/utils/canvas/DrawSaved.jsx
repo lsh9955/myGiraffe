@@ -3,9 +3,10 @@ import CanvasDraw from "@win11react/react-canvas-draw";
 import * as C from "./CanvasToolStyle";
 //그린 그림 애니메이션으로 불러오기
 const DrawSaved = (props) => {
+  console.log(props);
   const secCanvasRef = useRef(null);
   const eventH = () => {
-    secCanvasRef.current.loadSaveData(props.data);
+    secCanvasRef.current.loadSaveData(props.sketchDraw);
   };
   return (
     <C.Container>

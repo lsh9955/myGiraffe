@@ -23,6 +23,7 @@ const StoryPage = ({
   allContent,
   alreadyReadPage,
   handleCapture,
+  saveBookId,
 }) => {
   const [isRendered, setIsRendered] = useState(false);
   const [firPageflip, setFirPageflip] = useState(false);
@@ -225,6 +226,7 @@ const StoryPage = ({
           picHandler={picHandler}
           lost={lost}
           pageChangeHandler={pageChangeHandler}
+          saveBookId={saveBookId}
         />
       )}
     </R.Book>
