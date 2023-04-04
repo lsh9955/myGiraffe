@@ -19,7 +19,6 @@ const Flip = ({
 }) => {
   const userSeq = useSelector((state) => state.user);
 
-  console.log(allContent);
   return (
     <>
       {/* 커버 페이지 -이전 페이지와 동일*/}

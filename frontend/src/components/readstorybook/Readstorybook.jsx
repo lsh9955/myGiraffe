@@ -4,10 +4,11 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 
 /**읽고 있는 동화책 컴포넌트 */
-const Readstorybook = ({ handleCapture }) => {
+const Readstorybook = ({ handleCapture, getPageImg }) => {
   const [pageInfo, setPageInfo] = useState([1]);
   const [nowPage, setNowPage] = useState(1);
   const [allContent, setAllContent] = useState([]);
+  const [saveBookId, setSaveBookId] = useState(null);
   const userSeq = useSelector((state) => state.user);
 
   const pageChangeHandler = (e) => {
@@ -25,6 +26,7 @@ const Readstorybook = ({ handleCapture }) => {
   //책 내용 가져오기
   useEffect(() => {
     const res = async () => {
+      console.log(userSeq.accessToken);
       const book = await axios.get(
         "https://j8b201.p.ssafy.io/api/books/pages/1",
         {
@@ -39,7 +41,7 @@ const Readstorybook = ({ handleCapture }) => {
 
       axios
         .post(
-          "http://j8b201.p.ssafy.io:9011/api/members/books",
+          "https://j8b201.p.ssafy.io/api/members/books",
           {
             // 현재는 동화책이 하나밖에 없음
             scenarioId: 1,
@@ -51,14 +53,63 @@ const Readstorybook = ({ handleCapture }) => {
           }
         )
         .then((response) => {
-          console.log(
-            "#######################################################"
+          let saveBookId = response.data.content;
+          saveBookId = response.data.content.slice(
+            saveBookId.indexOf("=") + 1,
+            saveBookId.length - 1
           );
-          console.log(response);
+          setSaveBookId(saveBookId);
+          console.log("내 서재에 책 생성 완료");
         });
     };
     res();
   }, []);
+
+  //base64를 파일 객체로 만들기
+  function urltoFile(url, filename, mimeType) {
+    return fetch(url)
+      .then(function (res) {
+        return res.arrayBuffer();
+      })
+      .then(function (buf) {
+        return new File([buf], filename, { type: mimeType });
+      });
+  }
+
+  const savePage = async (saveBookId) => {
+    // const pagePayload = {
+    //   myBookPage: { bookId: saveBookId, pageNo: nowPage },
+    //   bgImg: "",
+    //   interUserImg: "",
+    // };
+
+    // formdata에 전송할 데이터 담기
+    const formData = new FormData();
+
+    urltoFile(getPageImg, "bgImg.png", "image/png").then(function (file) {
+      // 파일
+      formData.append("bgImg", file);
+      formData.append("interUserImg", file);
+      console.log(file);
+    });
+    formData.append("myBookPage", { bookId: saveBookId, pageNo: nowPage });
+    console.log(formData);
+    axios
+      .post("https://j8b201.p.ssafy.io/api/members/pages", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+
+          "Content-Type": "application/json",
+          Authorization: userSeq.accessToken,
+        },
+      })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    savePage(saveBookId);
+  }, [nowPage]);
 
   return (
     <>
