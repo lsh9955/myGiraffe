@@ -104,7 +104,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     }
 
     public String getRedirectURI(String os) {
-        if (os.contains("win"))
+        if (System.getProperty("os.name").toLowerCase().contains("win"))
             return "http://localhost:3000/redirect";
 
         return "https://j8b201.p.ssafy.io/redirect";
