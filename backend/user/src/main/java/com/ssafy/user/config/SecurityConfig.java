@@ -46,8 +46,8 @@ public class SecurityConfig {
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
 			.authorizeRequests()
-			.requestMatchers("/api/members/**").permitAll()
-			// .requestMatchers("/api/members/image").permitAll()
+			.requestMatchers("/api/members/user").permitAll()
+			.requestMatchers("/api/members/image").permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.addFilterBefore(customAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
