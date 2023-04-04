@@ -34,11 +34,11 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     private final TokenProvider tokenProvider;
     private final UserProfileClient userProfileClient;
 
-    @Value("${request.url.front-local-dev-login}")
-    private String DEVELOP_FRONT_REDIRECT_URI;
+    // @Value("${request.url.front-local-dev-login}")
+    // private String DEVELOP_FRONT_REDIRECT_URI;
 
-    @Value("${request.url.front-deploy-login}")
-    private String DEPLOY_FRONT_REDIRECT_URI;
+    // @Value("${request.url.front-deploy-login}")
+    // private String DEPLOY_FRONT_REDIRECT_URI;
 
     private String os = System.getProperty("os.name").toLowerCase();
     private String REDIRECT_URI = getRedirectURI(os);
@@ -94,8 +94,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             userProfileClient.updateImage(userInfoDto);
         }
 
-        String targetUrl;
-        targetUrl = UriComponentsBuilder.fromUriString(REDIRECT_URI)
+        String REDIRECT_URI = getRedirectURI(os);
+        String targetUrl = UriComponentsBuilder.fromUriString(REDIRECT_URI)
             .queryParam(TokenKey.ACCESS.getKey(), "Bearer-" + tokens.getAccessToken())
             .build().toUriString();
 
@@ -105,8 +105,8 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     public String getRedirectURI(String os) {
         if (os.contains("win"))
-            return DEVELOP_FRONT_REDIRECT_URI;
+            return "http://localhost:3000/redirect";
 
-        return DEPLOY_FRONT_REDIRECT_URI;
+        return "https://j8b201.p.ssafy.io/redirect";
     }
 }
