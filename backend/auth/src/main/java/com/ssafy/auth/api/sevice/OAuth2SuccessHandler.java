@@ -101,4 +101,11 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         // 프론트 페이지로 리다이렉트
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
+
+    public String getOs(String os) {
+        if (os.contains("win"))
+            return redirectLocal;
+
+        return redirectRemote;
+    }
 }
