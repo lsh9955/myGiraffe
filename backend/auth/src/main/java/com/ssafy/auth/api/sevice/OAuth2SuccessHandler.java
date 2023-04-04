@@ -19,10 +19,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.ContentCachingRequestWrapper;
 import org.springframework.web.util.UriComponentsBuilder;
 
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Map;
 
 @Slf4j
@@ -42,11 +44,13 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     private String os = System.getProperty("os.name").toLowerCase();
 
-    private String REDIRECT_URI = getRedirectURI(os);
+    private String REDIRECT_URI;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
         throws IOException {
+        ContentCachingRequestWrapper requestWrapper = new ContentCachingRequestWrapper(request);
+
         OAuth2User oAuth2User = (OAuth2User)authentication.getPrincipal();
         Map<String, Object> attributes = oAuth2User.getAttributes();
 
@@ -95,20 +99,24 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             userProfileClient.updateImage(userInfoDto);
         }
 
-        log.info("os = {}", os);
 
-        String REDIRECT_URI = getRedirectURI(os);
+
+        String REDIRECT_URI = getRedirectURI(requestWrapper);
         String targetUrl = UriComponentsBuilder.fromUriString(REDIRECT_URI)
             .queryParam(TokenKey.ACCESS.getKey(), "Bearer-" + tokens.getAccessToken())
             .build().toUriString();
 
         // 프론트 페이지로 리다이렉트
-        getRedirectStrategy().sendRedirect(request, response, targetUrl);
+        getRedirectStrategy().sendRedirect(requestWrapper, response, targetUrl);
     }
 
-    public String getRedirectURI(String os) {
-        if (os.contains("win"))
+    public String getRedirectURI(HttpServletRequest request) {
+
+        log.info("host = {}", request.getHeader("User-Agent"));
+
+        if (request.getHeader("User-Agent").toLowerCase().contains("win"))
             return "http://localhost:3000/redirect";
+
 
         return "https://j8b201.p.ssafy.io/redirect";
     }
