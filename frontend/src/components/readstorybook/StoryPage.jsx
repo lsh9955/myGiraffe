@@ -14,7 +14,7 @@ import Ball from "assets/image/storybookinside/ball.png";
 import HappyBirthdayStone from "assets/image/storybookinside/happyBirthdayStone.png";
 import Rose from "assets/image/storybookinside/rose.png";
 // mui
-import { Modal, Box } from "@mui/material/";
+import { Modal } from "@mui/material/";
 
 /**읽고 있는 동화책 컴포넌트 (현재 페이지, 페이지 바뀔 때 이벤트, 모든 페이지 정보, 현재까지 읽은 페이지 정보)*/
 const StoryPage = ({
@@ -65,18 +65,6 @@ const StoryPage = ({
   const [open2, setOpen2] = useState(false);
   // 선생님 장미
   const [open3, setOpen3] = useState(false);
-
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
-  };
 
   useEffect(() => {
     if (isRendered) {
@@ -166,9 +154,7 @@ const StoryPage = ({
             />
           </R.TeachersItemPositionPicture>
           <Modal open={open1} onClose={() => setOpen1(false)}>
-            <Box sx={style}>
-              <R.ModalPicture src={HappyBirthdayStone} />
-            </Box>
+            <R.ModalPicture src={HappyBirthdayStone} />
           </Modal>
 
           <R.TeachersItemPositionBall onClick={() => setOpen2(true)}>
