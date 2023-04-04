@@ -24,7 +24,7 @@ const MyDiaryList = () => {
   useEffect(() => {
     const sketchBooks = async () => {
       await axios
-        .get("http://j8b201.p.ssafy.io:9011/api/members/diaries/list", {
+        .get("https://j8b201.p.ssafy.io/api/members/diaries/list", {
           headers: {
             Authorization: userSeq,
           },

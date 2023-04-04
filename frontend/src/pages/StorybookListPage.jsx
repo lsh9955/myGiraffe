@@ -11,7 +11,7 @@ const StorybookListPage = () => {
   useEffect(() => {
     const sketchBooks = async () => {
       await axios
-        .get("http://j8b201.p.ssafy.io:9021/api/books/scenarios", {
+        .get("https://j8b201.p.ssafy.io/api/books/scenarios", {
           headers: {
             Authorization: userSeq,
           },

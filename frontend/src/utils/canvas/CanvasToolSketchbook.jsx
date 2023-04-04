@@ -24,7 +24,7 @@ const CanvasToolSketchbook = ({ bgImg }) => {
 
     axios
       .post(
-        "http://j8b201.p.ssafy.io:9011/api/members/sketch",
+        "https://j8b201.p.ssafy.io/api/members/sketch",
         { data: sketchData },
         {
           headers: {
