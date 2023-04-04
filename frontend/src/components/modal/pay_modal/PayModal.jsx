@@ -31,20 +31,17 @@ const PayModal = ({ data, handleClose, buyHandler }) => {
 
   const handleBuy = () => {
     const getUserInfo = async () => {
-      const infoRes = await axios.get(
-        "http://j8b201.p.ssafy.io:9011/api/members",
-        {
-          headers: {
-            Accept: "*/*",
-            Authorization: userSeq.accessToken,
-          },
-        }
-      );
+      const infoRes = await axios.get("https://j8b201.p.ssafy.io/api/members", {
+        headers: {
+          Accept: "*/*",
+          Authorization: userSeq.accessToken,
+        },
+      });
       const nowUserCoin = infoRes.data.content.coinAmount;
       //사용자에게 시나리오 추가
       axios
         .post(
-          "http://j8b201.p.ssafy.io:9011/api/members",
+          "https://j8b201.p.ssafy.io/api/members",
           { scenarioId: data.scenarioId },
           {
             headers: {

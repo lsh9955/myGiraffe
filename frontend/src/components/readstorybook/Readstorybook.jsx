@@ -90,16 +90,20 @@ const Readstorybook = ({ handleCapture, getPageImg }) => {
       // 파일
       formData.append("bgImg", file);
       formData.append("interUserImg", file);
-      console.log(file);
     });
-    formData.append("myBookPage", { bookId: saveBookId, pageNo: nowPage });
-    console.log(formData);
+
+    formData.append(
+      "myBookPage",
+      JSON.stringify({ bookId: saveBookId, pageNo: nowPage })
+    );
+    console.log("###########################################", formData);
     axios
       .post("https://j8b201.p.ssafy.io/api/members/pages", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          charset: "utf-8",
+          // "Content-Type": "application/json; multipart/form-data;",
 
-          "Content-Type": "application/json",
           Authorization: userSeq.accessToken,
         },
       })
