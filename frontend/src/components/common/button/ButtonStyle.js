@@ -32,3 +32,21 @@ export const Buttontwo = styled.button`
     cursor: pointer;
   }
 `;
+
+export const Buttonthree = styled.button`
+  border: none;
+  border-radius: 20px;
+  /* padding: 15px; */
+  /* margin: 15px; */
+  min-height: 50px;
+  min-width: 150px;
+  background-color: #ff8f5c;
+  color: #ffffff;
+  font-size: large;
+  font-weight: bold;
+
+  &:hover {
+    background-color: #f64d00;
+    cursor: pointer;
+  }
+`;
