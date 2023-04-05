@@ -116,3 +116,11 @@ export const ImgP = styled.p`
   width: 90%;
   font-size: 150%;
 `;
+
+export const NoContentContainer = styled.div`
+  width: 90%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
