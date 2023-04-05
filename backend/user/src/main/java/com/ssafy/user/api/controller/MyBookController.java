@@ -95,7 +95,7 @@ public class MyBookController {
 
   @DeleteMapping
   public ResponseEntity<? extends BaseResponseBody> deleteMyBook(
-      @PathVariable
+      @RequestBody
       @Positive(message = "필수 입력값 입니다(양수).")
       Integer bookId) {
 
