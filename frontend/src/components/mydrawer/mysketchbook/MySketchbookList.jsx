@@ -12,6 +12,7 @@ import {
   AfterBtn,
   ImgTitle,
   ImgP,
+  NoContentContainer,
 } from "components/mydrawer/MydrawerStyle";
 //mui아이콘 중 방향 버튼 아이콘을 가져
 import { Modal, Box } from "@mui/material/";
@@ -158,7 +159,9 @@ const MySketchbookList = () => {
           ))}
         </Slider>
       ) : (
-        <></>
+        <NoContentContainer>
+          <ImgP>스케치북이 없어요</ImgP>
+        </NoContentContainer>
       )}
     </Container>
   );
