@@ -15,7 +15,8 @@ import {
   ImgP,
 } from "components/mydrawer/MydrawerStyle";
 //mui아이콘 중 방향 버튼 아이콘을 가져
-import Modal from "@mui/material/Modal";
+import { Modal, Box } from "@mui/material/";
+import { Buttonthree } from "components/common/button/ButtonStyle";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import DrawSaved from "utils/canvas/DrawSaved";
@@ -61,8 +62,9 @@ const MyDiaryList = () => {
       })
       .then((response) => {
         console.log(response.data.content.diaryTraceData);
-        setOpen(true);
+
         setSketchDraw(response.data.content.diaryTraceData);
+        setOpen(true);
       })
       .catch((error) => {
         console.log(error);
@@ -117,6 +119,21 @@ const MyDiaryList = () => {
     nextArrow: <SampleNextArrow />,
   };
 
+  // 모달 mui 스타일
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    border: "1px solid #ff8f5c",
+    boxShadow: 24,
+    outline: "none",
+    p: 4,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  };
+
   return (
     <Container>
       <TitleContainer>내 그림일기</TitleContainer>
@@ -125,13 +142,17 @@ const MyDiaryList = () => {
           {datas.map((data) => (
             <MydraweritemContainer key={data.diaryId}>
               <MySketchbookimage
-                bgImg={diaryBackground}
                 src={data.diaryImgUrl}
+                bgimg={diaryBackground}
                 onClick={() => handleClick(data.diaryId)}
               />
-              {/* <Modal open={open} onClose={handleClose}>
-              </Modal> */}
-              <DrawSaved sketchDraw={sketchDraw} />
+              <Modal open={open} onClose={handleClose}>
+                <Box sx={style}>
+                  <DrawSaved sketchDraw={sketchDraw} />
+                  <Buttonthree onClick={handleClose}>확인</Buttonthree>
+                </Box>
+              </Modal>
+
               <ImgP>
                 {new Date(data.savedAt).toLocaleString("ko-KR", {
                   timeZone: "Asia/Seoul",
