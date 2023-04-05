@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 import CanvasTool from "utils/canvas/CanvasTool";
 import {
   SketchWriteContainer,
@@ -28,7 +29,10 @@ const style = {
   borderRadius: 10,
 };
 
-const GhostfeedMl = () => {
+const GhostfeedMl = ({ pageChangeHandler }) => {
+  //유저 정보 가져오기
+  const userSeq = useSelector((state) => state.user);
+
   // 모달 오픈시 필요한 변수
   const [open, setOpen] = useState(true);
   const handleClose = () => {
@@ -52,14 +56,21 @@ const GhostfeedMl = () => {
           },
           {
             headers: {
-              Authorization: process.env.REACT_APP_TOKEN,
+              Authorization: userSeq.accessToken,
             },
           }
         )
         .then((response) => {
-          //   let fruit = ["Fruits","Fruit",Plant,Plants"]
-          //   console.log(response);
-          //   if(response.data===)
+          console.log(response);
+          let fruit = ["Fruits", "Fruit", "Plant", "Plants"];
+          let Bug = ["Insect", "Insects", "Bug", "Bugs"];
+          if (fruit.indexOf(response.data) !== -1) {
+            pageChangeHandler(25);
+          } else if (Bug.indexOf(response.data) !== -1) {
+            pageChangeHandler(26);
+          } else {
+            pageChangeHandler(27);
+          }
         })
         .catch((error) => {
           console.log(error);

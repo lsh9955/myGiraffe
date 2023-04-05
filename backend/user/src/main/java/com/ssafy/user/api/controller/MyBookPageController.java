@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @Slf4j
 @Validated
 @ValidateOnExecution
@@ -66,7 +67,7 @@ public class MyBookPageController {
         .body(new BaseResponseBody<>(200, "OK", pages));
   }
 
-  @PostMapping
+  @PostMapping(consumes = {MediaType.ALL_VALUE})
   public ResponseEntity<? extends BaseResponseBody> createPage(
       @RequestPart
       @Valid
@@ -87,7 +88,7 @@ public class MyBookPageController {
         .body(new BaseResponseBody<>(201, "Created", successMessage));
   }
 
-  @DeleteMapping("/{pageId}")
+  @DeleteMapping(value = "/{pageId}")
   public ResponseEntity<? extends BaseResponseBody> deletePage(
       @Positive(message = "필수 입력값입니다(양수).")
       @PathVariable Integer pageId) {

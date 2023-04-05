@@ -1,21 +1,27 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import CanvasDraw from "@win11react/react-canvas-draw";
 import * as C from "./CanvasToolStyle";
 //그린 그림 애니메이션으로 불러오기
 const DrawSaved = (props) => {
+  console.log(props);
   const secCanvasRef = useRef(null);
-  const eventH = () => {
-    secCanvasRef.current.loadSaveData(props.data);
-  };
+  // const eventH = () => {
+  //   secCanvasRef.current.loadSaveData(props.sketchDraw);
+  // };
+  useEffect(() => {
+    if (typeof props.sketchDraw === "string") {
+      secCanvasRef.current.loadSaveData(props.sketchDraw);
+    }
+  }, [props.sketchDraw]);
   return (
     <C.Container>
-      <button
+      {/* <button
         onClick={() => {
           eventH();
         }}
       >
         그리기
-      </button>
+      </button> */}
       <C.DrawWrap>
         <CanvasDraw
           loadTimeOffset={7}

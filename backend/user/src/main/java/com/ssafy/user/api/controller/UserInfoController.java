@@ -4,10 +4,8 @@ import com.ssafy.user.api.dto.request.UserInfoPostRequest;
 import com.ssafy.user.api.dto.response.BaseResponseBody;
 import com.ssafy.user.api.service.UserInfoService;
 import com.ssafy.user.api.service.UserScenarioListService;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.executable.ValidateOnExecution;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;import java.util.M
 @CrossOrigin
 @Slf4j
 @Validated
-@ValidateOnExecution
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("api/members")
