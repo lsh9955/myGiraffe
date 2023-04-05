@@ -41,7 +41,7 @@ public class ImageUrlProvider {
    */
   public String getImageUrl(MultipartFile image) throws IOException {
 
-      if (image == null) {
+      if (image == null || image.getBytes().length == 0) {
           return null;
       }
 
