@@ -7,8 +7,6 @@ import lombok.Data;
 @Data
 public class UserInfoGetResponse {
 
-  private String userId;
-
   private String userName;
 
   private String profileImg;
@@ -17,7 +15,6 @@ public class UserInfoGetResponse {
 
   @Builder
   public UserInfoGetResponse(UserInfo userInfo) {
-    this.userId = userInfo.getUserId();
     this.userName = userInfo.getUserName();
     this.profileImg = userInfo.getProfileImg();
     this.coinAmount = userInfo.getCoinAMount();
