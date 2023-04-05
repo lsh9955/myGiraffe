@@ -20,8 +20,6 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import DrawSaved from "utils/canvas/DrawSaved";
 
-import diaryBackground from "assets/image/diaryBackground.svg";
-
 const MySketchbookList = () => {
   // 모달 오픈 변수
   const [open, setOpen] = useState(false);
@@ -143,7 +141,6 @@ const MySketchbookList = () => {
             <MydraweritemContainer key={data.sketchId}>
               <MySketchbookimage
                 src={data.sketchImgUrl}
-                bgimg={diaryBackground}
                 onClick={() => handleClick(data.sketchId)}
               />
               <Modal open={open} onClose={handleClose}>
