@@ -36,7 +36,7 @@ public class UserInfo extends BaseTimeEntity {
   private String userName;
 
   @Column(name = "profile_img", nullable = false)
-  private String profileImg;
+  private String profileImgUrl;
 
   @Column(name = "coin_amount", nullable = false)
   @ColumnDefault("0")
@@ -54,4 +54,7 @@ public class UserInfo extends BaseTimeEntity {
   @JsonManagedReference
   private List<Sketch> sketches = new ArrayList<>();
 
+  public void setProfileImgUrl(String imageUrl) {
+    this.profileImgUrl = imageUrl;
+  }
 }
