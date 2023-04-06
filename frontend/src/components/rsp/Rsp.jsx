@@ -84,7 +84,6 @@ const Rsp = ({ pageChangeHandler }) => {
       if (timer === 0) {
         clearInterval(interval);
         setIsChange(false);
-        console.log(ghostHandFi);
       }
 
       return () => clearInterval(interval);

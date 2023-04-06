@@ -18,7 +18,6 @@ const MyBookDetailMain = () => {
   };
 
   useEffect(() => {
-    console.log(params.mybookId);
     axios
       .get(`https://j8b201.p.ssafy.io/api/members/books/${params.mybookId}`, {
         headers: {
@@ -27,7 +26,6 @@ const MyBookDetailMain = () => {
       })
       .then((res) => {
         setBookPageArr(res.data.content);
-        console.log(res);
       });
   }, []);
   const clickPic = (e) => {
@@ -43,7 +41,7 @@ const MyBookDetailMain = () => {
         clickPage={clickPage}
         userDraw={userDraw}
       />
-      <M.BookName>{bookPageArr?.bookName}</M.BookName>
+      <M.BookName></M.BookName>
       <M.BookPageImg>
         {bookPageArr?.myBookPageList?.map((v, i) => {
           return JSON.parse(v.objUserData).userDraw ? (

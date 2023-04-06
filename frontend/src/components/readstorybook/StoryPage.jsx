@@ -71,10 +71,6 @@ const StoryPage = ({
   const [open3, setOpen3] = useState(false);
 
   useEffect(() => {
-    if (isRendered) {
-      console.log(allContent);
-      console.log(nowPage);
-    }
     if (firPageflip) {
       setTimeout(() => {
         if (alreadyReadPage.length <= 1) {

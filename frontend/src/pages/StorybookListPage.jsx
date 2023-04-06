@@ -18,10 +18,9 @@ const StorybookListPage = () => {
         })
         .then((response) => {
           setBookData(response.data.content);
-          console.log(response.data.content);
         })
         .catch((error) => {
-          console.log(error);
+          alert("오류가 발생했습니다. 다시 시도해 주세요");
         });
     };
     sketchBooks();
