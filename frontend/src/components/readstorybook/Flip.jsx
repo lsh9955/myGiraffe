@@ -1,6 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 //mui아이콘 중 방향 버튼 아이콘을 가져오기
-import one from "./1.jpg";
 import axios from "axios";
 import * as R from "./ReadstorybookStyle";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
@@ -9,6 +8,7 @@ import BookText from "./BookText";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import html2canvas from "html2canvas";
+import Storyend from "components/modal/storyend_modal/Storyend";
 const Flip = ({
   isRendered,
   allContent,
@@ -19,42 +19,22 @@ const Flip = ({
 
   saveBookId,
 }) => {
-  const captureRef = useRef(null);
-  const handleCapture = () => {
-    html2canvas(captureRef.current).then((canvas) => {
-      const dataUrl = canvas.toDataURL();
-
-      console.log(dataUrl);
-      // 이미지 데이터를 사용하여 다른 작업을 수행합니다.
-    });
-  };
-
   const history = useHistory();
   const userSeq = useSelector((state) => state.user);
-  const bookSaveHandler = () => {
-    axios
-      .put(
-        "https://j8b201.p.ssafy.io/api/members/books",
-        {
-          bookId: saveBookId,
-          bookName: "테스트99",
-        },
-        {
-          headers: {
-            // "Content-Type": "application/json; multipart/form-data;",
-
-            Authorization: userSeq.accessToken,
-          },
-        }
-      )
-      .then((res) => {
-        console.log(res);
-        console.log("책을 정상적으로 저장하였습니다");
-        history.push("/");
-      });
+  const [endOpen, setEndOpen] = useState(false);
+  const openCheck = (e) => {
+    setEndOpen(e);
+  };
+  const bookSave = () => {
+    setEndOpen(true);
   };
   return (
     <>
+      <Storyend
+        openCheck={openCheck}
+        isOpen={endOpen}
+        saveBookId={saveBookId}
+      />
       {/* 커버 페이지 -이전 페이지와 동일*/}
       <R.Cover>
         <div></div>
@@ -114,7 +94,7 @@ const Flip = ({
             {/* 이야기 끝날 때 저장하기 - 수정중 */}
             {allContent?.filter((v) => v.pageId == nowPage)[0]?.nextPage
               .length === 0 && (
-              <R.EndButton onClick={bookSaveHandler}>이야기 끝내기</R.EndButton>
+              <R.EndButton onClick={bookSave}>이야기 끝내기</R.EndButton>
             )}
             <div>
               <BookText

@@ -15,6 +15,7 @@ import HappyBirthdayStone from "assets/image/storybookinside/happyBirthdayStone.
 import Rose from "assets/image/storybookinside/rose.png";
 // mui
 import { Modal } from "@mui/material/";
+import { useSelector, useDispatch } from "react-redux";
 
 /**읽고 있는 동화책 컴포넌트 (현재 페이지, 페이지 바뀔 때 이벤트, 모든 페이지 정보, 현재까지 읽은 페이지 정보)*/
 const StoryPage = ({
@@ -22,9 +23,11 @@ const StoryPage = ({
   pageChangeHandler,
   allContent,
   alreadyReadPage,
-  handleCapture,
+
   saveBookId,
 }) => {
+  const drawSeq = useSelector((state) => state.draw);
+
   const [isRendered, setIsRendered] = useState(false);
   const [firPageflip, setFirPageflip] = useState(false);
   const [secPageflip, setSecPageflip] = useState(false);
@@ -69,8 +72,6 @@ const StoryPage = ({
 
   useEffect(() => {
     if (isRendered) {
-      handleCapture();
-      console.log("캡쳐했어요");
       console.log(allContent);
       console.log(nowPage);
     }
@@ -103,18 +104,14 @@ const StoryPage = ({
   const nextOnlyPage = () => {
     setSecPageflip(true);
   };
-  //잃어버린 물건 state에 저장
-  const lostHandler = (item) => {
-    setLost(item);
-  };
+
   //이벤트 페이지 분류
   const eventPage = [3, 9, 21, 24, 30, 31];
+
   return (
     <R.Book>
       {/* 소중한 그림 그려주기 */}
-      {nowPage === 3 && (
-        <ClassifierMl nextOnlyPage={nextOnlyPage} lostHandler={lostHandler} />
-      )}
+      {nowPage === 3 && <ClassifierMl nextOnlyPage={nextOnlyPage} />}
       {/* 자물쇠 비밀번호 그려주기 */}
       {nowPage === 9 && (
         <FindPasswordMl pageChangeHandler={pageChangeHandler} />
@@ -187,6 +184,20 @@ const StoryPage = ({
             }}
           ></R.TrashBox>
         </>
+      )}
+      {/* 사용자가 그린, 잃어버렸던 물건을 사물함에 보이게 하기 */}
+      {nowPage === 35 && (
+        <img
+          src={drawSeq.drawImg}
+          style={{
+            position: "absolute",
+            top: "0%",
+            left: "0%",
+            zIndex: "4",
+            width: "50%",
+            height: "100%",
+          }}
+        />
       )}
       {/* 유령과 가위바위보 */}
       {nowPage === 21 && <RspPage pageChangeHandler={pageChangeHandler} />}
