@@ -49,13 +49,15 @@ export const TextOverlay = styled.div`
 
 export const Mydraweritemimage = styled.img`
   width: 90%;
+  curser: pointer;
+
   /* width: 200px;
   height: 292px; */
 `;
 
 export const MySketchbookimage = styled.img`
   width: 90%;
-
+  cursor: pointer;
   /* width: 400px;
   height: 274px; */
 `;

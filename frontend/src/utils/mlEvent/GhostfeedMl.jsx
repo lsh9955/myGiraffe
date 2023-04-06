@@ -61,7 +61,6 @@ const GhostfeedMl = ({ pageChangeHandler }) => {
           }
         )
         .then((response) => {
-          console.log(response);
           let fruit = ["Fruits", "Fruit", "Plant", "Plants"];
           let Bug = ["Insect", "Insects", "Bug", "Bugs"];
           if (fruit.indexOf(response.data) !== -1) {
@@ -73,7 +72,7 @@ const GhostfeedMl = ({ pageChangeHandler }) => {
           }
         })
         .catch((error) => {
-          console.log(error);
+          alert("오류가 발생했습니다. 다시 시도해 주세요");
         });
     };
     NumMl();

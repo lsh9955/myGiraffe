@@ -67,8 +67,6 @@ const FindPasswordMl = ({ pageChangeHandler }) => {
           }
         )
         .then((response) => {
-          console.log(response);
-
           if (response.data === "0313") {
             pageChangeHandler(11);
           } else {
