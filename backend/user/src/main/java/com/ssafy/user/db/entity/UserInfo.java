@@ -44,16 +44,13 @@ public class UserInfo extends BaseTimeEntity {
 
   @OneToMany(mappedBy = "userInfo", cascade = CascadeType.ALL)
   @JsonManagedReference
-  @Builder.Default
-  private List<MyBook> myBooks = new ArrayList<>();
+  private List<MyBook> myBooks;
 
   @OneToMany(mappedBy = "userInfo", cascade = CascadeType.ALL)
   @JsonManagedReference
-  @Builder.Default
-  private List<Diary> diaries = new ArrayList<>();
+  private List<Diary> diaries;
 
   @OneToMany(mappedBy = "userInfo", cascade = CascadeType.ALL)
   @JsonManagedReference
-  @Builder.Default
-  private List<Sketch> sketches = new ArrayList<>();
+  private List<Sketch> sketches;
 }

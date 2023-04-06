@@ -47,10 +47,9 @@ public class MyBook extends BaseTimeEntity {
   private Integer scenarioId;
 
 
-  @Builder.Default
   @OneToMany(mappedBy = "myBook", cascade = CascadeType.ALL) // 부모에서 하위 엔티티 변경 적용
   @JsonManagedReference // 1. 연관관계 주인 반대 Entity 에 선언   2. 정상적으로 직렬화 수행
-  private List<MyBookPage> myBookPageList = new ArrayList<>();
+  private List<MyBookPage> myBookPageList;
 
   @Column(name = "is_saved", nullable = false)
   @ColumnDefault("false")
