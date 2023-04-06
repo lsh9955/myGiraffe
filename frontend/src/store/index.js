@@ -7,16 +7,18 @@ import storage from "redux-persist/lib/storage";
 import { persistReducer } from "redux-persist";
 import userReducer from "./AuthSlice";
 import bookReducer from "./BookSlice";
+import drawReducer from "./DrawSlice";
 // getDefaultMiddleware 는 persistReducer에러를 없애기 위해 적용
 const reducers = combineReducers({
   user: userReducer,
   book: bookReducer,
+  draw: drawReducer,
 });
 // persisit 설정
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["user", "book"],
+  whitelist: ["user", "book", "draw"],
 };
 const persistedReducer = persistReducer(persistConfig, reducers);
 
@@ -30,3 +32,4 @@ const store = configureStore({
 });
 
 export default store;
+

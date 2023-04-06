@@ -36,6 +36,7 @@ const DrawSaved = (props) => {
           ref={secCanvasRef}
           canvasHeight="476px"
           canvasWidth="899px"
+          imgSrc={props.bgImg ? props.bgImg : ""}
         />
       </C.DrawWrap>
     </C.Container>
