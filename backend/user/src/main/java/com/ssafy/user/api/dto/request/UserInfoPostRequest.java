@@ -17,6 +17,6 @@ public class UserInfoPostRequest {
 
   private String nickname;
 
-  private String imageUrl;
+  private String image;
 
 }
