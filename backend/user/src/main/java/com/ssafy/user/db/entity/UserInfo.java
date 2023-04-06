@@ -36,7 +36,7 @@ public class UserInfo extends BaseTimeEntity {
   private String userName;
 
   @Column(name = "profile_img", nullable = false)
-  private String profileImgUrl;
+  private String profileImg;
 
   @Column(name = "coin_amount", nullable = false)
   @ColumnDefault("0")
@@ -53,8 +53,4 @@ public class UserInfo extends BaseTimeEntity {
   @OneToMany(mappedBy = "userInfo", cascade = CascadeType.ALL)
   @JsonManagedReference
   private List<Sketch> sketches = new ArrayList<>();
-
-  public void setProfileImgUrl(String imageUrl) {
-    this.profileImgUrl = imageUrl;
-  }
 }
