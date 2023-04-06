@@ -84,6 +84,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             // 토큰 발행
             tokens = tokenProvider.generateToken(userInfoDto.getUserId(), Role.USER.getKey());
 
+            log.info("[Method] Insert User Info");
             // 프로필 DB에 저장
             userProfileClient.insertProfile(userInfoDto);
         } else {
@@ -96,6 +97,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
             tokens = tokenProvider.generateToken(userInfoDto.getUserId(), Role.USER.getKey());
 
+            log.info("[Method] Update Image");
             userProfileClient.updateImage(userInfoDto);
         }
 
@@ -103,7 +105,7 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         String targetUrl = UriComponentsBuilder.fromUriString(REDIRECT_URI)
             .queryParam(TokenKey.ACCESS.getKey(), "Bearer-" + tokens.getAccessToken())
             .build().toUriString();
-
+        
         // 프론트 페이지로 리다이렉트
         getRedirectStrategy().sendRedirect(requestWrapper, response, targetUrl);
     }
