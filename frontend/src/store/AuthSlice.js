@@ -23,11 +23,11 @@ export const AuthSlice = createSlice({
       state.accessToken = action.payload.accessToken;
     },
     logout: (state, action) => {
-      userId = null;
-      userName = null;
-      profileImg = null;
-      coinAmount = null;
-      accessToken = null;
+      state.userId = null;
+      state.userName = null;
+      state.profileImg = null;
+      state.coinAmount = null;
+      state.accessToken = null;
     },
   },
 });

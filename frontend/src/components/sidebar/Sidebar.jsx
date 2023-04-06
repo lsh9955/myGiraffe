@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
   Box,
   Drawer,
@@ -24,6 +24,7 @@ import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrow
 
 import * as S from "./SidebarStyle";
 import { login } from "store/AuthSlice";
+import { logout } from "store/AuthSlice";
 import { Buttontwo } from "components/common/button/ButtonStyle";
 import axios from "axios";
 /**사이드바 컴포넌트 */
@@ -46,7 +47,7 @@ const style = {
 const Sidebar = () => {
   // dispatch 변수
   const dispatch = useDispatch();
-
+  const history = useHistory();
   // 모달창 오픈할 때 필요한 변수
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -100,7 +101,6 @@ const Sidebar = () => {
     const { success, error_msg } = response;
     if (success) {
       alert("결제해주셔서 감사합니다!");
-      console.log(keyCount);
       handleClose();
       // 추후 dispatch에 추가할 것
 
@@ -123,11 +123,9 @@ const Sidebar = () => {
             },
           }
         )
-        .then((response) => {
-          console.log(response);
-        })
+        .then((response) => {})
         .catch((error) => {
-          console.log(error);
+          alert("오류가 발생했습니다. 다시 시도해 주세요");
         });
     } else {
       if (error_msg && error_msg.includes("결제요청금액이 0원입니다.")) {
@@ -214,7 +212,13 @@ const Sidebar = () => {
         <Divider sx={{ bgcolor: "#8BD0FC", height: 2 }} />
 
         <ListItem>
-          <ListItemButton fontSize={66}>
+          <ListItemButton
+            fontSize={66}
+            onClick={() => {
+              dispatch(logout());
+              history.push("/login");
+            }}
+          >
             <LogoutIcon sx={{ width: 80, height: 30, color: "#FF8F5C" }} />
             <ListItemText
               disableTypography={true}

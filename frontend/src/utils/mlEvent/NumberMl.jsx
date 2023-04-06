@@ -57,7 +57,6 @@ const NumberMl = ({ pageChangeHandler }) => {
           }
         )
         .then((response) => {
-          console.log(response);
           if (response.data === Number("9")) {
             pageChangeHandler(32);
           } else {
@@ -65,7 +64,7 @@ const NumberMl = ({ pageChangeHandler }) => {
           }
         })
         .catch((error) => {
-          console.log(error);
+          alert("오류가 발생했습니다. 다시 시도해 주세요");
         });
     };
     NumMl();

@@ -57,11 +57,10 @@ const MyStorybookList = () => {
           },
         })
         .then((response) => {
-          console.log(response.data);
-          setDatas(response.data);
+          setDatas(response.data.content);
         })
         .catch((error) => {
-          console.log(error);
+          alert("오류가 발생했습니다. 다시 시도해 주세요");
         });
     };
     fetchBooks();
@@ -73,13 +72,14 @@ const MyStorybookList = () => {
   // 이전 버튼 스타일
   const SamplePrevArrow = (props) => {
     const { className, style, onClick } = props;
-    console.log(style);
+
     return (
       <BeforeBtn className={className} onClick={onClick}>
         <KeyboardArrowLeftIcon
           sx={{
             color: "black",
             position: "absolute",
+            zIndex: "9999",
             top: "-100%",
             left: "-150%",
             fontSize: "200%",
@@ -131,11 +131,12 @@ const MyStorybookList = () => {
                 <TextOverlay>
                   <div>{data.bookName}</div>
                   <p>
-                    {new Intl.DateTimeFormat("ko-KR", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    }).format(new Date(data.createdAt))}
+                    {data.savedAt &&
+                      new Intl.DateTimeFormat("ko-KR", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      }).format(new Date(data.savedAt))}
                   </p>
                 </TextOverlay>
               </Link>

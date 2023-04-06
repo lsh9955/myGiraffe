@@ -33,12 +33,13 @@ const style = {
   borderRadius: 10,
 };
 
-const ClassifierMl = ({ nextOnlyPage, lostHandler }) => {
+const ClassifierMl = ({ nextOnlyPage }) => {
   // 모달 오픈시 필요한 변수
   const [open, setOpen] = useState(true);
   //다시 그리기 모달 창 컨트롤
   const [isOpen, setIsOpen] = useState(false);
   const userSeq = useSelector((state) => state.user);
+  const bookSeq = useSelector((state) => state.book);
 
   const handleClose = () => {
     setOpen(false);
@@ -70,13 +71,10 @@ const ClassifierMl = ({ nextOnlyPage, lostHandler }) => {
           }
         )
         .then((response) => {
-          console.log(response);
           dispatch(item({ lostItem: response.data }));
-          lostHandler(response.data);
           nextOnlyPage();
         })
         .catch((error) => {
-          console.log(error);
           //모달창 생성해주기
           setIsOpen(true);
         });
@@ -171,7 +169,7 @@ const ClassifierMl = ({ nextOnlyPage, lostHandler }) => {
           (닌텐도 스위치, 축구공, 인형, 일기장, 로봇, 스마트폰) 중에 1개를 골라
           그려주세요.
         </SketchTitle>
-        <CanvasTool getImgHandler={getImgHandler} />
+        <CanvasTool getImgHandler={getImgHandler} isBook={true} />
       </SketchWriteContainer>
     </>
   );

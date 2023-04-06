@@ -54,11 +54,11 @@ const Rsp = ({ pageChangeHandler }) => {
   /**비기지 않아 게임이 종료될 때 게임 종료 여부 알려주는 함수 */
   const endGameHandler = (resultGame) => {
     if (resultGame === "ㅠㅠ 아쉽게 졌다") {
+      setIsGameEnd(true);
       pageChangeHandler(22);
-      setIsGameEnd(true);
     } else if (resultGame === "와아~!! 가위바위보 게임에서 이겼다") {
-      pageChangeHandler(23);
       setIsGameEnd(true);
+      pageChangeHandler(23);
     }
   };
   useEffect(() => {
@@ -84,7 +84,6 @@ const Rsp = ({ pageChangeHandler }) => {
       if (timer === 0) {
         clearInterval(interval);
         setIsChange(false);
-        console.log(ghostHandFi);
       }
 
       return () => clearInterval(interval);
@@ -100,46 +99,44 @@ const Rsp = ({ pageChangeHandler }) => {
   }, [isLoad]);
 
   return (
-    <div>
-      <>
-        <RspStart startHandler={startHandler} isLoad={isLoad}></RspStart>
-        <WinLose
-          ghostHandFi={ghostHandFi}
-          userHand={userHand}
-          timer={timer}
-          resetTimer={resetTimer}
-          endGameHandler={endGameHandler}
-          pageChangeHandler={pageChangeHandler}
-        />
-        <Container>
-          <ServiceName>재미있는 가위바위보 게임</ServiceName>
-        </Container>
+    <>
+      <RspStart startHandler={startHandler} isLoad={isLoad}></RspStart>
+      <WinLose
+        ghostHandFi={ghostHandFi}
+        userHand={userHand}
+        timer={timer}
+        resetTimer={resetTimer}
+        endGameHandler={endGameHandler}
+        pageChangeHandler={pageChangeHandler}
+      />
+      <Container>
+        <ServiceName>재미있는 가위바위보 게임</ServiceName>
+      </Container>
 
-        <RspSpinner showSpinner={showSpinner} />
+      <RspSpinner showSpinner={showSpinner} />
 
-        <GameContainer showSpinner={showSpinner}>
-          <GhostGameScreen>
-            {timer === 0 ? (
-              <RspImg src={ghostHand} alt="유령의손" />
-            ) : (
-              <RspImg src={rsp} alt="유령가위바위보" />
-            )}
-          </GhostGameScreen>
+      <GameContainer showSpinner={showSpinner}>
+        <GhostGameScreen>
+          {timer === 0 ? (
+            <RspImg src={ghostHand} alt="유령의손" />
+          ) : (
+            <RspImg src={rsp} alt="유령가위바위보" />
+          )}
+        </GhostGameScreen>
 
-          <TimerScreen>
-            <TimerTime>{timer}</TimerTime>
-          </TimerScreen>
+        <TimerScreen>
+          <TimerTime>{timer}</TimerTime>
+        </TimerScreen>
 
-          <GameScreen>
-            <FingerPose
-              userHandHandler={userHandHandler}
-              isLoadHandler={isLoadHandler}
-              isGameEnd={isGameEnd}
-            />
-          </GameScreen>
-        </GameContainer>
-      </>
-    </div>
+        <GameScreen>
+          <FingerPose
+            userHandHandler={userHandHandler}
+            isLoadHandler={isLoadHandler}
+            isGameEnd={isGameEnd}
+          />
+        </GameScreen>
+      </GameContainer>
+    </>
   );
 };
 
