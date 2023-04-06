@@ -68,7 +68,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     var userInfo = UserInfo.builder()
         .userId(request.getUserId())
         .userName(request.getNickname())
-        .profileImgUrl(request.getImageUrl())
+        .profileImg(request.getImage())
         .build();
 
     return userInfoRepository.save(userInfo).getUserId();
@@ -81,7 +81,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         .orElseThrow(() -> new IllegalArgumentException("존재 하지 않는 회원입니다."));
 
     userInfo = userInfo.toBuilder()
-        .profileImgUrl(request.getImageUrl())
+        .profileImg(request.getImage())
         .build();
 
     return userInfoRepository.save(userInfo).getUserId();
