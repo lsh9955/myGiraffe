@@ -39,11 +39,7 @@ const Storybookmain = ({ bookData }) => {
       }
     );
     const bookContent = book;
-    console.log(
-      bookContent.data.content.map((v) => {
-        return v.scenarioId;
-      })
-    );
+
     setUserBook(
       bookContent.data.content.map((v) => {
         return v.scenarioId;

@@ -13,12 +13,11 @@ const CanvasTool = ({ title, nextPage }) => {
 
   const handleExport = () => {
     const data = canvasRef.current.getSaveData();
-    console.log(data);
+
     const base64 = canvasRef.current.canvasContainer.childNodes[1].toDataURL();
     setDrawing(base64);
     // NumberMl
     getImgHandler(base64);
-    console.log(base64);
   };
 
   const handleChangeComplete = (color) => {

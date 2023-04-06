@@ -57,11 +57,10 @@ const MyStorybookList = () => {
           },
         })
         .then((response) => {
-          console.log(response.data.content);
           setDatas(response.data.content);
         })
         .catch((error) => {
-          console.log(error);
+          alert("오류가 발생했습니다. 다시 시도해 주세요");
         });
     };
     fetchBooks();
@@ -73,7 +72,7 @@ const MyStorybookList = () => {
   // 이전 버튼 스타일
   const SamplePrevArrow = (props) => {
     const { className, style, onClick } = props;
-    console.log(style);
+
     return (
       <BeforeBtn className={className} onClick={onClick}>
         <KeyboardArrowLeftIcon
