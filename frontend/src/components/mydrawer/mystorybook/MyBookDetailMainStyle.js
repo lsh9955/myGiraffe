@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const BookName = styled.div`
-  margin: 2vw 1vw 1vw 1vw;
+  margin: 12vh 1vw 1vh 1vw;
   text-align: center;
   width: 100%;
   height: 10%;
@@ -10,6 +10,7 @@ export const BookName = styled.div`
 
 export const BookPageImg = styled.div`
   width: 100%;
+  margin-bottom: 12vh;
   display: flex;
   flex-direction: row;
   align-items: flex-start;

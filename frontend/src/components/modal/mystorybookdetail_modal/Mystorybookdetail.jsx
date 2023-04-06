@@ -25,7 +25,6 @@ const style = {
 };
 /**내 동화책 컴포넌트 */
 const Mystorybookdetail = ({ isOpen, openCheck, clickPage, userDraw }) => {
-  console.log(clickPage);
   const [open, setOpen] = useState(false);
   const [bookName, setBookName] = useState("");
   const handleClose = () => {

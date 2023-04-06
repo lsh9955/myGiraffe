@@ -43,11 +43,10 @@ const MyDiaryList = () => {
           },
         })
         .then((response) => {
-          console.log(response.data.content);
           setDatas(response.data.content);
         })
         .catch((error) => {
-          console.log(error);
+          alert("오류가 발생했습니다. 다시 시도해 주세요");
         });
     };
     sketchBooks();
@@ -62,13 +61,11 @@ const MyDiaryList = () => {
         },
       })
       .then((response) => {
-        console.log(response.data.content.diaryTraceData);
-
         setSketchDraw(response.data.content.diaryTraceData);
         setOpen(true);
       })
       .catch((error) => {
-        console.log(error);
+        alert("오류가 발생했습니다. 다시 시도해 주세요");
       });
   };
 
@@ -123,7 +120,7 @@ const MyDiaryList = () => {
   // 모달 mui 스타일
   const style = {
     position: "absolute",
-    top: "50%",
+    top: "30%",
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: "60vw",

@@ -75,7 +75,6 @@ const ClassifierMl = ({ nextOnlyPage }) => {
           nextOnlyPage();
         })
         .catch((error) => {
-          console.log(error);
           //모달창 생성해주기
           setIsOpen(true);
         });

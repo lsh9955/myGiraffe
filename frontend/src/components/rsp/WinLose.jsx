@@ -38,6 +38,9 @@ const WinLose = ({
         pageChangeHandler(22);
       } else if (winLose === "와아~!! 가위바위보 게임에서 이겼다") {
         pageChangeHandler(23);
+      } else {
+        //손 인식에 오류가 있는 경우
+        resetTimer();
       }
     }
   };
@@ -61,6 +64,8 @@ const WinLose = ({
         setWinLose("와아~!! 가위바위보 게임에서 이겼다");
       } else if (ghostHandFi === "paper" && userHand === "scissors") {
         setWinLose("와아~!! 가위바위보 게임에서 이겼다");
+      } else {
+        setWinLose("손을 정확히 카메라에 올려주세요. 다시 해볼게요!");
       }
       setOpen(true);
     }

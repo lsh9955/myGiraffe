@@ -60,8 +60,6 @@ const Storyend = ({ isOpen, openCheck, saveBookId }) => {
         }
       )
       .then((res) => {
-        console.log(res);
-        console.log("책을 정상적으로 저장하였습니다");
         history.push("/");
       });
   };
