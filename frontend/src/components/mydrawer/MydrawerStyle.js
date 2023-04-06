@@ -55,6 +55,7 @@ export const Mydraweritemimage = styled.img`
 
 export const MySketchbookimage = styled.img`
   width: 90%;
+
   /* width: 400px;
   height: 274px; */
 `;
@@ -112,15 +113,16 @@ export const ImgTitle = styled.div`
   width: 90%;
   font-size: 200%;
 `;
-export const ImgP = styled.p`
+export const ImgP = styled.div`
   width: 90%;
   font-size: 150%;
 `;
 
 export const NoContentContainer = styled.div`
   width: 90%;
-  height: auto;
+  height: 20vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 300%;
 `;

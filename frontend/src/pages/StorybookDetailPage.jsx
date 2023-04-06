@@ -16,6 +16,8 @@ const StorybookDetailPage = () => {
   const [allContent, setAllContent] = useState([]);
   const [saveBookId, setSaveBookId] = useState(null);
   const userSeq = useSelector((state) => state.user);
+  const thisTxt = useSelector((state) => state.book.lostItem);
+  const drawSeq = useSelector((state) => state.draw);
 
   //책 내용 가져오기
   useEffect(() => {
@@ -60,16 +62,6 @@ const StorybookDetailPage = () => {
     res();
   }, []);
 
-  const handleCapture = () => {
-    html2canvas(captureRef.current, { allowTaint: true, useCORS: true }).then(
-      (canvas) => {
-        const dataUrl = canvas.toDataURL();
-        setGetPageImg(dataUrl);
-        console.log(dataUrl);
-        // 이미지 데이터를 사용하여 다른 작업을 수행합니다.
-      }
-    );
-  };
   const handleCapImg = (e) => {
     setCapImg(e);
   };
@@ -78,32 +70,40 @@ const StorybookDetailPage = () => {
   };
   const pageChangeHandler = (e) => {
     //페이지 이동 전 페이지를 이미지로 저장
-    //base64를 파일 객체로 만들기
-    function urltoFile(url, filename, mimeType) {
-      return fetch(url)
-        .then(function (res) {
-          return res.arrayBuffer();
-        })
-        .then(function (buf) {
-          return new File([buf], filename, { type: mimeType });
-        });
-    }
-
+    console.log("페이지 이동합니다");
     const savePage = async () => {
       // formdata에 전송할 데이터 담기
-      const formData = new FormData();
+      //이벤트 페이지가 아닌 경우에만 진행
 
-      urltoFile(getPageImg, "bgImg.png", "image/png").then(function (file) {
+      if (!allContent.filter((v) => v.pageId == nowPage)[0].objData.isEvent) {
+        const formData = new FormData();
+
         // 파일
-        formData.append("bgImg", file);
-        formData.append("interUserImg", file);
+
         console.log("####################################################");
         console.log(allContent.filter((v) => v.pageId == nowPage));
         console.log("####################################################");
+        let nowPageContent = allContent.filter((v) => v.pageId == nowPage)[0];
+        let nowPageTxt = allContent.filter((v) => v.pageId == nowPage)[0]
+          .script;
+        if (thisTxt) {
+          nowPageTxt = nowPageTxt.replaceAll("(태깅 결과)", thisTxt);
+        }
 
         const changeJSON = JSON.stringify({
           bookId: saveBookId,
-          pageNo: allContent.filter((v) => v.pageId == nowPage)[0].pageNo,
+          pageNo: nowPageContent.pageNo,
+          objUserData: {
+            // 사용자가 본 페이지 순서, 해당 페이지의 이미지, 해당 페이지의 텍스트, 해당 페이지에 유저 그림이 들어가는 경우
+            pageIdx: pageInfo.length,
+            pageImg: nowPageContent.bgImgUrl,
+            pageTxt: nowPageTxt,
+            userDraw:
+              //유저가 그린 이미지가 들어가야 하는 경우
+              nowPageContent.pageId === 35 || nowPageContent.pageId === 36
+                ? drawSeq.drawImg
+                : null,
+          },
         });
         const blob = new Blob([changeJSON], { type: "application/json" });
 
@@ -134,7 +134,19 @@ const StorybookDetailPage = () => {
             }
           })
           .catch((err) => console.log(err));
-      });
+      } else {
+        // 이벤트 페이지인 경우
+        setNowPage(e);
+        //이야기를 진행하는 경우(순방향)
+        if (pageInfo.indexOf(e) === -1) {
+          setPageInfo([...pageInfo, e]);
+          //이야기를 되돌아가는 경우(역방향)
+        } else {
+          let beforepageInfo = pageInfo.slice(0, pageInfo.length - 1);
+          setPageInfo(beforepageInfo);
+          setNowPage(beforepageInfo[beforepageInfo.length - 1]);
+        }
+      }
     };
     savePage();
   };
@@ -142,31 +154,6 @@ const StorybookDetailPage = () => {
   return (
     <>
       <div>
-        <button onClick={handleCapture}>캡쳐하기</button>
-        <div
-          ref={captureRef}
-          style={{
-            display: "flex",
-            width: "100%",
-            height: "100%",
-            flexDirection: "row",
-          }}
-        >
-          <div
-            style={{
-              backgroundImage: `${
-                allContent?.filter((v) => v.pageId == nowPage)[0]?.bgImgUrl
-              }`,
-              width: "100%",
-              height: "100%",
-            }}
-          ></div>
-
-          {/* <div style={{ width: "50%", height: "100%" }}>
-            {allContent?.filter((v) => v.pageId == nowPage)[0]?.script}
-          </div> */}
-        </div>
-
         <div
           style={{
             width: "100vw",
@@ -175,15 +162,10 @@ const StorybookDetailPage = () => {
             justifyContent: "center",
             alignItems: "center",
             overflow: "hidden",
-            zIndex: 3,
-            position: "absolute",
-            top: "0px",
-            left: "0px",
           }}
         >
           <Readstorybook
             pageChangeHandler={pageChangeHandler}
-            handleCapture={handleCapture}
             getPageImg={getPageImg}
             handleCapTxt={handleCapTxt}
             handleCapImg={handleCapImg}
