@@ -22,7 +22,6 @@ const StorybookDetailPage = () => {
   //책 내용 가져오기
   useEffect(() => {
     const res = async () => {
-      console.log(userSeq.accessToken);
       const book = await axios.get(
         "https://j8b201.p.ssafy.io/api/books/pages/1",
         {
@@ -32,7 +31,7 @@ const StorybookDetailPage = () => {
         }
       );
       const bookContent = book;
-      console.log(bookContent.data.content);
+
       setAllContent(bookContent.data.content);
 
       axios
@@ -55,8 +54,6 @@ const StorybookDetailPage = () => {
             saveBookId.length - 1
           );
           setSaveBookId(saveBookId);
-          console.log(response);
-          console.log("내 서재에 책 생성 완료");
         });
     };
     res();
@@ -70,7 +67,7 @@ const StorybookDetailPage = () => {
   };
   const pageChangeHandler = (e) => {
     //페이지 이동 전 페이지를 이미지로 저장
-    console.log("페이지 이동합니다");
+
     const savePage = async () => {
       // formdata에 전송할 데이터 담기
       //이벤트 페이지가 아닌 경우에만 진행
@@ -80,9 +77,6 @@ const StorybookDetailPage = () => {
 
         // 파일
 
-        console.log("####################################################");
-        console.log(allContent.filter((v) => v.pageId == nowPage));
-        console.log("####################################################");
         let nowPageContent = allContent.filter((v) => v.pageId == nowPage)[0];
         let nowPageTxt = allContent.filter((v) => v.pageId == nowPage)[0]
           .script;
@@ -109,7 +103,6 @@ const StorybookDetailPage = () => {
 
         formData.append("myBookPage", blob);
 
-        console.log("###########################################", formData);
         axios
           .post("https://j8b201.p.ssafy.io/api/members/pages", formData, {
             headers: {
@@ -119,8 +112,6 @@ const StorybookDetailPage = () => {
             },
           })
           .then((res) => {
-            console.log(res);
-            console.log("성공했어요 제발!!!!!!!!!!!!!!!!!!!!!!!!!");
             //페이지 저장 후 페이지 이동
             setNowPage(e);
             //이야기를 진행하는 경우(순방향)
@@ -133,7 +124,7 @@ const StorybookDetailPage = () => {
               setNowPage(beforepageInfo[beforepageInfo.length - 1]);
             }
           })
-          .catch((err) => console.log(err));
+          .catch((err) => {});
       } else {
         // 이벤트 페이지인 경우
         setNowPage(e);

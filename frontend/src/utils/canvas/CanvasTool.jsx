@@ -25,8 +25,6 @@ const CanvasTool = ({ bgImg, getImgHandler, isBook }) => {
     }
     // NumberMl
     getImgHandler(base64);
-    console.log(base64);
-    console.log("리덕스에 저장됨");
   };
 
   const handleChangeComplete = (color) => {

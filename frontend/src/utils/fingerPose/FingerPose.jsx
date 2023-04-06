@@ -18,8 +18,6 @@ const FingerPose = ({ userHandHandler, isLoadHandler, isGameEnd }) => {
       video.current.srcObject.getTracks().forEach(function (track) {
         track.stop();
       });
-      //추후 다른 페이지로 이동하게 변경할 것
-      history.push("/");
     }
   }, [isGameEnd]);
 
@@ -56,7 +54,6 @@ const FingerPose = ({ userHandHandler, isLoadHandler, isGameEnd }) => {
 
       // load handpose model
       const model = await handpose.load();
-      console.log("Handpose model loaded");
 
       // main estimation loop
       const estimateHands = async (isGameEnd) => {
@@ -108,7 +105,6 @@ const FingerPose = ({ userHandHandler, isLoadHandler, isGameEnd }) => {
       //게임이 끝나면 웹캠 및 손 인식 중단
 
       estimateHands(isGameEnd);
-      console.log("Starting predictions");
 
       isLoadHandler(true);
     }
@@ -161,7 +157,6 @@ const FingerPose = ({ userHandHandler, isLoadHandler, isGameEnd }) => {
       (video) => {
         video.current.play();
         video.current.addEventListener("loadeddata", (event) => {
-          console.log("Camera is ready");
           main();
         });
       }
@@ -169,7 +164,6 @@ const FingerPose = ({ userHandHandler, isLoadHandler, isGameEnd }) => {
 
     canvas.current.width = config.video.width;
     canvas.current.height = config.video.height;
-    console.log("Canvas initialized");
   }, []);
 
   return (
