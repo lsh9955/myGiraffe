@@ -124,10 +124,11 @@ const MySketchbookList = () => {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    border: "1px solid #ff8f5c",
+    width: "60vw",
+    height: "45vh",
     boxShadow: 24,
     outline: "none",
-    p: 4,
+    p: 2,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -159,9 +160,7 @@ const MySketchbookList = () => {
           ))}
         </Slider>
       ) : (
-        <NoContentContainer>
-          <ImgP>스케치북이 없어요</ImgP>
-        </NoContentContainer>
+        <NoContentContainer>스케치북이 없어요</NoContentContainer>
       )}
     </Container>
   );

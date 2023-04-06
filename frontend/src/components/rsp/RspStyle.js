@@ -3,7 +3,7 @@ import styled from "styled-components";
 import ghostNormal from "assets/icon/ghostNormal.gif";
 // 가위바위보 상단
 export const Container = styled.div`
-  width: 100vw;
+  width: 97vw;
   height: 10vh;
   background: #fce76c;
   display: flex;
@@ -22,8 +22,9 @@ export const ServiceName = styled.p`
 
 // 게임의 전체 컨테이너
 export const GameContainer = styled.div`
-  width: 100vw;
+  width: 97vw;
   height: 90vh;
+
   display: ${(props) => (props.showSpinner ? "none" : "flex")};
   justify-content: space-around;
   align-items: center;
@@ -33,6 +34,7 @@ export const GameContainer = styled.div`
 export const GameScreen = styled.div`
   width: 45%;
   height: 90%;
+  background-color: #ffffff;
   border: 3px solid #ff8f5c;
 `;
 
@@ -42,7 +44,7 @@ export const GhostGameScreen = styled.div`
   height: 90%;
   border: 3px solid #ff8f5c;
   background-size: 90%;
-
+  background-color: #ffffff;
   background-repeat: no-repeat;
   background-image: url(${ghostNormal});
 `;
