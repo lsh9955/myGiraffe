@@ -126,7 +126,8 @@ const MyDiaryList = () => {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-
+    width: "60vw",
+    height: "45vh",
     boxShadow: 24,
     outline: "none",
 
