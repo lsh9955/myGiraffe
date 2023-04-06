@@ -26,9 +26,9 @@ const RedirectPage = () => {
           coinAmount: infoRes.data.content.coinAmount,
         })
       );
+      history.push("/");
     };
     getUserInfo();
-    history.push("/");
   }, []);
 
   return <div>RedirectPage</div>;

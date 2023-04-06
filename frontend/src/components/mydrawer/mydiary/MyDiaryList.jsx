@@ -142,14 +142,22 @@ const MyDiaryList = () => {
         <Slider {...settings}>
           {datas.map((data) => (
             <MydraweritemContainer key={data.diaryId}>
-              <MySketchbookimage
-                src={data.diaryImgUrl}
-                bgimg={diaryBackground}
-                onClick={() => handleClick(data.diaryId)}
-              />
+              <div
+                style={{
+                  backgroundImage: `url(${diaryBackground})`,
+                  backgroundSize: `100% 100%`,
+                  backgroundRepeat: "no-repeat",
+                }}
+              >
+                <MySketchbookimage
+                  src={data.diaryImgUrl}
+                  onClick={() => handleClick(data.diaryId)}
+                />
+              </div>
+
               <Modal open={open} onClose={handleClose}>
                 <Box sx={style}>
-                  <DrawSaved sketchDraw={sketchDraw} />
+                  <DrawSaved sketchDraw={sketchDraw} bgImg={diaryBackground} />
                   <Buttonthree onClick={handleClose}>확인</Buttonthree>
                 </Box>
               </Modal>
@@ -163,9 +171,7 @@ const MyDiaryList = () => {
           ))}
         </Slider>
       ) : (
-        <NoContentContainer>
-          <ImgP>그림일기가 없어요</ImgP>
-        </NoContentContainer>
+        <NoContentContainer>그림일기가 없어요</NoContentContainer>
       )}
     </Container>
   );

@@ -159,9 +159,7 @@ const MySketchbookList = () => {
           ))}
         </Slider>
       ) : (
-        <NoContentContainer>
-          <ImgP>스케치북이 없어요</ImgP>
-        </NoContentContainer>
+        <NoContentContainer>스케치북이 없어요</NoContentContainer>
       )}
     </Container>
   );
