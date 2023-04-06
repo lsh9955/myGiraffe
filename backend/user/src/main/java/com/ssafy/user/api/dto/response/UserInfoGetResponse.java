@@ -16,7 +16,7 @@ public class UserInfoGetResponse {
   @Builder
   public UserInfoGetResponse(UserInfo userInfo) {
     this.userName = userInfo.getUserName();
-    this.profileImg = userInfo.getProfileImg();
+    this.profileImg = userInfo.getProfileImgUrl();
     this.coinAmount = userInfo.getCoinAMount();
   }
 }
