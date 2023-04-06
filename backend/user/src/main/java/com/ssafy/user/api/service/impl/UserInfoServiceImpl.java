@@ -49,11 +49,11 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     var key = keyAmount; // 변경된 후의 유저 Key 수량
 
-    var user = userInfo.toBuilder()
+    userInfo = userInfo.toBuilder()
         .coinAMount(key)
         .build();
 
-    return userInfoRepository.save(user);
+    return userInfoRepository.save(userInfo);
 
   }
 
@@ -77,10 +77,10 @@ public class UserInfoServiceImpl implements UserInfoService {
   @Override
   public String updateUserImage(UserInfoPostRequest request) {
 
-    var userId = userInfoRepository.findById(request.getUserId())
+    var userInfo = userInfoRepository.findById(request.getUserId())
         .orElseThrow(() -> new IllegalArgumentException("존재 하지 않는 회원입니다."));
 
-    var userInfo = userId.toBuilder()
+    userInfo = userInfo.toBuilder()
         .profileImg(request.getImage())
         .build();
 
