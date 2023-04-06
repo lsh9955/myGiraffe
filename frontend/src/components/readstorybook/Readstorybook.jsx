@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 
 /**읽고 있는 동화책 컴포넌트 */
 const Readstorybook = ({
-  handleCapture,
   getPageImg,
   handleCapTxt,
   handleCapImg,
@@ -22,7 +21,6 @@ const Readstorybook = ({
           <>
             {k === nowPage && (
               <StoryPage
-                handleCapture={handleCapture}
                 nowPage={nowPage}
                 pageChangeHandler={pageChangeHandler}
                 allContent={allContent}

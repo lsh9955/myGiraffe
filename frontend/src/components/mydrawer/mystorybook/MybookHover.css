@@ -1,0 +1,5 @@
+.ff-container.ff-active .ff-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
