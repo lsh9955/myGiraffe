@@ -43,11 +43,10 @@ const MyDiaryList = () => {
           },
         })
         .then((response) => {
-          console.log(response.data.content);
           setDatas(response.data.content);
         })
         .catch((error) => {
-          console.log(error);
+          alert("오류가 발생했습니다. 다시 시도해 주세요");
         });
     };
     sketchBooks();
@@ -62,13 +61,11 @@ const MyDiaryList = () => {
         },
       })
       .then((response) => {
-        console.log(response.data.content.diaryTraceData);
-
         setSketchDraw(response.data.content.diaryTraceData);
         setOpen(true);
       })
       .catch((error) => {
-        console.log(error);
+        alert("오류가 발생했습니다. 다시 시도해 주세요");
       });
   };
 
@@ -123,13 +120,14 @@ const MyDiaryList = () => {
   // 모달 mui 스타일
   const style = {
     position: "absolute",
-    top: "50%",
+    top: "30%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    border: "1px solid #ff8f5c",
+    width: "60vw",
+    height: "45vh",
     boxShadow: 24,
     outline: "none",
-    p: 4,
+
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -142,14 +140,22 @@ const MyDiaryList = () => {
         <Slider {...settings}>
           {datas.map((data) => (
             <MydraweritemContainer key={data.diaryId}>
-              <MySketchbookimage
-                src={data.diaryImgUrl}
-                bgimg={diaryBackground}
-                onClick={() => handleClick(data.diaryId)}
-              />
+              <div
+                style={{
+                  backgroundImage: `url(${diaryBackground})`,
+                  backgroundSize: `100% 100%`,
+                  backgroundRepeat: "no-repeat",
+                }}
+              >
+                <MySketchbookimage
+                  src={data.diaryImgUrl}
+                  onClick={() => handleClick(data.diaryId)}
+                />
+              </div>
+
               <Modal open={open} onClose={handleClose}>
                 <Box sx={style}>
-                  <DrawSaved sketchDraw={sketchDraw} />
+                  <DrawSaved sketchDraw={sketchDraw} bgImg={diaryBackground} />
                   <Buttonthree onClick={handleClose}>확인</Buttonthree>
                 </Box>
               </Modal>
@@ -163,9 +169,7 @@ const MyDiaryList = () => {
           ))}
         </Slider>
       ) : (
-        <NoContentContainer>
-          <ImgP>그림일기가 없어요</ImgP>
-        </NoContentContainer>
+        <NoContentContainer>그림일기가 없어요</NoContentContainer>
       )}
     </Container>
   );

@@ -35,6 +35,7 @@ export const Buttontwo = styled.button`
 
 export const Buttonthree = styled.button`
   border: none;
+  margin-top: 20px;
   border-radius: 20px;
   /* padding: 15px; */
   /* margin: 15px; */

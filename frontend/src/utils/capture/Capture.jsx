@@ -7,7 +7,7 @@ function Capture() {
   const handleCapture = () => {
     html2canvas(captureRef.current).then((canvas) => {
       const dataUrl = canvas.toDataURL();
-      console.log(dataUrl);
+
       // 이미지 데이터를 사용하여 다른 작업을 수행합니다.
     });
   };

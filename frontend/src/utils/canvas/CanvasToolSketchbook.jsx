@@ -30,9 +30,8 @@ const CanvasToolSketchbook = ({ bgImg }) => {
   // 그림데이터가 저장
   const handleExport = () => {
     const data = canvasRef.current.getSaveData();
-    console.log(data);
+
     const base64 = canvasRef.current.canvasContainer.childNodes[1].toDataURL();
-    console.log(base64);
 
     // form 데이터로 만듦
     const sketchData = new FormData();
@@ -52,13 +51,11 @@ const CanvasToolSketchbook = ({ bgImg }) => {
           },
         })
         .then((response) => {
-          console.log(response);
-          console.log("저장 성공");
           // 메인으로 이동
           history.push("/");
         })
         .catch((error) => {
-          console.log(error);
+          alert("오류가 발생했습니다. 다시 시도해 주세요");
         });
     });
   };

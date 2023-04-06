@@ -9,7 +9,6 @@ const RedirectPage = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     const getUserInfo = async () => {
-      console.log(location.search.split("?Authorization=")[1]);
       const infoRes = await axios.get("https://j8b201.p.ssafy.io/api/members", {
         headers: {
           Accept: "*/*",
@@ -26,9 +25,9 @@ const RedirectPage = () => {
           coinAmount: infoRes.data.content.coinAmount,
         })
       );
+      history.push("/");
     };
     getUserInfo();
-    history.push("/");
   }, []);
 
   return <div>RedirectPage</div>;

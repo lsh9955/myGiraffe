@@ -41,11 +41,10 @@ const MySketchbookList = () => {
           },
         })
         .then((response) => {
-          console.log(response.data.content);
           setDatas(response.data.content);
         })
         .catch((error) => {
-          console.log(error);
+          alert("오류가 발생했습니다. 다시 시도해 주세요");
         });
     };
     sketchBooks();
@@ -60,13 +59,11 @@ const MySketchbookList = () => {
         },
       })
       .then((response) => {
-        console.log(response.data.content.sketchTraceData);
-
         setSketchDraw(response.data.content.sketchTraceData);
         setOpen(true);
       })
       .catch((error) => {
-        console.log(error);
+        alert("오류가 발생했습니다. 다시 시도해 주세요");
       });
   };
 
@@ -121,13 +118,14 @@ const MySketchbookList = () => {
   // 모달 mui 스타일
   const style = {
     position: "absolute",
-    top: "50%",
+    top: "30%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    border: "1px solid #ff8f5c",
+    width: "60vw",
+    height: "45vh",
     boxShadow: 24,
     outline: "none",
-    p: 4,
+    p: 2,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -159,9 +157,7 @@ const MySketchbookList = () => {
           ))}
         </Slider>
       ) : (
-        <NoContentContainer>
-          <ImgP>스케치북이 없어요</ImgP>
-        </NoContentContainer>
+        <NoContentContainer>스케치북이 없어요</NoContentContainer>
       )}
     </Container>
   );
