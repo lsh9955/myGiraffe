@@ -126,10 +126,10 @@ const MyDiaryList = () => {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    border: "1px solid #ff8f5c",
+
     boxShadow: 24,
     outline: "none",
-    p: 4,
+
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
