@@ -26,6 +26,7 @@ const BookInfo = ({ data, isOpen, openCheck, userBook, buyHandler }) => {
   const history = useHistory();
   const handleClose = () => {
     setOpen(false);
+    setIsBuy(false);
   };
   useEffect(() => {
     if (isOpen) {
